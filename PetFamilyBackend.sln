@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.API", "src\PetFam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Infrastructure", "src\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj", "{136FDF84-00E2-4E47-80EF-301FF270553A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain", "src\PetFamily.Domain\PetFamily.Domain.csproj", "{AA1DF6D7-557D-4C05-9D75-B0C16730A63D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{136FDF84-00E2-4E47-80EF-301FF270553A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{136FDF84-00E2-4E47-80EF-301FF270553A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{136FDF84-00E2-4E47-80EF-301FF270553A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA1DF6D7-557D-4C05-9D75-B0C16730A63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1DF6D7-557D-4C05-9D75-B0C16730A63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1DF6D7-557D-4C05-9D75-B0C16730A63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1DF6D7-557D-4C05-9D75-B0C16730A63D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
