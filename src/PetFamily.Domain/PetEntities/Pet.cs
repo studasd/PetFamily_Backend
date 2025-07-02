@@ -40,6 +40,9 @@ public class Pet : Entity<Guid>
 	public PetHelpStatuses HelpStatus { get; private set; }
 	public BankingDetails? BankingВetails { get; private set; }
 	public DateTime DateCreated { get; private set; }
+	
+	public Guid BreedId { get; private set; }
+	public Guid SpeciesId { get; private set; }
 
 
 	public static Guid NewId() => Guid.NewGuid();
