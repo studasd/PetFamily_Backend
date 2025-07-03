@@ -10,9 +10,9 @@ using PetFamily.Domain.PetEntities;
 
 namespace PetFamily.Domain.VolunteerEntities;
 
-public class Volunteer : Entity<Guid>
+public class Volunteer : Entity<VolunteerId>
 {
-	public Volunteer(Guid id, VolunteerName name, string email, string description, int experienceYears, Phone phone) : base(id)
+	public Volunteer(VolunteerId id, VolunteerName name, string email, string description, int experienceYears, Phone phone) : base(id)
 	{
 		Name = name;
 		Email = email;
@@ -21,7 +21,6 @@ public class Volunteer : Entity<Guid>
 		Phone = phone;
 	}
 
-	private readonly List<SocialNetwork> _socialNetworks = [];
 	private readonly List<Pet> _pets = [];
 
 	public VolunteerName Name { get; private set; }
@@ -31,7 +30,7 @@ public class Volunteer : Entity<Guid>
 
 	public Phone Phone { get; private set; }
 	public BankingDetails? BankingВetails { get; private set; }
-	public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+	public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = new();
 	public IReadOnlyList<Pet> Pets => _pets;
 
 
@@ -56,7 +55,7 @@ public class Volunteer : Entity<Guid>
 		if (ph.IsFailure)
 			return Result.Failure<Volunteer>(ph.Error);
 
-		var volunteer = new Volunteer(NewId(), nameResult.Value, email, description, experienceYears, ph.Value);
+		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), nameResult.Value, email, description, experienceYears, ph.Value);
 
 		return Result.Success(volunteer);
 	}
@@ -72,7 +71,7 @@ public class Volunteer : Entity<Guid>
 		if(socialNetwork.IsFailure)
 			return Result.Failure(socialNetwork.Error);
 
-		_socialNetworks.Add(socialNetwork.Value);
+		SocialNetworkDetails!.SocialNetworks.Add(socialNetwork.Value);
 
 		return Result.Success();
 	}
