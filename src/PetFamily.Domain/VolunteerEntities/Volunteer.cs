@@ -12,6 +12,8 @@ namespace PetFamily.Domain.VolunteerEntities;
 
 public class Volunteer : Entity<VolunteerId>
 {
+	private Volunteer() { }
+
 	public Volunteer(VolunteerId id, VolunteerName name, string email, string description, int experienceYears, Phone phone) : base(id)
 	{
 		Name = name;
@@ -29,7 +31,7 @@ public class Volunteer : Entity<VolunteerId>
 	public int ExperienceYears { get; private set; }
 
 	public Phone Phone { get; private set; }
-	public BankingDetails? BankingВetails { get; private set; }
+	public BankingDetails BankingВetails { get; private set; }
 	public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = new();
 	public IReadOnlyList<Pet> Pets => _pets;
 

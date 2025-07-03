@@ -10,6 +10,8 @@ namespace PetFamily.Domain.PetEntities;
 
 public class Pet : Entity<PetId>
 {
+	Pet() { }
+
 	public Pet(PetId id, string name, PetTypes type, string description, Breed breed, string color, decimal weight, decimal height, IEnumerable<Phone> phones, PetHelpStatuses helpStatus) : base(id)
 	{
 		Name = name;
@@ -29,7 +31,7 @@ public class Pet : Entity<PetId>
 	public string Description { get; private set; }
 	public string Color { get; private set; }
 	public string? HealthInfo { get; private set; }
-	public Address? Address { get; private set; }
+	public Address Address { get; private set; }
 	public decimal Weight { get; private set; }
 	public decimal Height { get; private set; }
 	public PhoneDetails? PhoneDetails { get; private set; }
@@ -37,7 +39,7 @@ public class Pet : Entity<PetId>
 	public bool? IsVaccinated { get; private set; }
 	public DateOnly DateBirth { get; private set; } = default(DateOnly);
 	public PetHelpStatuses HelpStatus { get; private set; }
-	public BankingDetails? BankingВetails { get; private set; }
+	public BankingDetails BankingВetails { get; private set; }
 	public DateTime DateCreated { get; private set; }
 	
 	public Breed Breed { get; private set; }

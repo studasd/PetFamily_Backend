@@ -46,7 +46,6 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired(false)
 			.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
-
 		builder.ComplexProperty(p => p.Address,
 			x =>
 			{
@@ -66,7 +65,7 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 					.HasColumnName("addr_street");
 
 				x.Property(f => f.HouseNumber)
-					.IsRequired(false)
+					.IsRequired()
 					.HasColumnName("addr_house_number");
 
 				x.Property(f => f.HouseLiter)
@@ -75,8 +74,7 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 					.HasColumnName("addr_house_liter");
 
 				x.Property(f => f.Apartment)
-					.IsRequired(false)
-					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
+					.IsRequired()
 					.HasColumnName("addr_apartment");
 			});
 
