@@ -84,18 +84,15 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 		builder.Property(p => p.Height)
 			.IsRequired();
 
-		builder.OwnsOne(p => p.PhoneDetails,
+		builder.OwnsMany(p => p.Phones,
 			pb =>
 			{
 				pb.ToJson();
 
-				pb.OwnsMany(x => x.Phones,
-					sb =>
-					{
-						sb.Property(s => s.phone)
-						.IsRequired()
-						.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-					});
+				pb.Property(s => s.phone)
+					.IsRequired()
+					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
+					.HasColumnName("phones");
 			});
 
 		builder.Property(p => p.IsNeutered)

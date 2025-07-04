@@ -73,7 +73,7 @@ public class Volunteer : Entity<VolunteerId>
 		if(socialNetwork.IsFailure)
 			return Result.Failure(socialNetwork.Error);
 
-		SocialNetworkDetails!.SocialNetworks.Add(socialNetwork.Value);
+		SocialNetworkDetails!.Add(socialNetwork.Value);
 
 		return Result.Success();
 	}

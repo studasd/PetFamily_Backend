@@ -21,7 +21,7 @@ public class Pet : Entity<PetId>
 		Color = color;
 		Weight = weight;
 		Height = height;
-		PhoneDetails = new PhoneDetails { Phones = phones.ToList() };
+		Phones = phones.ToList();
 		HelpStatus = helpStatus;
 		DateCreated = DateTime.UtcNow;
 	}
@@ -34,7 +34,7 @@ public class Pet : Entity<PetId>
 	public Address Address { get; private set; }
 	public decimal Weight { get; private set; }
 	public decimal Height { get; private set; }
-	public PhoneDetails? PhoneDetails { get; private set; }
+	public IReadOnlyList<Phone> Phones { get; set; } = [];
 	public bool? IsNeutered { get; private set; }
 	public bool? IsVaccinated { get; private set; }
 	public DateOnly DateBirth { get; private set; } = default(DateOnly);

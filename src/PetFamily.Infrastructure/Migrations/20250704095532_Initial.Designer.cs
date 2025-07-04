@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250703222425_Initial")]
+    [Migration("20250704095532_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -317,52 +317,35 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasForeignKey("volunteer_id")
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetFamily.Domain.PetEntities.PhoneDetails", "PhoneDetails", b1 =>
+                    b.OwnsMany("PetFamily.Domain.Entities.Phone", "Phones", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
 
-                            b1.HasKey("PetId");
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("phone")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("phones");
+
+                            b1.HasKey("PetId", "__synthesizedOrdinal");
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("phone_details");
+                            b1.ToJson("phones");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetFamily.Domain.Entities.Phone", "Phones", b2 =>
-                                {
-                                    b2.Property<Guid>("PhoneDetailsPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("__synthesizedOrdinal")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("phone")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)");
-
-                                    b2.HasKey("PhoneDetailsPetId", "__synthesizedOrdinal");
-
-                                    b2.ToTable("pets");
-
-                                    b2.ToJson("phone_details");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PhoneDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_phone_details_pet_id");
-                                });
-
-                            b1.Navigation("Phones");
+                                .HasConstraintName("fk_pets_pets_pet_id");
                         });
 
                     b.Navigation("Breed");
 
-                    b.Navigation("PhoneDetails");
+                    b.Navigation("Phones");
 
                     b.Navigation("Species");
                 });

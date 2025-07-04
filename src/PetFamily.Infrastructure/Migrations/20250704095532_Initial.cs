@@ -90,7 +90,7 @@ namespace PetFamily.Infrastructure.Migrations
                     addr_street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    phone_details = table.Column<string>(type: "jsonb", nullable: true)
+                    phones = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
