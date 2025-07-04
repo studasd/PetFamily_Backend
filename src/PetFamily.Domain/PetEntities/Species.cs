@@ -9,6 +9,8 @@ namespace PetFamily.Domain.PetEntities;
 
 public class Species : Entity<Guid>
 {
+	Species() { }
+
 	public Species(Guid id, string name) : base(id)
 	{
 		Name = name;

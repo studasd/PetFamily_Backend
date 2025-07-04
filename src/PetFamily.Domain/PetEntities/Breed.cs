@@ -5,6 +5,8 @@ namespace PetFamily.Domain.PetEntities;
 
 public class Breed : Entity<Guid>
 {
+	Breed() { }
+
 	public Breed(Guid id, string name) : base(id)
 	{
 		Name = name;
