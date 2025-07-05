@@ -64,7 +64,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 					.HasColumnName("phone");
 			});
 
-		builder.ComplexProperty(p => p.BankingВetails,
+		builder.ComplexProperty(p => p.BankingDetails,
 			x =>
 			{
 				x.Property(f => f.Name)

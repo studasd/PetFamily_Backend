@@ -22,6 +22,7 @@ public class Volunteer : Entity<VolunteerId>
 		Description = description;
 		ExperienceYears = experienceYears;
 		Phone = phone;
+		BankingDetails = new(null, null);
 	}
 
 	private readonly List<Pet> _pets = [];
@@ -32,7 +33,7 @@ public class Volunteer : Entity<VolunteerId>
 	public int ExperienceYears { get; private set; }
 
 	public Phone Phone { get; private set; }
-	public BankingDetails BankingВetails { get; private set; }
+	public BankingDetails BankingDetails { get; private set; }
 	public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = new();
 	public IReadOnlyList<Pet> Pets => _pets;
 

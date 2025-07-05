@@ -228,7 +228,7 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("experience_years");
 
-                    b.ComplexProperty<Dictionary<string, object>>("BankingВetails", "PetFamily.Domain.VolunteerEntities.Volunteer.BankingВetails#BankingDetails", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("BankingDetails", "PetFamily.Domain.VolunteerEntities.Volunteer.BankingDetails#BankingDetails", b1 =>
                         {
                             b1.IsRequired();
 
