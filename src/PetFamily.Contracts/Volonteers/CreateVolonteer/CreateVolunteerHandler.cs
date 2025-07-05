@@ -26,7 +26,7 @@ public class CreateVolunteerHandler // CreateVolunteerService
 		if (volunteerNameExist.IsSuccess)
 			return Errors.General.AlreadyExist("Volunteer");
 
-		var volunteer = Volunteer.Create(volunteerName.Value, request.Email, request.Description, request.ExperienceYears, request.Phone);
+		var volunteer = Volunteer.Create(volunteerName.Value, request.Email, request.Description, request.ExperienceYears, request.Phone, request.BankingDetails, request.SocialNetworks);
 
 		if (volunteer.IsFailure)
 			return volunteer.Error;

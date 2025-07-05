@@ -15,14 +15,14 @@ public class Volunteer : Entity<VolunteerId>
 {
 	private Volunteer() { }
 
-	public Volunteer(VolunteerId id, VolunteerName name, string email, string description, int experienceYears, Phone phone) : base(id)
+	public Volunteer(VolunteerId id, VolunteerName name, string email, string description, int experienceYears, Phone phone, BankingDetails? bankingDetails) : base(id)
 	{
 		Name = name;
 		Email = email;
 		Description = description;
 		ExperienceYears = experienceYears;
 		Phone = phone;
-		BankingDetails = new(null, null);
+		BankingDetails = bankingDetails ?? new(null, null);
 	}
 
 	private readonly List<Pet> _pets = [];
@@ -45,7 +45,7 @@ public class Volunteer : Entity<VolunteerId>
 	public int GetCountPetNeedsHelp() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.NeedsHelp);
 
 
-	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, string phone)
+	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, string phone, BankingDetails bankingDetails, IReadOnlyList<SocialNetwork> SocialNetworks)
 	{
 		if (string.IsNullOrWhiteSpace(email))
 			return Errors.General.ValueIsRequired("Email");
@@ -58,7 +58,13 @@ public class Volunteer : Entity<VolunteerId>
 		if (ph.IsFailure)
 			return ph.Error;
 
-		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, ph.Value);
+		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, ph.Value, bankingDetails);
+
+		if(SocialNetworks.Count() > 0)
+		{
+			foreach (var network in SocialNetworks)
+				volunteer.AddSocialNetwork(network.Name, network.Link);
+		}
 
 		return volunteer;
 	}
