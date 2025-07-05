@@ -49,7 +49,7 @@ public class Pet : Entity<PetId>
 
 	public static Guid NewId() => Guid.NewGuid();
 
-	public static Result<Pet, Error> Create(string name, PetTypes type, string description, string breed, string color, decimal weight, decimal height, string phone, PetHelpStatuses helpStatus)
+	public static Result<Pet, Error> Create(string name, PetTypes type, string description, Breed breed, string color, decimal weight, decimal height, Phone phone, PetHelpStatuses helpStatus)
 	{
 
 		if (string.IsNullOrWhiteSpace(name))
@@ -61,9 +61,6 @@ public class Pet : Entity<PetId>
 		if (string.IsNullOrWhiteSpace(description))
 			return Errors.General.ValueIsRequired("Description");
 
-		if (string.IsNullOrWhiteSpace(breed))
-			return Errors.General.ValueIsRequired("Breed");
-
 		if (string.IsNullOrWhiteSpace(color))
 			return Errors.General.ValueIsRequired("Color");
 
@@ -73,21 +70,10 @@ public class Pet : Entity<PetId>
 		if (height <= 0 || height > 100)
 			return Errors.General.ValueIsInvalid("Height");
 
-		if (string.IsNullOrWhiteSpace(phone))
-			return Errors.General.ValueIsRequired("Phone number");
-
 		if (helpStatus == default)
 			return Errors.General.ValueIsRequired("Help status");
 
-		var ph = Phone.Create(phone);
-		if(ph.IsFailure)
-			return ph.Error;
-
-		var br = Breed.Create(breed);
-		if (br.IsFailure)
-			return br.Error;
-
-		var pet = new Pet(PetId.NewPeetId(), name, type, description, br.Value, color, weight, height, new List<Phone> { ph.Value }, helpStatus);
+		var pet = new Pet(PetId.NewPeetId(), name, type, description, breed, color, weight, height, new List<Phone> { phone }, helpStatus);
 
 		return pet;
 	}

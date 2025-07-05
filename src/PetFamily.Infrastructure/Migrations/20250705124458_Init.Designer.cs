@@ -13,8 +13,8 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250704095532_Initial")]
-    partial class Initial
+    [Migration("20250705124458_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,7 +231,7 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("experience_years");
 
-                    b.ComplexProperty<Dictionary<string, object>>("BankingВetails", "PetFamily.Domain.VolunteerEntities.Volunteer.BankingВetails#BankingDetails", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("BankingDetails", "PetFamily.Domain.VolunteerEntities.Volunteer.BankingDetails#BankingDetails", b1 =>
                         {
                             b1.IsRequired();
 

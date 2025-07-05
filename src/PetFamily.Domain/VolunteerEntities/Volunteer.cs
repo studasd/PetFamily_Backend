@@ -32,7 +32,7 @@ public class Volunteer : Entity<VolunteerId>
 	public int ExperienceYears { get; private set; }
 
 	public Phone Phone { get; private set; }
-	public BankingDetails BankingВetails { get; private set; }
+	public BankingDetails BankingDetails { get; private set; } = new(null, null);
 	public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = new();
 	public IReadOnlyList<Pet> Pets => _pets;
 
@@ -44,31 +44,20 @@ public class Volunteer : Entity<VolunteerId>
 	public int GetCountPetNeedsHelp() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.NeedsHelp);
 
 
-	public static Result<Volunteer, Error> Create(string firstname, string lastname, string surname, string email, string description, int experienceYears, string phone)
+	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, Phone phone)
 	{
-		var nameResult = VolunteerName.Create(firstname, lastname, surname);
-
-		if(nameResult.IsFailure)
-			return nameResult.Error;
-
-
 		if (string.IsNullOrWhiteSpace(email))
 			return Errors.General.ValueIsRequired("Email");
 
 		if (string.IsNullOrWhiteSpace(description))
 			return Errors.General.ValueIsRequired("Description");
 
-		var ph = Phone.Create(phone);
-
-		if (ph.IsFailure)
-			return ph.Error;
-
-		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), nameResult.Value, email, description, experienceYears, ph.Value);
+		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, phone);
 
 		return volunteer;
 	}
 
-	public Result<Result, Error> AddSocialNetwork(string name, string link)
+	public UnitResult<Error> AddSocialNetwork(string name, string link)
 	{
 		var socialNetwork = SocialNetwork.Create(name, link);
 
@@ -77,16 +66,28 @@ public class Volunteer : Entity<VolunteerId>
 
 		SocialNetworkDetails!.Add(socialNetwork.Value);
 
-		return Result.Success();
+		return Result.Success<Error>();
 	}
 
-	public Result<Result, Error> AddPet(Pet? pet)
+	public UnitResult<Error> AddBankingDetails(string name, string Description)
+	{
+		var bankingDetails = PetFamily.Domain.Entities.BankingDetails.Create(name, Description);
+
+		if (bankingDetails.IsFailure)
+			return bankingDetails.Error;
+
+		this.BankingDetails = bankingDetails.Value;
+
+		return Result.Success<Error>();
+	}
+
+	public UnitResult<Error> AddPet(Pet? pet)
 	{
 		if (pet is null)
 			return Errors.General.ValueIsInvalid("Pet");
 
 		_pets.Add(pet);
 
-		return Result.Success();
+		return Result.Success<Error>();
 	}
 }
