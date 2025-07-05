@@ -16,7 +16,17 @@ public class CreateVolunteerHandler // CreateVolunteerService
 
 	public async Task<Result<Guid, Error>> HandleAsync(CreateVolunteerRequest request, CancellationToken token = default)
 	{
-		var volunteer = Volunteer.Create(request.Firstname, request.Lastname, request.Surname, request.Email, request.Description, request.ExperienceYears, request.Phone);
+		var volunteerName = VolunteerName.Create(request.Firstname, request.Lastname, request.Surname);
+		
+		if (volunteerName.IsFailure)
+			return volunteerName.Error;
+
+		var volunteerNameExist = await volunteerRepository.GetByNameAsync(volunteerName.Value, token);
+		
+		if (volunteerNameExist.IsSuccess)
+			return Errors.General.AlreadyExist("Volunteer");
+
+		var volunteer = Volunteer.Create(volunteerName.Value, request.Email, request.Description, request.ExperienceYears, request.Phone);
 
 		if (volunteer.IsFailure)
 			return volunteer.Error;
