@@ -63,7 +63,7 @@ public class Volunteer : Entity<VolunteerId>
 		return volunteer;
 	}
 
-	public Result<Result, Error> AddSocialNetwork(string name, string link)
+	public UnitResult<Error> AddSocialNetwork(string name, string link)
 	{
 		var socialNetwork = SocialNetwork.Create(name, link);
 
@@ -72,16 +72,16 @@ public class Volunteer : Entity<VolunteerId>
 
 		SocialNetworkDetails!.Add(socialNetwork.Value);
 
-		return Result.Success();
+		return Result.Success<Error>();
 	}
 
-	public Result<Result, Error> AddPet(Pet? pet)
+	public UnitResult<Error> AddPet(Pet? pet)
 	{
 		if (pet is null)
 			return Errors.General.ValueIsInvalid("Pet");
 
 		_pets.Add(pet);
 
-		return Result.Success();
+		return Result.Success<Error>();
 	}
 }

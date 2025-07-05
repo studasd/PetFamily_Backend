@@ -15,13 +15,13 @@ public record SocialNetworkDetails
 	public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
 
-	public Result<Result, Error> Add(SocialNetwork? sn)
+	public UnitResult<Error> Add(SocialNetwork? sn)
 	{
 		if (sn is null)
 			return Errors.General.ValueIsRequired("SocialNetwork");
 
 		_socialNetworks.Add(sn);
 
-		return Result.Success();
+		return Result.Success<Error>();
 	}
 }
