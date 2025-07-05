@@ -2,6 +2,12 @@
 
 public record VolunteerId(Guid Value) : IComparable<VolunteerId>
 {
+	public static implicit operator Guid(VolunteerId volunteerId)
+	{
+		ArgumentNullException.ThrowIfNull(volunteerId);
+		return volunteerId.Value;
+	}
+
 	public static VolunteerId NewVolunteerId()	=> new(Guid.NewGuid());
 	public static VolunteerId Empty()			=> new(Guid.Empty);
 	public static VolunteerId Create(Guid guid) => new(guid);
