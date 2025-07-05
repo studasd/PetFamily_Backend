@@ -1,0 +1,37 @@
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
+using PetFamily.Contracts.Volonteers;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.VolunteerEntities;
+
+namespace PetFamily.Infrastructure.Repositories;
+
+public class VolunteerRepository : IVolunteerRepository
+{
+	private readonly ApplicationDbContext _db;
+
+	public VolunteerRepository(ApplicationDbContext dbContext)
+	{
+		this._db = dbContext;
+	}
+
+	public async Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token = default)
+	{
+		await _db.Volunteers.AddAsync(volunteer, token);
+
+		await _db.SaveChangesAsync(token);
+
+		return volunteer.Id;
+	}
+
+	public async Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token = default)
+	{
+		var volunteer = await _db.Volunteers
+			.FirstOrDefaultAsync(x => x.Id == volunteerId, token);
+
+		if (volunteer == null)
+			return Errors.General.NotFound(volunteerId);
+
+		return volunteer;
+	}
+}

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Volonteers\CreateVolonteer\" />
-    <Folder Include="Volonteers\" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="3.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
   </ItemGroup>
 
 </Project>
