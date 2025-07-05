@@ -5,11 +5,11 @@ namespace PetFamily.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HomeController : ControllerBase
+public class VolunteerController : ControllerBase
 {
 
-	[HttpGet]
-	public async Task<IActionResult> Add()
+	[HttpPost]
+	public async Task<IActionResult> Create()
 	{
 		var volonteer = Volunteer.Create("firsname", "lastname", "surname", "email@email.mm", "description", 1, "7777777777");
 
