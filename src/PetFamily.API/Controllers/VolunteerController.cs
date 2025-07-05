@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetFamily.Contracts.Volonteers.CreateVolonteer;
 using PetFamily.Domain.VolunteerEntities;
 
 namespace PetFamily.API.Controllers;
@@ -9,13 +10,16 @@ public class VolunteerController : ControllerBase
 {
 
 	[HttpPost]
-	public async Task<IActionResult> Create()
+	public async Task<IActionResult> Create(
+		[FromServices] CreateVolunteerHandler handler, 
+		[FromBody] CreateVolunteerRequest request, 
+		CancellationToken token = default)
 	{
-		var volonteer = Volunteer.Create("firsname", "lastname", "surname", "email@email.mm", "description", 1, "7777777777");
+		var result = await handler.HandleAsync(request, token);
 
-		if(volonteer.IsFailure)
-			return StatusCode(volonteer.Error.TypeCode, volonteer.Error);
+		if(result.IsFailure)
+			return StatusCode(result.Error.TypeCode, result.Error);
 
-		return Ok(volonteer.Value);
+		return Ok(result.Value);
 	}
 }
