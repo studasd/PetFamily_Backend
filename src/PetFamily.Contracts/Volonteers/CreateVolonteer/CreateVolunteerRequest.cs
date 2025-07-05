@@ -10,7 +10,7 @@ namespace PetFamily.Contracts.Volonteers.CreateVolonteer;
 
 public record CreateVolunteerRequest
 {
-	public CreateVolunteerRequest (string firstname, string lastname, string surname, string email, string description, int experienceYears, string phone, BankingDetails bankingDetails, IReadOnlyList<SocialNetwork> socialNetworks)
+	public CreateVolunteerRequest (string firstname, string lastname, string surname, string email, string description, int experienceYears, string phone, BankingDetailsDTO? bankingDetails, IReadOnlyList<SocialNetworkDTO>? socialNetworks)
 	{
 		this.Firstname = firstname;
 		this.Lastname = lastname;
@@ -31,6 +31,6 @@ public record CreateVolunteerRequest
 	public int ExperienceYears { get; }
 	public string Phone { get; }
 
-	public BankingDetails? BankingDetails { get; }
-	public IReadOnlyList<SocialNetwork> SocialNetworks { get; } = [];
+	public BankingDetailsDTO? BankingDetails { get; }
+	public IReadOnlyList<SocialNetworkDTO> SocialNetworks { get; } = [];
 }

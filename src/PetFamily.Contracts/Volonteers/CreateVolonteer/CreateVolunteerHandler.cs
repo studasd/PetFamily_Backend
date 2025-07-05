@@ -26,10 +26,19 @@ public class CreateVolunteerHandler // CreateVolunteerService
 		if (volunteerNameExist.IsSuccess)
 			return Errors.General.AlreadyExist("Volunteer");
 
-		var volunteer = Volunteer.Create(volunteerName.Value, request.Email, request.Description, request.ExperienceYears, request.Phone, request.BankingDetails, request.SocialNetworks);
+		var volunteer = Volunteer.Create(volunteerName.Value, request.Email, request.Description, request.ExperienceYears, request.Phone);
 
 		if (volunteer.IsFailure)
 			return volunteer.Error;
+
+		if (request.SocialNetworks.Count() > 0)
+		{
+			foreach (var network in request.SocialNetworks)
+				volunteer.Value.AddSocialNetwork(network.Name, network.Link);
+		}
+
+		if (request.BankingDetails is not null)
+			volunteer.Value.AddBankingDetails(request.BankingDetails.Name, request.BankingDetails.Description);
 
 		await volunteerRepository.AddAsync(volunteer.Value, token);
 
