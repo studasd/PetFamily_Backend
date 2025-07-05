@@ -44,7 +44,7 @@ public class Volunteer : Entity<VolunteerId>
 	public int GetCountPetNeedsHelp() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.NeedsHelp);
 
 
-	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, string phone)
+	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, Phone phone)
 	{
 		if (string.IsNullOrWhiteSpace(email))
 			return Errors.General.ValueIsRequired("Email");
@@ -52,12 +52,7 @@ public class Volunteer : Entity<VolunteerId>
 		if (string.IsNullOrWhiteSpace(description))
 			return Errors.General.ValueIsRequired("Description");
 
-		var ph = Phone.Create(phone);
-
-		if (ph.IsFailure)
-			return ph.Error;
-
-		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, ph.Value);
+		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, phone);
 
 		return volunteer;
 	}
