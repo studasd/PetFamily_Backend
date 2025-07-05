@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Entities;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.PetEntities;
 
@@ -48,46 +49,46 @@ public class Pet : Entity<PetId>
 
 	public static Guid NewId() => Guid.NewGuid();
 
-	public static Result<Pet> Create(string name, PetTypes type, string description, string breed, string color, decimal weight, decimal height, string phone, PetHelpStatuses helpStatus)
+	public static Result<Pet, Error> Create(string name, PetTypes type, string description, string breed, string color, decimal weight, decimal height, string phone, PetHelpStatuses helpStatus)
 	{
 
 		if (string.IsNullOrWhiteSpace(name))
-			return Result.Failure<Pet>("Name cannot be empty");
+			return Errors.General.ValueIsRequired("Name");
 
 		if (type == default)
-			return Result.Failure<Pet>("Pet type is required");
+			return Errors.General.ValueIsRequired("Pet type");
 
 		if (string.IsNullOrWhiteSpace(description))
-			return Result.Failure<Pet>("Description cannot be empty");
+			return Errors.General.ValueIsRequired("Description");
 
 		if (string.IsNullOrWhiteSpace(breed))
-			return Result.Failure<Pet>("Breed cannot be empty");
+			return Errors.General.ValueIsRequired("Breed");
 
 		if (string.IsNullOrWhiteSpace(color))
-			return Result.Failure<Pet>("Color cannot be empty");
+			return Errors.General.ValueIsRequired("Color");
 
 		if (weight <= 0 || weight > 100)
-			return Result.Failure<Pet>("Weight error");
+			return Errors.General.ValueIsInvalid("Weight");
 
 		if (height <= 0 || height > 100)
-			return Result.Failure<Pet>("Height error");
+			return Errors.General.ValueIsInvalid("Height");
 
 		if (string.IsNullOrWhiteSpace(phone))
-			return Result.Failure<Pet>("Phone number  cannot be empty");
+			return Errors.General.ValueIsRequired("Phone number");
 
 		if (helpStatus == default)
-			return Result.Failure<Pet>("Pet help status is required");
+			return Errors.General.ValueIsRequired("Help status");
 
 		var ph = Phone.Create(phone);
 		if(ph.IsFailure)
-			return Result.Failure<Pet>(ph.Error);
+			return ph.Error;
 
 		var br = Breed.Create(breed);
 		if (br.IsFailure)
-			return Result.Failure<Pet>(br.Error);
+			return br.Error;
 
 		var pet = new Pet(PetId.NewPeetId(), name, type, description, br.Value, color, weight, height, new List<Phone> { ph.Value }, helpStatus);
 
-		return Result.Success(pet);
+		return pet;
 	}
 }

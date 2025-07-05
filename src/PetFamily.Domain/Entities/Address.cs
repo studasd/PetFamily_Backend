@@ -1,26 +1,27 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Entities;
 
 public record Address(string Country, string City, string Street, int HouseNumber, string? HouseLiter, int Apartment)
 {
 
-	public static Result<Address> Create(string country, string city, string street, int houseNumber, int apartment, string? houseLiter = null)
+	public static Result<Address, Error> Create(string country, string city, string street, int houseNumber, int apartment, string? houseLiter = null)
 	{
 		if (string.IsNullOrWhiteSpace(country))
-			return Result.Failure<Address>("Country cannot be empty");
+			return Errors.General.ValueIsRequired("Country");
 
 		if (string.IsNullOrWhiteSpace(city))
-			return Result.Failure<Address>("City cannot be empty");
+			return Errors.General.ValueIsRequired("City");
 
 		if (string.IsNullOrWhiteSpace(street))
-			return Result.Failure<Address>("Street cannot be empty");
+			return Errors.General.ValueIsRequired("Street");
 
 		if (houseNumber <= 0)
-			return Result.Failure<Address>("House number error");
+			return Errors.General.ValueIsInvalid("House");
 
 		if (apartment <= 0)
-			return Result.Failure<Address>("Apartment number error");
+			return Errors.General.ValueIsInvalid("Apartment");
 
 		return new Address(country, city, street, houseNumber, houseLiter, apartment);
 	}

@@ -1,19 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.VolunteerEntities;
 
 public record VolunteerName (string Firstname, string Lastname, string Surname)
 {
-	public static Result<VolunteerName> Create(string firstname, string lastname, string surname)
+	public static Result<VolunteerName, Error> Create(string firstname, string lastname, string surname)
 	{
 		if (string.IsNullOrWhiteSpace(firstname))
-			return Result.Failure<VolunteerName>("Firstname cannot be empty");
+			return Errors.General.ValueIsRequired("Firstname");
 
 		if (string.IsNullOrWhiteSpace(lastname))
-			return Result.Failure<VolunteerName>("Lastname cannot be empty");
+			return Errors.General.ValueIsRequired("Lastname");
 
 		if (string.IsNullOrWhiteSpace(surname))
-			return Result.Failure<VolunteerName>("Surname cannot be empty");
+			return Errors.General.ValueIsRequired("Surname");
 
 		return new VolunteerName(firstname, lastname, surname);
 	}

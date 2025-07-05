@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.VolunteerEntities;
 
@@ -14,10 +15,10 @@ public record SocialNetworkDetails
 	public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
 
-	public Result Add(SocialNetwork? sn)
+	public Result<Result, Error> Add(SocialNetwork? sn)
 	{
 		if (sn is null)
-			return Result.Failure("SocialNetwork cannot be null to add");
+			return Errors.General.ValueIsRequired("SocialNetwork");
 
 		_socialNetworks.Add(sn);
 

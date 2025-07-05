@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.PetEntities;
 
@@ -22,14 +23,14 @@ public class Species : Entity<Guid>
 
 	public static Guid NewId() => Guid.NewGuid();
 
-	public static Result<Species> Create(string name)
+	public static Result<Species, Error> Create(string name)
 	{
 
 		if (string.IsNullOrWhiteSpace(name))
-			return Result.Failure<Species>("Name cannot be empty");
+			return Errors.General.ValueIsRequired("Name");
 
 		var species = new Species(NewId(), name);
 
-		return Result.Success(species);
+		return species;
 	}
 }
