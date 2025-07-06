@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 namespace PetFamily.Domain.PetEntities;
 public record PetId(Guid Value) : IComparable<PetId>
 {
+	public static implicit operator Guid(PetId petId)
+	{
+		ArgumentNullException.ThrowIfNull(petId);
+		return petId.Value;
+	}
+
 	public static PetId NewPeetId() => new(Guid.NewGuid());
 	public static PetId Empty() => new(Guid.Empty);
 	public static PetId Create(Guid guid) => new(guid);

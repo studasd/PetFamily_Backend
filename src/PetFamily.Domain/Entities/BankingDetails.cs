@@ -3,7 +3,7 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Entities;
 
-public record BankingDetails(string Name, string Description)
+public record BankingDetails(string? Name, string? Description)
 {
 	public static Result<BankingDetails, Error> Create(string name, string description)
 	{

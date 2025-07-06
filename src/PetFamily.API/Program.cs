@@ -1,3 +1,4 @@
+using PetFamily.Contracts;
 using PetFamily.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add services to the container.
-builder.Services.AddScoped<ApplicationDbContext>();
+builder.Services.AddInfrastructure()
+	.AddContracts();
+
 
 var app = builder.Build();
 
