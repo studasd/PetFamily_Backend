@@ -1,3 +1,4 @@
+using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
@@ -18,7 +19,10 @@ builder.Services.AddFluentValidationAutoValidation(config =>
 	config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
 });
 
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
