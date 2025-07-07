@@ -18,15 +18,20 @@ public class Error
 
 
 	public static Error Validation(string code, string message) => new(code, message, ErrorTypes.Validation);
+	public static string ValidationSerialize(string code, string message) => Validation(code, message).Serialize();
 
 	public static Error NotFound(string code, string message) => new(code, message, ErrorTypes.NotFound);
+	public static string NotFoundSerialize(string code, string message) => NotFound(code, message).Serialize();
 
 	public static Error Failure(string code, string message) => new(code, message, ErrorTypes.Failure);
+	public static string FailureSerialize(string code, string message) => Failure(code, message).Serialize();
 
 	public static Error Conflict(string code, string message) => new(code, message, ErrorTypes.Conflict);
+	public static string ConflictSerialize(string code, string message) => Conflict(code, message).Serialize();
 
 
 	public string Serialize() => String.Join(SEPARATOR, Code, Message, Type);
+
 
 	public static Error Deserialize(string serialaze)
 	{
