@@ -2,18 +2,23 @@ using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
+using Serilog;
+using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpLogging(o =>
-{
-	o.CombineLogs = true;
-});
+Log.Logger = new LoggerConfiguration()
+	.WriteTo.Console()
+	.MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+	.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+	.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
+	.CreateLogger();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSerilog();
 
 // Add services to the container.
 builder.Services.AddInfrastructure()
@@ -36,6 +41,8 @@ if (app.Environment.IsDevelopment())
 
 	await app.ApplyMigrationAsync();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 
