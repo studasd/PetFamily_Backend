@@ -2,6 +2,8 @@
 
 public class Error
 {
+	public const string SEPARATOR = "||";
+
 	private Error(string code, string message, ErrorTypes type)
 	{
 		Code = code;
@@ -22,4 +24,24 @@ public class Error
 	public static Error Failure(string code, string message) => new(code, message, ErrorTypes.Failure);
 
 	public static Error Conflict(string code, string message) => new(code, message, ErrorTypes.Conflict);
+
+
+	public string Serialize() => String.Join(SEPARATOR, Code, Message, Type);
+
+	public static Error Deserialize(string serialaze)
+	{
+		var parts = serialaze.Split(SEPARATOR);
+
+		if (parts.Length < 3)
+		{
+			throw new ArgumentException("Invalid serialized format");
+		}
+
+		if (!Enum.TryParse<ErrorTypes>(parts[2], out var type))
+		{
+			throw new ArgumentException("Invalid serialized format");
+		}
+
+		return new(parts[0], parts[1], type);
+	}
 }
