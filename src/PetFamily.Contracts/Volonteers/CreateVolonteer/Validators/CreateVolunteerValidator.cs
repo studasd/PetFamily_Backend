@@ -17,15 +17,15 @@ public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest
 
 
 		RuleFor(c => c.Email)
-			.NotEmpty().WithMessage(Error.NotFoundSerialize("email_invalid", "Email is not empty"))
-			.EmailAddress().WithMessage(Error.ValidationSerialize("email_invalid", "Email not valid"));
+			.NotEmpty().WithError(Errors.General.ValueIsRequired("Email is not empty"))
+			.EmailAddress().WithError(Errors.General.ValueIsInvalid("Email not valid"));
 
 		RuleFor(c => c.Description)
-			.NotEmpty().WithMessage(Error.NotFoundSerialize("description_invalid", "Description is not empty"))
-			.MaximumLength(5).WithMessage(Error.ValidationSerialize("description_invalid", "Description maximum lenght: 100"));
+			.NotEmpty().WithError(Errors.General.ValueIsRequired("Description is not empty"))
+			.MaximumLength(100).WithError(Errors.General.ValueIsInvalid("Description maximum lenght: 100"));
 
 		RuleFor(c => c.ExperienceYears)
-			.InclusiveBetween(0, 100).WithMessage(Error.ValidationSerialize("experience_years_invalid", "Experience years not valid"));
+			.InclusiveBetween(0, 100).WithError(Errors.General.ValueIsInvalid("Experience years not valid"));
 
 
 		RuleFor(c => c.Phone)
