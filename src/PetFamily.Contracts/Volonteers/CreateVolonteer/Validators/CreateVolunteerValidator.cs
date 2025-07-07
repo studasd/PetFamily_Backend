@@ -48,9 +48,9 @@ public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest
 		//	.Matches(new Regex(@"((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}")).WithMessage("Phone not valid");
 
 
-		RuleFor(c => c.BankingDetails).Null().SetValidator(new BankingDetailsDTOValidator());
+		RuleFor(c => c.BankingDetails).SetValidator(new BankingDetailsDTOValidator());
 
-		RuleForEach(c => c.SocialNetworks).Null().SetValidator(new SocialNetworkDTOValidator());
+		RuleForEach(c => c.SocialNetworks).SetValidator(new SocialNetworkDTOValidator());
 
 	}
 }
