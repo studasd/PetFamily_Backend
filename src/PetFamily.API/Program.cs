@@ -6,6 +6,11 @@ using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpLogging(o =>
+{
+	o.CombineLogs = true;
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
