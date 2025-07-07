@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
 	.WriteTo.Console()
+	.WriteTo.Seq(builder.Configuration.GetValue<string>("HostSeq"))
 	.MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
 	.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
 	.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
