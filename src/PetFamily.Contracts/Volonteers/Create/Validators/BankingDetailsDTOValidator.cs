@@ -2,7 +2,7 @@
 using PetFamily.Contracts.Extensions;
 using PetFamily.Domain.Entities;
 
-namespace PetFamily.Contracts.Volonteers.CreateVolonteer.Validators;
+namespace PetFamily.Contracts.Volonteers.Create.Validators;
 
 public class BankingDetailsDTOValidator : AbstractValidator<BankingDetailsDTO>
 {

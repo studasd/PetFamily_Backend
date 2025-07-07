@@ -2,7 +2,7 @@
 using PetFamily.Contracts.Extensions;
 using PetFamily.Domain.VolunteerEntities;
 
-namespace PetFamily.Contracts.Volonteers.CreateVolonteer.Validators;
+namespace PetFamily.Contracts.Volonteers.Create.Validators;
 
 public class SocialNetworkDTOValidator : AbstractValidator<SocialNetworkDTO>
 {

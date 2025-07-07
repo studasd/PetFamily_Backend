@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetFamily.Contracts.Volonteers.CreateVolonteer;
+namespace PetFamily.Contracts.Volonteers.Create;
 
 public record CreateVolunteerRequest
 {

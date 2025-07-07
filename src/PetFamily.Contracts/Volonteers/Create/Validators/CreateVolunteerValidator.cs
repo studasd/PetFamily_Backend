@@ -6,7 +6,7 @@ using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerEntities;
 using System.Text.RegularExpressions;
 
-namespace PetFamily.Contracts.Volonteers.CreateVolonteer.Validators;
+namespace PetFamily.Contracts.Volonteers.Create.Validators;
 
 public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest>
 {

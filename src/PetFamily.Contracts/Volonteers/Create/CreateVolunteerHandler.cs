@@ -4,7 +4,7 @@ using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerEntities;
 
-namespace PetFamily.Contracts.Volonteers.CreateVolonteer;
+namespace PetFamily.Contracts.Volonteers.Create;
 
 public class CreateVolunteerHandler // CreateVolunteerService
 {
