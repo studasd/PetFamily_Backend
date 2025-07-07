@@ -46,12 +46,6 @@ public class Volunteer : Entity<VolunteerId>
 
 	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, Phone phone)
 	{
-		if (string.IsNullOrWhiteSpace(email))
-			return Errors.General.ValueIsRequired("Email");
-
-		if (string.IsNullOrWhiteSpace(description))
-			return Errors.General.ValueIsRequired("Description");
-
 		var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), volunteerName, email, description, experienceYears, phone);
 
 		return volunteer;
