@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
 using PetFamily.Contracts.Volonteers.Create;
 using PetFamily.Contracts.Volonteers.Delete;
 using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
 using PetFamily.Contracts.Volonteers.Updates.Info;
 using PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Controllers;
 
@@ -14,6 +16,7 @@ namespace PetFamily.API.Controllers;
 public class VolunteerController : ControllerBase
 {
 	[HttpPost]
+	[SwaggerRequestExample(typeof(CreateVolunteerRequest), typeof(VolunteerRequestExample))]
 	public async Task<IActionResult> Create(
 		[FromServices] CreateVolunteerHandler handler,
 		[FromBody] CreateVolunteerRequest request,
