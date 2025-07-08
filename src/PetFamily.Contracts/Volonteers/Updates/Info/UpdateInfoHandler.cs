@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Contracts.Volonteers.Update;
+namespace PetFamily.Contracts.Volonteers.Updates.Info;
 
 public class UpdateInfoHandler
 {

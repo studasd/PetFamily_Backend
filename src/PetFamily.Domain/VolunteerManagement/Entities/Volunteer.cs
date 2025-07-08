@@ -79,4 +79,10 @@ public class Volunteer : Entity<VolunteerId>
 		Email = email;
 		Description = description;
 	}
+
+	public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+	{
+		this.socialNetworks.Clear();
+		this.socialNetworks.AddRange(socialNetworks);
+	}
 }

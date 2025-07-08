@@ -3,11 +3,11 @@ using PetFamily.Contracts.Extensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Contracts.Volonteers.Update;
+namespace PetFamily.Contracts.Volonteers.Updates.Info;
 
-public class UpdateInfoDTOValidator : AbstractValidator<UpdateInfoRequestDTO>
+public class UpdateInfoValidatorDTO : AbstractValidator<UpdateInfoRequestDTO>
 {
-	public UpdateInfoDTOValidator() 
+	public UpdateInfoValidatorDTO() 
 	{
 		RuleFor(c => c.Name)
 			.MustBeValueObject(x => VolunteerName.Create(x.Firstname, x.Lastname, x.Surname));

@@ -2,11 +2,11 @@
 using PetFamily.Contracts.Extensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Contracts.Volonteers.Update;
+namespace PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
 
-public class UpdateInfoValidator : AbstractValidator<UpdateInfoRequest>
+public class UpdateSocialNetworksValidator : AbstractValidator<UpdateSocialNetworksRequest>
 {
-	public UpdateInfoValidator() 
+	public UpdateSocialNetworksValidator()
 	{
 		RuleFor(r => r.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired("Volunteer Id is not empty"));
 	}
