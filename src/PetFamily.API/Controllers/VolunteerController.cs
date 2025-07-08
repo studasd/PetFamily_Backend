@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Contracts.Volonteers.Create;
+using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
 using PetFamily.Contracts.Volonteers.Updates.Info;
 using PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
 
@@ -51,7 +52,7 @@ public class VolunteerController : ControllerBase
 
 
 	[HttpPut("social-networks/{id:guid}")]
-	public async Task<IActionResult> Update(
+	public async Task<IActionResult> UpdateSocials(
 		[FromRoute] Guid id,
 		[FromBody] UpdateSocialNetworksRequestDTO dto,
 		[FromServices] UpdateSocialNetworksHandler handler,
@@ -59,6 +60,30 @@ public class VolunteerController : ControllerBase
 		CancellationToken token = default)
 	{
 		var request = new UpdateSocialNetworksRequest(id, dto);
+
+		var validResult = await validator.ValidateAsync(request, token);
+
+		if (validResult.IsValid == false)
+			return validResult.ToValidationErrorResponse();
+
+		var result = await handler.HandleAsync(request, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("bankig-details/{id:guid}")]
+	public async Task<IActionResult> UpdateBanking(
+		[FromRoute] Guid id,
+		[FromBody] UpdateBankingDetailsRequestDTO dto,
+		[FromServices] UpdateBankingDetailsHandler handler,
+		[FromServices] IValidator<UpdateBankingDetailsRequest> validator,
+		CancellationToken token = default)
+	{
+		var request = new UpdateBankingDetailsRequest(id, dto);
 
 		var validResult = await validator.ValidateAsync(request, token);
 

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Contracts.Volonteers.Create;
+using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
 using PetFamily.Contracts.Volonteers.Updates.Info;
 using PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
 
@@ -13,6 +14,7 @@ public static class InjectExtension
 		services.AddScoped<CreateVolunteerHandler>();
 		services.AddScoped<UpdateInfoHandler>();
 		services.AddScoped<UpdateSocialNetworksHandler>();
+		services.AddScoped<UpdateBankingDetailsHandler>();
 
 		services.AddValidatorsFromAssembly(typeof(InjectExtension).Assembly);
 

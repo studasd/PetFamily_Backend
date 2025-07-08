@@ -85,4 +85,10 @@ public class Volunteer : Entity<VolunteerId>
 		this.socialNetworks.Clear();
 		this.socialNetworks.AddRange(socialNetworks);
 	}
+	
+	public void UpdateBankingDetails(IEnumerable<BankingDetails> bankingDetails)
+	{
+		this.bankingDetails.Clear();
+		this.bankingDetails.AddRange(bankingDetails);
+	}
 }
