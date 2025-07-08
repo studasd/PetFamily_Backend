@@ -99,6 +99,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
 		builder.HasMany(v => v.Pets)
 			.WithOne()
-			.HasForeignKey("volunteer_id");
+			.HasForeignKey("volunteer_id")
+			.OnDelete(DeleteBehavior.Cascade);
+
+		builder.Property<bool>("isDeleted")
+			.UsePropertyAccessMode(PropertyAccessMode.Field)
+			.HasColumnName("id_deleted");
 	}
 }

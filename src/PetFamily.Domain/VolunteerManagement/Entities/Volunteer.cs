@@ -13,7 +13,7 @@ using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Domain.VolunteerManagement.Entities;
 
-public class Volunteer : Entity<VolunteerId>
+public class Volunteer : Entity<VolunteerId>, ISoftDeletable
 {
 	private Volunteer() { }
 
@@ -27,6 +27,7 @@ public class Volunteer : Entity<VolunteerId>
 	}
 
 	private readonly List<Pet> _pets = [];
+	private bool isDeleted = false;
 
 	public VolunteerName Name { get; private set; }
 	public string? Email { get; private set; }
@@ -34,6 +35,10 @@ public class Volunteer : Entity<VolunteerId>
 	public int ExperienceYears { get; private set; }
 
 	public Phone Phone { get; private set; }
+
+	public bool IsHardDelete => isHardDelete;
+	private bool isHardDelete;
+
 
 	public IReadOnlyList<BankingDetails> BankingDetails => bankingDetails;
 	private readonly List<BankingDetails> bankingDetails = [];
@@ -43,7 +48,6 @@ public class Volunteer : Entity<VolunteerId>
 
 
 	public IReadOnlyList<Pet> Pets => _pets;
-
 
 	public static Guid NewId() => Guid.NewGuid();
 
@@ -91,4 +95,8 @@ public class Volunteer : Entity<VolunteerId>
 		this.bankingDetails.Clear();
 		this.bankingDetails.AddRange(bankingDetails);
 	}
+
+	public void Delete() => isDeleted = true;
+	public void Restore() => isDeleted = false;
+	public void HardDelete() => isHardDelete = true;
 }

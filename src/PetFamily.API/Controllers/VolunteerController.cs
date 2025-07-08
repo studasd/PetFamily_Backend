@@ -103,14 +103,37 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpDelete("{id:guid}")]
+	[HttpDelete("hard/{id:guid}")]
 	public async Task<IActionResult> HardDelete(
 		[FromRoute] Guid id,
 		[FromServices] DeleteVolunteerHandler handler,
 		[FromServices] IValidator<DeleteVolunteerRequest> validator,
 		CancellationToken token = default)
 	{
-		var request = new DeleteVolunteerRequest(id);
+		var request = new DeleteVolunteerRequest(id, true);
+
+		var validResult = await validator.ValidateAsync(request, token);
+
+		if (validResult.IsValid == false)
+			return validResult.ToValidationErrorResponse();
+
+		var result = await handler.HandleAsync(request, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("soft/{id:guid}")]
+	public async Task<IActionResult> SoftDelete(
+		[FromRoute] Guid id,
+		[FromServices] DeleteVolunteerHandler handler,
+		[FromServices] IValidator<DeleteVolunteerRequest> validator,
+		CancellationToken token = default)
+	{
+		var request = new DeleteVolunteerRequest(id, false);
 
 		var validResult = await validator.ValidateAsync(request, token);
 

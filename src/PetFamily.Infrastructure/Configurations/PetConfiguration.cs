@@ -141,5 +141,9 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.HasForeignKey("specie_id")
 			.IsRequired()
 			.OnDelete(DeleteBehavior.NoAction);
+
+		builder.Property<bool>("isDeleted")
+			.UsePropertyAccessMode(PropertyAccessMode.Field)
+			.HasColumnName("id_deleted");
 	}
 }

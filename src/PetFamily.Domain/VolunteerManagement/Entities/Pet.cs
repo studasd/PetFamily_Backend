@@ -12,7 +12,7 @@ using PetFamily.Domain.VolunteerManagement.IDs;
 
 namespace PetFamily.Domain.VolunteerManagement.Entities;
 
-public class Pet : Entity<PetId>
+public class Pet : Entity<PetId>, ISoftDeletable
 {
 	Pet() { }
 
@@ -29,6 +29,9 @@ public class Pet : Entity<PetId>
 		HelpStatus = helpStatus;
 		DateCreated = DateTime.UtcNow;
 	}
+
+	private bool isDeleted = false;
+
 
 	public string Name { get; private set; }
 	public PetTypes Type { get; private set; }
@@ -49,6 +52,8 @@ public class Pet : Entity<PetId>
 	public Breed Breed { get; private set; }
 	public Species Species { get; private set; }
 
+	public bool IsHardDelete => isHardDelete;
+	private bool isHardDelete;
 
 	public static Guid NewId() => Guid.NewGuid();
 
@@ -80,4 +85,8 @@ public class Pet : Entity<PetId>
 
 		return pet;
 	}
+
+	public void Delete() => isDeleted = true;
+	public void Restore() => isDeleted = false;
+	public void HardDelete() => isHardDelete = true;
 }

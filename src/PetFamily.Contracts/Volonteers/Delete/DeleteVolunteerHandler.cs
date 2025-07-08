@@ -24,6 +24,9 @@ public class DeleteVolunteerHandler
 		if (volunteerResult.IsFailure)
 			return volunteerResult.Error;
 
+		if (request.IsHardDelete == true)
+			volunteerResult.Value.HardDelete();
+
 		await volunteerRepository.DeleteAsync(volunteerResult.Value, token);
 
 		logger.LogInformation("Deleted volunteer with id {volunteerId}", volunteerResult.Value.Id);
