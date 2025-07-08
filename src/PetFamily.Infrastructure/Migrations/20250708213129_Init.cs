@@ -31,6 +31,7 @@ namespace PetFamily.Infrastructure.Migrations
                     email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
                     experience_years = table.Column<int>(type: "integer", nullable: false),
+                    id_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     sur_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -80,6 +81,7 @@ namespace PetFamily.Infrastructure.Migrations
                     date_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     addr_apartment = table.Column<int>(type: "integer", nullable: false),
                     addr_city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -108,7 +110,8 @@ namespace PetFamily.Infrastructure.Migrations
                         name: "fk_pets_volunteers_volunteer_id",
                         column: x => x.volunteer_id,
                         principalTable: "volunteers",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

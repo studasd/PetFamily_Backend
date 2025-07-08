@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250708115258_Init")]
+    [Migration("20250708213129_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace PetFamily.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Breed", b =>
+            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Entities.Breed", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace PetFamily.Infrastructure.Migrations
                     b.ToTable("breeds", (string)null);
                 });
 
-            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Species", b =>
+            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Entities.Species", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,6 +137,10 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<Guid>("breed_id")
                         .HasColumnType("uuid")
                         .HasColumnName("breed_id");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("id_deleted");
 
                     b.Property<Guid>("specie_id")
                         .HasColumnType("uuid")
@@ -231,6 +235,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("experience_years");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("id_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetFamily.Domain.VolunteerManagement.Entities.Volunteer.Name#VolunteerName", b1 =>
                         {
                             b1.IsRequired();
@@ -271,9 +279,9 @@ namespace PetFamily.Infrastructure.Migrations
                     b.ToTable("volunteers", (string)null);
                 });
 
-            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Breed", b =>
+            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Entities.Breed", b =>
                 {
-                    b.HasOne("PetFamily.Domain.SpeciesManagement.Species", null)
+                    b.HasOne("PetFamily.Domain.SpeciesManagement.Entities.Species", null)
                         .WithMany("Breeds")
                         .HasForeignKey("species_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -283,14 +291,14 @@ namespace PetFamily.Infrastructure.Migrations
 
             modelBuilder.Entity("PetFamily.Domain.VolunteerManagement.Entities.Pet", b =>
                 {
-                    b.HasOne("PetFamily.Domain.SpeciesManagement.Breed", "Breed")
+                    b.HasOne("PetFamily.Domain.SpeciesManagement.Entities.Breed", "Breed")
                         .WithMany()
                         .HasForeignKey("breed_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("fk_pets_breeds_breed_id");
 
-                    b.HasOne("PetFamily.Domain.SpeciesManagement.Species", "Species")
+                    b.HasOne("PetFamily.Domain.SpeciesManagement.Entities.Species", "Species")
                         .WithMany()
                         .HasForeignKey("specie_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -300,6 +308,7 @@ namespace PetFamily.Infrastructure.Migrations
                     b.HasOne("PetFamily.Domain.VolunteerManagement.Entities.Volunteer", null)
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
                     b.OwnsMany("PetFamily.Domain.Shared.ValueObjects.Phone", "Phones", b1 =>
@@ -404,7 +413,7 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Navigation("SocialNetworks");
                 });
 
-            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Species", b =>
+            modelBuilder.Entity("PetFamily.Domain.SpeciesManagement.Entities.Species", b =>
                 {
                     b.Navigation("Breeds");
                 });
