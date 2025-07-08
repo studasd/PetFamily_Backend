@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Contracts.Volonteers.Create;
+using PetFamily.Contracts.Volonteers.Delete;
 using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
 using PetFamily.Contracts.Volonteers.Updates.Info;
 using PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
@@ -84,6 +85,29 @@ public class VolunteerController : ControllerBase
 		CancellationToken token = default)
 	{
 		var request = new UpdateBankingDetailsRequest(id, dto);
+
+		var validResult = await validator.ValidateAsync(request, token);
+
+		if (validResult.IsValid == false)
+			return validResult.ToValidationErrorResponse();
+
+		var result = await handler.HandleAsync(request, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("{id:guid}")]
+	public async Task<IActionResult> HardDelete(
+		[FromRoute] Guid id,
+		[FromServices] DeleteVolunteerHandler handler,
+		[FromServices] IValidator<DeleteVolunteerRequest> validator,
+		CancellationToken token = default)
+	{
+		var request = new DeleteVolunteerRequest(id);
 
 		var validResult = await validator.ValidateAsync(request, token);
 

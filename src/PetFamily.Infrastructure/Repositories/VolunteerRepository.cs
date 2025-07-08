@@ -50,6 +50,15 @@ public class VolunteerRepository : IVolunteerRepository
 		return volunteer;
 	}
 
+	public async Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token = default)
+	{
+		db.Volunteers.Remove(volunteer);
+
+		await SaveAsync(token);
+		
+		return volunteer.Id;
+	}
+
 	public async Task SaveAsync(CancellationToken token = default)
 	{
 		await db.SaveChangesAsync(token);
