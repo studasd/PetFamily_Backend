@@ -5,11 +5,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.Entities;
-using PetFamily.Domain.PetEntities;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Domain.VolunteerManagement.Enums;
+using PetFamily.Domain.VolunteerManagement.IDs;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Domain.VolunteerEntities;
+namespace PetFamily.Domain.VolunteerManagement.Entities;
 
 public class Volunteer : Entity<VolunteerId>
 {
@@ -32,8 +34,14 @@ public class Volunteer : Entity<VolunteerId>
 	public int ExperienceYears { get; private set; }
 
 	public Phone Phone { get; private set; }
-	public BankingDetails BankingDetails { get; private set; } = new(null, null);
-	public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = new();
+
+	public IReadOnlyList<BankingDetails> BankingDetails => bankingDetails;
+	private readonly List<BankingDetails> bankingDetails = [];
+
+	public IReadOnlyList<SocialNetwork> SocialNetworks => socialNetworks;
+	private readonly List<SocialNetwork> socialNetworks = [];
+
+
 	public IReadOnlyList<Pet> Pets => _pets;
 
 
@@ -51,36 +59,16 @@ public class Volunteer : Entity<VolunteerId>
 		return volunteer;
 	}
 
-	public UnitResult<Error> AddSocialNetwork(string name, string link)
+	public UnitResult<Error> AddSocialNetworks(IEnumerable<SocialNetwork> socNetworks)
 	{
-		var socialNetwork = SocialNetwork.Create(name, link);
-
-		if(socialNetwork.IsFailure)
-			return socialNetwork.Error;
-
-		SocialNetworkDetails!.Add(socialNetwork.Value);
+		socialNetworks.AddRange(socNetworks);
 
 		return Result.Success<Error>();
 	}
 
-	public UnitResult<Error> AddBankingDetails(string name, string Description)
+	public UnitResult<Error> AddBankingDetails(IEnumerable<BankingDetails> bankDetails)
 	{
-		var bankingDetails = PetFamily.Domain.Entities.BankingDetails.Create(name, Description);
-
-		if (bankingDetails.IsFailure)
-			return bankingDetails.Error;
-
-		this.BankingDetails = bankingDetails.Value;
-
-		return Result.Success<Error>();
-	}
-
-	public UnitResult<Error> AddPet(Pet? pet)
-	{
-		if (pet is null)
-			return Errors.General.ValueIsInvalid("Pet");
-
-		_pets.Add(pet);
+		bankingDetails.AddRange(bankDetails);
 
 		return Result.Success<Error>();
 	}

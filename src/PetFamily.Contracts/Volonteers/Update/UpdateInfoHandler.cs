@@ -19,8 +19,8 @@ public class UpdateInfoHandler
 	{
 		var volunteerResult = await volunteerRepository.GetByIdAsync(request.VolunteerId, token);
 
-		if(volunteerResult.isfailure)
-			return volunteerResult.error;
+		if(volunteerResult.IsFailure)
+			return volunteerResult.Error;
 
 		return Guid.Empty;
 	}

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Domain.VolunteerEntities;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.VolunteerManagement.IDs;
+using PetFamily.Domain.VolunteerManagement.Entities;
 
 namespace PetFamily.Infrastructure.Configurations;
 
@@ -64,37 +65,36 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 					.HasColumnName("phone");
 			});
 
-		builder.ComplexProperty(p => p.BankingDetails,
-			x =>
+		builder.OwnsMany(p => p.BankingDetails,
+			bb =>
 			{
-				x.Property(f => f.Name)
+				bb.ToJson("banking_details");
+
+				bb.Property(f => f.Name)
 					.IsRequired(false)
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("bank_name");
 
-				x.Property(f => f.Description)
+				bb.Property(f => f.Description)
 					.IsRequired(false)
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("bank_description");
 			});
 
 
-		builder.OwnsOne(p => p.SocialNetworkDetails,
+		builder.OwnsMany(p => p.SocialNetworks,
 			pb =>
 			{
-				pb.ToJson();
+				pb.ToJson("social_networks");
 
-				pb.OwnsMany(x => x.SocialNetworks,
-					sb =>
-					{
-						sb.Property(s => s.Name)
-						.IsRequired()
-						.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
+				pb.Property(s => s.Name)
+				.IsRequired()
+				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
-						sb.Property(s => s.Link)
-						.IsRequired()
-						.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-					});
+				pb.Property(s => s.Link)
+				.IsRequired()
+				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
+
 			});
 
 		builder.HasMany(v => v.Pets)

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Domain.VolunteerManagement.Enums;
+using PetFamily.Domain.VolunteerManagement.IDs;
 
-namespace PetFamily.Domain.PetEntities;
+namespace PetFamily.Domain.VolunteerManagement.Entities;
 
 public class Pet : Entity<PetId>
 {
@@ -38,7 +41,7 @@ public class Pet : Entity<PetId>
 	public IReadOnlyList<Phone> Phones { get; set; } = [];
 	public bool? IsNeutered { get; private set; }
 	public bool? IsVaccinated { get; private set; }
-	public DateOnly DateBirth { get; private set; } = default(DateOnly);
+	public DateOnly DateBirth { get; private set; } = default;
 	public PetHelpStatuses HelpStatus { get; private set; }
 	public BankingDetails BankingВetails { get; private set; }
 	public DateTime DateCreated { get; private set; }

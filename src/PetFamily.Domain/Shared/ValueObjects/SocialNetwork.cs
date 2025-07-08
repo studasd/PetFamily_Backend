@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.VolunteerEntities;
+namespace PetFamily.Domain.Shared.ValueObjects;
 
 public record SocialNetwork(string Name, string Link)
 {

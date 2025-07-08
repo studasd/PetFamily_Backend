@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Domain.VolunteerEntities;
+using PetFamily.Domain.VolunteerManagement.Entities;
 
 namespace PetFamily.Infrastructure;
 

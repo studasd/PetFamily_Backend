@@ -1,18 +1,16 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using PetFamily.Contracts.Extensions;
-using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerEntities;
-using System.Text.RegularExpressions;
+using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Contracts.Volonteers.Create.Validators;
+namespace PetFamily.Contracts.Volonteers.Create;
 
 public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest>
 {
 	public CreateVolunteerValidator()
 	{
-		RuleFor(c => new { c.Firstname, c.Lastname, c.Surname })
+		RuleFor(c => c.Name)
 			.MustBeValueObject(x => VolunteerName.Create(x.Firstname, x.Lastname, x.Surname));
 
 
@@ -32,8 +30,11 @@ public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest
 			.MustBeValueObject(Phone.Create);
 
 
-		RuleFor(c => c.BankingDetails).SetValidator(new BankingDetailsDTOValidator());
+		RuleForEach(c => c.BankingDetails)
+			.MustBeValueObject(x => BankingDetails.Create(x.Name, x.Description));
 
-		RuleForEach(c => c.SocialNetworks).SetValidator(new SocialNetworkDTOValidator());
+		RuleForEach(c => c.SocialNetworks)
+			.MustBeValueObject(x => SocialNetwork.Create(x.Name, x.Link));
+
 	}
 }

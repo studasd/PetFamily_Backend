@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.PetEntities;
+namespace PetFamily.Domain.SpeciesManagement.Entities;
 
 public class Breed : Entity<Guid>
 {

@@ -19,7 +19,7 @@ public class VolunteerController : ControllerBase
 		var result = await handler.HandleAsync(request, token);
 
 		if (result.IsFailure)
-			return StatusCode(result.Error.TypeCode, result.Error);
+			return result.Error.ToResponse();
 
 		return Ok(result.Value);
 	}
@@ -44,7 +44,7 @@ public class VolunteerController : ControllerBase
 		var result = await handler.HandleAsync(request, token);
 
 		if (result.IsFailure)
-			return StatusCode(result.Error.TypeCode, result.Error);
+			return result.Error.ToResponse();
 
 		return Ok(result.Value);
 	}

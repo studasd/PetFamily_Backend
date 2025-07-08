@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.Entities;
+namespace PetFamily.Domain.Shared.ValueObjects;
 
 public record BankingDetails(string? Name, string? Description)
 {

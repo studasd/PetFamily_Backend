@@ -1,9 +1,10 @@
 ﻿
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerEntities;
+using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Domain.VolunteerManagement.Entities;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Contracts.Volonteers.Create;
 
@@ -20,7 +21,7 @@ public class CreateVolunteerHandler // CreateVolunteerService
 
 	public async Task<Result<Guid, Error>> HandleAsync(CreateVolunteerRequest request, CancellationToken token = default)
 	{
-		var volunteerName = VolunteerName.Create(request.Firstname, request.Lastname, request.Surname).Value;
+		var volunteerName = VolunteerName.Create(request.Name.Firstname, request.Name.Lastname, request.Name.Surname).Value;
 		
 		var volunteerNameExist = await volunteerRepository.GetByNameAsync(volunteerName, token);
 		
@@ -33,12 +34,15 @@ public class CreateVolunteerHandler // CreateVolunteerService
 
 		if (request.SocialNetworks.Count() > 0)
 		{
-			foreach (var network in request.SocialNetworks)
-				volunteer.AddSocialNetwork(network.Name, network.Link);
+			var socNetworksResult = request.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
+			volunteer.AddSocialNetworks(socNetworksResult);
 		}
 
-		if (request.BankingDetails is not null)
-			volunteer.AddBankingDetails(request.BankingDetails.Name, request.BankingDetails.Description);
+		if (request.BankingDetails.Count() > 0)
+		{
+			var bankDetailsResult = request.BankingDetails.Select(s => BankingDetails.Create(s.Name, s.Description).Value);
+			volunteer.AddBankingDetails(bankDetailsResult);
+		}
 
 		await volunteerRepository.AddAsync(volunteer, token);
 
