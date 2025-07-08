@@ -72,4 +72,11 @@ public class Volunteer : Entity<VolunteerId>
 
 		return Result.Success<Error>();
 	}
+
+	public void UpdateInfo(VolunteerName name, string email, string description)
+	{
+		Name = name;
+		Email = email;
+		Description = description;
+	}
 }

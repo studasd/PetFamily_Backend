@@ -26,20 +26,19 @@ public class VolunteerController : ControllerBase
 
 
 	[HttpPut("info/{id:guid}")]
-	public async Task<IActionResult> Create(
-		[FromQuery] Guid id,
+	public async Task<IActionResult> Update(
+		[FromRoute] Guid id,
+		[FromBody] UpdateInfoRequestDTO dto,
 		[FromServices] UpdateInfoHandler handler,
 		[FromServices] IValidator<UpdateInfoRequest> validator,
 		CancellationToken token = default)
 	{
-		var request = new UpdateInfoRequest(id);
+		var request = new UpdateInfoRequest(id, dto);
 
 		var validResult = await validator.ValidateAsync(request, token);
 
 		if (validResult.IsValid == false)
-		{
 			return validResult.ToValidationErrorResponse();
-		}
 
 		var result = await handler.HandleAsync(request, token);
 

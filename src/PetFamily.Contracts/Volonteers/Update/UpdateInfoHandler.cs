@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Contracts.Volonteers.Update;
 
@@ -22,6 +23,15 @@ public class UpdateInfoHandler
 		if(volunteerResult.IsFailure)
 			return volunteerResult.Error;
 
-		return Guid.Empty;
+		var nameReq = request.UpdateInfoDTO.Name;
+		var name = VolunteerName.Create(nameReq.Firstname, nameReq.Lastname, nameReq.Surname).Value;
+
+		volunteerResult.Value.UpdateInfo(name, request.UpdateInfoDTO.Email, request.UpdateInfoDTO.Description);
+
+		await volunteerRepository.SaveAsync();
+
+		logger.LogInformation("Updated volunteer {name}, {email}, {description} with id {volunteerId}", name, request.UpdateInfoDTO.Email, request.UpdateInfoDTO.Description, volunteerResult.Value.Id);
+
+		return volunteerResult.Value.Id.Value;
 	}
 }
