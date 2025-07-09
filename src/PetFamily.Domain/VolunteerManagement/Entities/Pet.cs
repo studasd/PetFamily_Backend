@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
@@ -12,9 +13,9 @@ using PetFamily.Domain.VolunteerManagement.IDs;
 
 namespace PetFamily.Domain.VolunteerManagement.Entities;
 
-public class Pet : Entity<PetId>, ISoftDeletable
+public class Pet : AbsSoftDeletableEntity<PetId>
 {
-	Pet() { }
+	private Pet(PetId id) : base(id) { }
 
 	public Pet(PetId id, string name, PetTypes type, string description, Breed breed, string color, decimal weight, decimal height, IEnumerable<Phone> phones, PetHelpStatuses helpStatus) : base(id)
 	{
@@ -29,9 +30,6 @@ public class Pet : Entity<PetId>, ISoftDeletable
 		HelpStatus = helpStatus;
 		DateCreated = DateTime.UtcNow;
 	}
-
-	private bool isDeleted = false;
-
 
 	public string Name { get; private set; }
 	public PetTypes Type { get; private set; }
@@ -52,8 +50,6 @@ public class Pet : Entity<PetId>, ISoftDeletable
 	public Breed Breed { get; private set; }
 	public Species Species { get; private set; }
 
-	public bool IsHardDelete => isHardDelete;
-	private bool isHardDelete;
 
 	public static Guid NewId() => Guid.NewGuid();
 
@@ -85,8 +81,4 @@ public class Pet : Entity<PetId>, ISoftDeletable
 
 		return pet;
 	}
-
-	public void Delete() => isDeleted = true;
-	public void Restore() => isDeleted = false;
-	public void HardDelete() => isHardDelete = true;
 }

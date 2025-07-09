@@ -31,11 +31,12 @@ namespace PetFamily.Infrastructure.Migrations
                     email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
                     experience_years = table.Column<int>(type: "integer", nullable: false),
-                    id_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     sur_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     phone = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     banking_details = table.Column<string>(type: "jsonb", nullable: true),
                     social_networks = table.Column<string>(type: "jsonb", nullable: true)
                 },
@@ -81,7 +82,6 @@ namespace PetFamily.Infrastructure.Migrations
                     date_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     specie_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    id_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     addr_apartment = table.Column<int>(type: "integer", nullable: false),
                     addr_city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -91,6 +91,8 @@ namespace PetFamily.Infrastructure.Migrations
                     addr_street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     phones = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>

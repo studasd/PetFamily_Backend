@@ -110,7 +110,7 @@ public class VolunteerController : ControllerBase
 		[FromServices] IValidator<DeleteVolunteerRequest> validator,
 		CancellationToken token = default)
 	{
-		var request = new DeleteVolunteerRequest(id, true);
+		var request = new DeleteVolunteerRequest(id, IsSoftDelete: false);
 
 		var validResult = await validator.ValidateAsync(request, token);
 
@@ -133,7 +133,7 @@ public class VolunteerController : ControllerBase
 		[FromServices] IValidator<DeleteVolunteerRequest> validator,
 		CancellationToken token = default)
 	{
-		var request = new DeleteVolunteerRequest(id, false);
+		var request = new DeleteVolunteerRequest(id, IsSoftDelete:true);
 
 		var validResult = await validator.ValidateAsync(request, token);
 

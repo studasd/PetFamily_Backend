@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Infrastructure.Interceptors;
 
 namespace PetFamily.Infrastructure;
 
@@ -30,7 +24,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 
 		optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
 
-		optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
+		//optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -102,8 +102,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 			.HasForeignKey("volunteer_id")
 			.OnDelete(DeleteBehavior.Cascade);
 
-		builder.Property<bool>("isDeleted")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("id_deleted");
+		builder.Property(v => v.IsSoftDeleted)
+			.IsRequired()
+			.HasColumnName("is_soft_deleted");
 	}
 }

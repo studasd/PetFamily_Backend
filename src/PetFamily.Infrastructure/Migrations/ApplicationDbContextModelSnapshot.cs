@@ -88,6 +88,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date_created");
 
+                    b.Property<DateTime?>("DateDeletion")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_deletion");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -112,6 +116,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_neutered");
 
+                    b.Property<bool>("IsSoftDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_soft_deleted");
+
                     b.Property<bool?>("IsVaccinated")
                         .HasColumnType("boolean")
                         .HasColumnName("is_vaccinated");
@@ -134,10 +142,6 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<Guid>("breed_id")
                         .HasColumnType("uuid")
                         .HasColumnName("breed_id");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("id_deleted");
 
                     b.Property<Guid>("specie_id")
                         .HasColumnType("uuid")
@@ -216,6 +220,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime?>("DateDeletion")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_deletion");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -232,9 +240,9 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("experience_years");
 
-                    b.Property<bool>("isDeleted")
+                    b.Property<bool>("IsSoftDeleted")
                         .HasColumnType("boolean")
-                        .HasColumnName("id_deleted");
+                        .HasColumnName("is_soft_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetFamily.Domain.VolunteerManagement.Entities.Volunteer.Name#VolunteerName", b1 =>
                         {

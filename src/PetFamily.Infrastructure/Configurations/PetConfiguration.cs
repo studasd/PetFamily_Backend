@@ -142,8 +142,8 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired()
 			.OnDelete(DeleteBehavior.NoAction);
 
-		builder.Property<bool>("isDeleted")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("id_deleted");
+		builder.Property(v => v.IsSoftDeleted)
+			.IsRequired()
+			.HasColumnName("is_soft_deleted");
 	}
 }
