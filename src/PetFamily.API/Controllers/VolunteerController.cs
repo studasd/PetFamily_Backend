@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
+using PetFamily.Contracts.Pets.Create;
 using PetFamily.Contracts.Volonteers.Create;
 using PetFamily.Contracts.Volonteers.Delete;
 using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
@@ -22,6 +23,28 @@ public class VolunteerController : ControllerBase
 		[FromBody] CreateVolunteerRequest request,
 		CancellationToken token = default)
 	{
+		var result = await handler.HandleAsync(request, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+	[HttpPost("pet/{id:guid}")]
+	[SwaggerRequestExample(typeof(CreatePetRequestDTO), typeof(PetRequestExample))]
+	public async Task<IActionResult> AddPet(
+		[FromRoute] Guid id,
+		[FromBody] CreatePetRequestDTO dto,
+		[FromServices] CreatePetHandler handler,
+		[FromServices] IValidator<CreatePetRequest> validator,
+		CancellationToken token = default)
+	{
+		var request = new CreatePetRequest(id, dto);
+		var validResult = await validator.ValidateAsync(request, token);
+		if (validResult.IsValid == false)
+			return validResult.ToValidationErrorResponse();
+
 		var result = await handler.HandleAsync(request, token);
 
 		if (result.IsFailure)
