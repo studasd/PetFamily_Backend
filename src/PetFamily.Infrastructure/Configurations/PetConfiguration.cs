@@ -47,12 +47,12 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired(false)
 			.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
-		builder.ComplexProperty(p => p.SerialNumber,
+		builder.ComplexProperty(p => p.Position,
 			x =>
 			{
 				x.Property(f => f.Value)
 					.IsRequired()
-					.HasColumnName("serial_number");
+					.HasColumnName("position");
 			});
 
 		builder.ComplexProperty(p => p.Address,

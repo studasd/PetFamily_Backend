@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Entities;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
@@ -35,7 +29,6 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		Name = name;
 		Type = type;
 		Description = description;
-		Breed = breed;
 		Color = color;
 		Weight = weight;
 		Height = height;
@@ -49,6 +42,9 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public string Name { get; private set; }
 	public PetTypes Type { get; private set; }
 	public string Description { get; private set; }
+
+	public Position Position { get; private set; }
+
 	public string Color { get; private set; }
 	public string? HealthInfo { get; private set; }
 	public Address Address { get; private set; }
@@ -63,9 +59,11 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public DateTime DateCreated { get; private set; }
 	
 	public PetType PetType { get; private set; }
-
+	
 
 	public static Guid NewId() => Guid.NewGuid();
+
+	public void SetPosition(Position serialNumber) => Position = serialNumber;
 
 	public static Result<Pet, Error> Create(
 		string name, 
@@ -92,7 +90,30 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 			address,
 			petType);
 
+		pet.Position = Position.Create(1).Value;
 
 		return pet;
+	}
+
+	public UnitResult<Error> MoveForward()
+	{
+		var newPosition = Position.Forward();
+		if (newPosition.IsFailure)
+			return newPosition.Error;
+
+		Position = newPosition.Value;
+
+		return Result.Success<Error>();
+	}
+
+	public UnitResult<Error> MoveBack()
+	{
+		var newPosition = Position.Back();
+		if (newPosition.IsFailure)
+			return newPosition.Error;
+
+		Position = newPosition.Value;
+
+		return Result.Success<Error>();
 	}
 }
