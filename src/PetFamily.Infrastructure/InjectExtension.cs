@@ -15,6 +15,7 @@ public static class InjectExtension
 		services.AddScoped<ApplicationDbContext>();
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 		
 		services.AddScoped<DeleteExpiredVolunteerService>();
 

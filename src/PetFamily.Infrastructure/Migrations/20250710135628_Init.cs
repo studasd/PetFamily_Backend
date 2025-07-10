@@ -31,12 +31,12 @@ namespace PetFamily.Infrastructure.Migrations
                     email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
                     experience_years = table.Column<int>(type: "integer", nullable: false),
-                    date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     sur_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     phone = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     banking_details = table.Column<string>(type: "jsonb", nullable: true),
                     social_networks = table.Column<string>(type: "jsonb", nullable: true)
                 },
@@ -60,7 +60,8 @@ namespace PetFamily.Infrastructure.Migrations
                         name: "fk_breeds_species_species_id",
                         column: x => x.species_id,
                         principalTable: "species",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,8 +81,6 @@ namespace PetFamily.Infrastructure.Migrations
                     date_birth = table.Column<DateOnly>(type: "date", nullable: false),
                     pet_status = table.Column<string>(type: "text", nullable: false),
                     date_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    breed_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    specie_id = table.Column<Guid>(type: "uuid", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     addr_apartment = table.Column<int>(type: "integer", nullable: false),
                     addr_city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -91,6 +90,9 @@ namespace PetFamily.Infrastructure.Migrations
                     addr_street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     bank_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    breed_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    species_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    serial_number = table.Column<int>(type: "integer", nullable: false),
                     is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     phones = table.Column<string>(type: "jsonb", nullable: true)
@@ -98,16 +100,6 @@ namespace PetFamily.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_pets", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_pets_breeds_breed_id",
-                        column: x => x.breed_id,
-                        principalTable: "breeds",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_pets_species_specie_id",
-                        column: x => x.specie_id,
-                        principalTable: "species",
-                        principalColumn: "id");
                     table.ForeignKey(
                         name: "fk_pets_volunteers_volunteer_id",
                         column: x => x.volunteer_id,
@@ -122,16 +114,6 @@ namespace PetFamily.Infrastructure.Migrations
                 column: "species_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_pets_breed_id",
-                table: "pets",
-                column: "breed_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_pets_specie_id",
-                table: "pets",
-                column: "specie_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_pets_volunteer_id",
                 table: "pets",
                 column: "volunteer_id");
@@ -141,16 +123,16 @@ namespace PetFamily.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "pets");
-
-            migrationBuilder.DropTable(
                 name: "breeds");
 
             migrationBuilder.DropTable(
-                name: "volunteers");
+                name: "pets");
 
             migrationBuilder.DropTable(
                 name: "species");
+
+            migrationBuilder.DropTable(
+                name: "volunteers");
         }
     }
 }

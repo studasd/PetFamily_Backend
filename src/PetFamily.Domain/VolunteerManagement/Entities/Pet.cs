@@ -10,6 +10,7 @@ using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.IDs;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Domain.VolunteerManagement.Entities;
 
@@ -17,7 +18,19 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 {
 	private Pet(PetId id) : base(id) { }
 
-	public Pet(PetId id, string name, PetTypes type, string description, Breed breed, string color, decimal weight, decimal height, IEnumerable<Phone> phones, PetHelpStatuses helpStatus) : base(id)
+	public Pet(
+		PetId id, 
+		string name, 
+		PetTypes type, 
+		string description, 
+		string color, 
+		decimal weight, 
+		decimal height, 
+		IEnumerable<Phone> phones, 
+		PetHelpStatuses helpStatus,
+		Address address,
+		PetType petType
+		) : base(id)
 	{
 		Name = name;
 		Type = type;
@@ -28,6 +41,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		Height = height;
 		Phones = phones.ToList();
 		HelpStatus = helpStatus;
+		Address = address;
+		PetType = petType;
 		DateCreated = DateTime.UtcNow;
 	}
 
@@ -44,40 +59,39 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public bool? IsVaccinated { get; private set; }
 	public DateOnly DateBirth { get; private set; } = default;
 	public PetHelpStatuses HelpStatus { get; private set; }
-	public BankingDetails BankingВetails { get; private set; }
+	public BankingDetails BankingВetails { get; private set; } = new(null, null);
 	public DateTime DateCreated { get; private set; }
 	
-	public Breed Breed { get; private set; }
-	public Species Species { get; private set; }
+	public PetType PetType { get; private set; }
 
 
 	public static Guid NewId() => Guid.NewGuid();
 
-	public static Result<Pet, Error> Create(string name, PetTypes type, string description, Breed breed, string color, decimal weight, decimal height, Phone phone, PetHelpStatuses helpStatus)
+	public static Result<Pet, Error> Create(
+		string name, 
+		PetTypes type, 
+		string description, 
+		string color, 
+		decimal weight, 
+		decimal height, 
+		Phone phone, 
+		PetHelpStatuses helpStatus,
+		Address address,
+		PetType petType)
 	{
+		var pet = new Pet(
+			PetId.NewPeetId(), 
+			name, 
+			type, 
+			description, 
+			color, 
+			weight, 
+			height, 
+			new List<Phone> { phone }, 
+			helpStatus,
+			address,
+			petType);
 
-		if (string.IsNullOrWhiteSpace(name))
-			return Errors.General.ValueIsRequired("Name");
-
-		if (type == default)
-			return Errors.General.ValueIsRequired("Pet type");
-
-		if (string.IsNullOrWhiteSpace(description))
-			return Errors.General.ValueIsRequired("Description");
-
-		if (string.IsNullOrWhiteSpace(color))
-			return Errors.General.ValueIsRequired("Color");
-
-		if (weight <= 0 || weight > 100)
-			return Errors.General.ValueIsInvalid("Weight");
-
-		if (height <= 0 || height > 100)
-			return Errors.General.ValueIsInvalid("Height");
-
-		if (helpStatus == default)
-			return Errors.General.ValueIsRequired("Help status");
-
-		var pet = new Pet(PetId.NewPeetId(), name, type, description, breed, color, weight, height, new List<Phone> { phone }, helpStatus);
 
 		return pet;
 	}

@@ -68,6 +68,13 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		return Result.Success<Error>();
 	}
 
+	public UnitResult<Error> AddPet(Pet pet)
+	{
+		pets.Add(pet);
+
+		return Result.Success<Error>();
+	}
+
 	public void UpdateInfo(VolunteerName name, string email, string description)
 	{
 		Name = name;
@@ -95,4 +102,11 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 			pet.Delete();
 	}
 
+	public override void Restore()
+	{
+		base.Delete();
+
+		foreach (var pet in pets)
+			pet.Restore();
+	}
 }
