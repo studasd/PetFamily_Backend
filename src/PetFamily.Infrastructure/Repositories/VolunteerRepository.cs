@@ -2,33 +2,31 @@
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Contracts.Volonteers;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Domain.VolunteerEntities;
 
 namespace PetFamily.Infrastructure.Repositories;
 
 public class VolunteerRepository : IVolunteerRepository
 {
-	private readonly ApplicationDbContext db;
+	private readonly ApplicationDbContext _db;
 
 	public VolunteerRepository(ApplicationDbContext dbContext)
 	{
-		this.db = dbContext;
+		this._db = dbContext;
 	}
 
 	public async Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token = default)
 	{
-		await db.Volunteers.AddAsync(volunteer, token);
+		await _db.Volunteers.AddAsync(volunteer, token);
 
-		await db.SaveChangesAsync(token);
+		await _db.SaveChangesAsync(token);
 
 		return volunteer.Id;
 	}
 
 	public async Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token = default)
 	{
-		var volunteer = await db.Volunteers
+		var volunteer = await _db.Volunteers
 			.Include(x => x.Pets)
 			.FirstOrDefaultAsync(x => x.Id == volunteerId, token);
 
@@ -40,7 +38,7 @@ public class VolunteerRepository : IVolunteerRepository
 
 	public async Task<Result<Volunteer, Error>> GetByNameAsync(VolunteerName volunteerName, CancellationToken token = default)
 	{
-		var volunteer = await db.Volunteers
+		var volunteer = await _db.Volunteers
 			.Include(x => x.Pets)
 			.FirstOrDefaultAsync(x => x.Name == volunteerName, token);
 
@@ -48,19 +46,5 @@ public class VolunteerRepository : IVolunteerRepository
 			return Errors.General.NotFound($"{volunteerName.Firstname} {volunteerName.Lastname} {volunteerName.Surname}");
 
 		return volunteer;
-	}
-
-	public async Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token = default)
-	{
-		db.Volunteers.Remove(volunteer);
-
-		await SaveAsync(token);
-		
-		return volunteer.Id;
-	}
-
-	public async Task SaveAsync(CancellationToken token = default)
-	{
-		await db.SaveChangesAsync(token);
 	}
 }

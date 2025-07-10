@@ -1,4 +1,3 @@
-using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
 using PetFamily.Contracts;
@@ -6,7 +5,6 @@ using PetFamily.Infrastructure;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,16 +16,10 @@ Log.Logger = new LoggerConfiguration()
 	.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
 	.CreateLogger();
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddSerilog();
-builder.Services.AddSwaggerGen(c =>
-{
-	c.ExampleFilters();
-});
-builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); // Регистрация примеров
-
 
 // Add services to the container.
 builder.Services.AddInfrastructure()

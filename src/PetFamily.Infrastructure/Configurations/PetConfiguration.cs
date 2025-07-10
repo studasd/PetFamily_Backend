@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFamily.Domain.PetEntities;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
 
 namespace PetFamily.Infrastructure.Configurations;
 internal class PetConfiguration : IEntityTypeConfiguration<Pet>
@@ -141,9 +140,5 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.HasForeignKey("specie_id")
 			.IsRequired()
 			.OnDelete(DeleteBehavior.NoAction);
-
-		builder.Property(v => v.IsSoftDeleted)
-			.IsRequired()
-			.HasColumnName("is_soft_deleted");
 	}
 }
