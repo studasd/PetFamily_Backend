@@ -13,7 +13,7 @@ public record Envelope
 	{
 		Result = result;
 		Errors = errors.ToList();
-		TimeGenerated = DateTime.Now;
+		TimeGenerated = DateTime.UtcNow;
 	}
 
 
