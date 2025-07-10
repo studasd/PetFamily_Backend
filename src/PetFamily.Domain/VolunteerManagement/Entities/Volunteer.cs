@@ -95,4 +95,11 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 			pet.Delete();
 	}
 
+	public override void Restore()
+	{
+		base.Delete();
+
+		foreach (var pet in pets)
+			pet.Restore();
+	}
 }
