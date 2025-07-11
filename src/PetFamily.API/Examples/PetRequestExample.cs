@@ -4,13 +4,13 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Examples;
 
-public class PetRequestExample : IExamplesProvider<CreatePetRequestDTO>
+public class PetRequestExample : IExamplesProvider<AddPetRequestDTO>
 {
-	public CreatePetRequestDTO GetExamples()
+	public AddPetRequestDTO GetExamples()
 	{
 		var guid = Guid.NewGuid().ToString().Replace("-", "").ToLower();
 
-		return new CreatePetRequestDTO(
+		return new AddPetRequestDTO(
 			Name: guid.Substring(0, 5),
 			Type: PetTypes.Dog,
 			Description: guid.Substring(5, 15),
@@ -21,7 +21,7 @@ public class PetRequestExample : IExamplesProvider<CreatePetRequestDTO>
 			Height: Random.Shared.Next(1, 20),
 			Phone: $"{Random.Shared.NextInt64(79014445865, 79994445865)}",
 			HelpStatus: PetHelpStatuses.NeedsHelp,
-			AddressDTO: new CreatePetRequestAddressDTO(
+			AddressDTO: new AddPetRequestAddressDTO(
 				Country: "Russia",
 				City: "Tobok",
 				Street: "Mira",

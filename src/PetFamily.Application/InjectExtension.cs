@@ -12,7 +12,7 @@ public static class InjectExtension
 	public static IServiceCollection AddContracts(this IServiceCollection services)
 	{
 		services.AddScoped<CreateVolunteerHandler>();
-		services.AddScoped<CreatePetHandler>();
+		services.AddScoped<AddPetHandler>();
 		services.AddScoped<UpdateInfoHandler>();
 		services.AddScoped<DeleteVolunteerHandler>();
 

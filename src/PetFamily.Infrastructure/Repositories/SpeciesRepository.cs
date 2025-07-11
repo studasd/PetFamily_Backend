@@ -5,6 +5,7 @@ using PetFamily.Contracts.Volonteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Infrastructure.Repositories;
 
@@ -45,6 +46,24 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 
 		return species;
 	}
+
+
+	public async Task<Result<PetType, Error>> GetPetTypeByNamesAsync(string speciesName, string breedName, CancellationToken token = default)
+	{
+		var species = await db.Species
+			.Include(x => x.Breeds)
+			.FirstOrDefaultAsync(x => x.Name == speciesName, token);
+
+		if (species == null)
+			return Errors.General.NotFound($"{speciesName}");
+
+		var breed = species.Breeds.FirstOrDefault(b => b.Name == breedName);
+		if (breed == null)
+			return Errors.General.NotFound($"{breedName}");
+
+		return PetType.Create(species.Id.Value, breed.Id.Value);
+	}
+
 
 	public async Task<Guid> DeleteAsync(Species species, CancellationToken token = default)
 	{

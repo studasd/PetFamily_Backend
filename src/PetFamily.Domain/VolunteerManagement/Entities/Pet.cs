@@ -33,6 +33,7 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		Weight = weight;
 		Height = height;
 		Phones = phones.ToList();
+		FileStorages = [];
 		HelpStatus = helpStatus;
 		Address = address;
 		PetType = petType;
@@ -59,7 +60,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public DateTime DateCreated { get; private set; }
 	
 	public PetType PetType { get; private set; }
-	
+	public IReadOnlyList<FileStorage> FileStorages { get; set; } = [];
+
 
 	public static Guid NewId() => Guid.NewGuid();
 
@@ -75,7 +77,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		Phone phone, 
 		PetHelpStatuses helpStatus,
 		Address address,
-		PetType petType)
+		PetType petType
+		)
 	{
 		var pet = new Pet(
 			PetId.NewPeetId(), 
@@ -88,7 +91,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 			new List<Phone> { phone }, 
 			helpStatus,
 			address,
-			petType);
+			petType
+			);
 
 		pet.Position = Position.Create(1).Value;
 

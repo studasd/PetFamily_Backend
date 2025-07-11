@@ -104,6 +104,17 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 					.HasColumnName("phones");
 			});
 
+		builder.OwnsMany(p => p.FileStorages,
+			pb =>
+			{
+				pb.ToJson();
+
+				pb.Property(s => s.PathToStorage)
+					.IsRequired()
+					.HasMaxLength(Constants.MAX_HIGHT_TEXT_LENGHT)
+					.HasColumnName("file_storages");
+			});
+
 		builder.Property(p => p.IsNeutered)
 			.IsRequired(false);
 
