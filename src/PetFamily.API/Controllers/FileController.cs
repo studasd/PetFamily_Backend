@@ -45,9 +45,9 @@ public class FileController : ControllerBase
 		[FromRoute] Guid filename,
 		CancellationToken token)
 	{
-		var fd = new FileData(bucketname, filename.ToString());
+		var fileData = new FileData(bucketname, filename.ToString());
 
-		var result = await minioProvider.DeleteFileAsync(fd, token);
+		var result = await minioProvider.DeleteFileAsync(fileData, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
@@ -61,9 +61,9 @@ public class FileController : ControllerBase
 		[FromRoute] Guid filename,
 		CancellationToken token)
 	{
-		var fd = new FileData(bucketname, filename.ToString());
+		var fileData = new FileData(bucketname, filename.ToString());
 
-		var result = await minioProvider.PresignedFileAsync(fd, token);
+		var result = await minioProvider.PresignedFileAsync(fileData, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
