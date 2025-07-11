@@ -27,11 +27,11 @@ public class FileController : ControllerBase
 
 		await using var stream = file.OpenReadStream();
 
-		var fn = Guid.NewGuid();
+		var fileName = Guid.NewGuid();
 
-		var fd = new FileUploadData(stream, "photos", fn.ToString());
+		var fileData = new FileUploadData(stream, "photos", fileName.ToString());
 
-		var result = await minioProvider.UploadFileAsync(fd, token);
+		var result = await minioProvider.UploadFileAsync(fileData, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
