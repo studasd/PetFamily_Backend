@@ -1,4 +1,4 @@
-using FluentAssertions;
+п»їusing FluentAssertions;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
@@ -14,7 +14,7 @@ public class VolunteerTests
 	public void Add_Pet_First_Empty_Return_Success_Result()
 	{
 		// arrange
-		// подготовка к тесту
+		// РїРѕРґРіРѕС‚РѕРІРєР° Рє С‚РµСЃС‚Сѓ
 		var volunteer = CreateVolunteerWithPet(0);
 
 		var petId = PetId.NewPeetId();
@@ -22,12 +22,12 @@ public class VolunteerTests
 
 
 		// act
-		// вызов тестируемого метода
+		// РІС‹Р·РѕРІ С‚РµСЃС‚РёСЂСѓРµРјРѕРіРѕ РјРµС‚РѕРґР°
 		var result = volunteer.AddPet(pet);
 
 
 		// assert
-		// проверка результата
+		// РїСЂРѕРІРµСЂРєР° СЂРµР·СѓР»СЊС‚Р°С‚Р°
 		var addedPet = volunteer.GetPetById(petId);
 
 		Assert.True(result.IsSuccess);
@@ -49,12 +49,12 @@ public class VolunteerTests
 
 
 		// act
-		// вызов тестируемого метода
+		// РІС‹Р·РѕРІ С‚РµСЃС‚РёСЂСѓРµРјРѕРіРѕ РјРµС‚РѕРґР°
 		var result = volunteer.AddPet(petToAdd);
 
 
 		// assert
-		// проверка результата
+		// РїСЂРѕРІРµСЂРєР° СЂРµР·СѓР»СЊС‚Р°С‚Р°
 		var addedPet = volunteer.GetPetById(petId);
 
 		var positionLast = Position.Create(petCount + 1);
