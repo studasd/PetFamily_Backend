@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
 using PetFamily.Infrastructure.BackgroundServices;
 using PetFamily.Infrastructure.Repositories;
@@ -15,6 +16,7 @@ public static class InjectExtension
 		services.AddScoped<ApplicationDbContext>();
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 		
 		services.AddScoped<DeleteExpiredVolunteerService>();
 

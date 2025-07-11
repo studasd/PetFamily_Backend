@@ -1,12 +1,14 @@
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
+using PetFamily.Application;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,11 @@ Log.Logger = new LoggerConfiguration()
 	.CreateLogger();
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(o =>
+	{
+		o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+	});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSerilog();
 builder.Services.AddSwaggerGen(c =>

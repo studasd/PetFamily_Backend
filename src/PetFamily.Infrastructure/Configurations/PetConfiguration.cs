@@ -47,6 +47,14 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired(false)
 			.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
+		builder.ComplexProperty(p => p.Position,
+			x =>
+			{
+				x.Property(f => f.Value)
+					.IsRequired()
+					.HasColumnName("position");
+			});
+
 		builder.ComplexProperty(p => p.Address,
 			x =>
 			{
@@ -130,17 +138,17 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired()
 			.HasColumnName("date_created");
 
-		builder.HasOne(p => p.Breed)
-			.WithMany()
-			.HasForeignKey("breed_id")
-			.IsRequired()
-			.OnDelete(DeleteBehavior.NoAction);
+		builder.ComplexProperty(p => p.PetType, 
+			x =>
+			{
+				x.Property(p => p.BreedId)
+				.IsRequired()
+				.HasColumnName("breed_id");
 
-		builder.HasOne(p => p.Species)
-			.WithMany()
-			.HasForeignKey("specie_id")
-			.IsRequired()
-			.OnDelete(DeleteBehavior.NoAction);
+				x.Property(p => p.SpeciesId)
+				.IsRequired()
+				.HasColumnName("species_id");
+			});
 
 		builder.Property(v => v.IsSoftDeleted)
 			.IsRequired()

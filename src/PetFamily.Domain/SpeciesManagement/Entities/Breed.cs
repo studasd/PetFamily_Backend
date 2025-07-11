@@ -1,14 +1,15 @@
 ﻿
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Domain.SpeciesManagement.Entities;
 
-public class Breed : Entity<Guid>
+public class Breed : Entity<BreedId>
 {
 	Breed() { }
 
-	public Breed(Guid id, string name) : base(id)
+	private Breed(BreedId id, string name) : base(id)
 	{
 		Name = name;
 	}
@@ -23,7 +24,7 @@ public class Breed : Entity<Guid>
 		if (string.IsNullOrWhiteSpace(name))
 			return Errors.General.ValueIsRequired("Name");
 
-		var breed = new Breed(NewId(), name);
+		var breed = new Breed(BreedId.NewBreedId(), name);
 
 		return breed;
 	}

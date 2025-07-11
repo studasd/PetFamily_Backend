@@ -1,0 +1,23 @@
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+using PetFamily.Application.Pets.Create;
+using PetFamily.Application.Volonteers.Create;
+using PetFamily.Application.Volonteers.Delete;
+using PetFamily.Application.Volonteers.Updates.Info;
+
+namespace PetFamily.Application;
+
+public static class InjectExtension
+{
+	public static IServiceCollection AddContracts(this IServiceCollection services)
+	{
+		services.AddScoped<CreateVolunteerHandler>();
+		services.AddScoped<CreatePetHandler>();
+		services.AddScoped<UpdateInfoHandler>();
+		services.AddScoped<DeleteVolunteerHandler>();
+
+		services.AddValidatorsFromAssembly(typeof(InjectExtension).Assembly);
+
+		return services;
+	}
+}

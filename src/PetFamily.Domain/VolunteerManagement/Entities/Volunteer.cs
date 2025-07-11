@@ -45,6 +45,7 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 	public int GetCountPetFoundHouse() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.FoundHouse);
 	public int GetCountPetLookingHome() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.LookingHome);
 	public int GetCountPetNeedsHelp() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.NeedsHelp);
+	public Result<Pet, Error> GetPetById(PetId id) => Pets.FirstOrDefault(p => p.Id == id);
 
 
 	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, Phone phone)
@@ -66,6 +67,81 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		bankingDetails.AddRange(bankDetails);
 
 		return Result.Success<Error>();
+	}
+
+	public UnitResult<Error> AddPet(Pet pet)
+	{
+		var positionResult = Position.Create(pets.Count + 1);
+		if (positionResult.IsFailure)
+			return positionResult.Error;
+
+		pet.SetPosition(positionResult.Value);
+
+		pets.Add(pet);
+
+		return Result.Success<Error>();
+	}
+
+	public UnitResult<Error> MovePet(Pet pet, Position newPosition)
+	{
+		var currentPosition = pet.Position;
+
+		if(currentPosition == newPosition || pets.Count == 1)
+			return Result.Success<Error>();
+
+		var adjustPosition = AdjustNewPositionIfOutOfRange(newPosition);
+		if(adjustPosition.IsFailure)
+			return adjustPosition.Error;
+
+		newPosition = adjustPosition.Value;
+
+		var moveResult = MovePetsBetweenPositions(newPosition, currentPosition);
+		if(moveResult.IsFailure)
+			return moveResult.Error;
+
+		pet.Move(newPosition);
+
+		return Result.Success<Error>();
+	}
+
+	private UnitResult<Error> MovePetsBetweenPositions(Position newPosition, Position currentPosition)
+	{
+		if (newPosition.Value < currentPosition.Value)
+		{
+			var petToMoves = pets.Where(x => x.Position.Value >= newPosition.Value && x.Position.Value < currentPosition.Value);
+
+			foreach (var petToMove in petToMoves)
+			{
+				var result = petToMove.MoveForward();
+				if (result.IsFailure)
+					return result.Error;
+			}
+		}
+		else if (newPosition.Value > currentPosition.Value)
+		{
+			var petToMoves = pets.Where(x => x.Position.Value > currentPosition.Value && x.Position.Value <= newPosition.Value);
+
+			foreach (var petToMove in petToMoves)
+			{
+				var result = petToMove.MoveBack();
+				if (result.IsFailure)
+					return result.Error;
+			}
+		}
+
+		return Result.Success<Error>();
+	}
+
+	private Result<Position, Error> AdjustNewPositionIfOutOfRange(Position newPosition)
+	{
+		if (newPosition.Value <= pets.Count)
+			return newPosition;
+
+		var lastPosition = Position.Create(pets.Count - 1);
+		if (lastPosition.IsFailure)
+			return lastPosition.Error;
+
+		return lastPosition.Value;
 	}
 
 	public void UpdateInfo(VolunteerName name, string email, string description)
@@ -95,4 +171,11 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 			pet.Delete();
 	}
 
+	public override void Restore()
+	{
+		base.Delete();
+
+		foreach (var pet in pets)
+			pet.Restore();
+	}
 }
