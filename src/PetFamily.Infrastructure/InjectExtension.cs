@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Minio;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
 using PetFamily.Infrastructure.BackgroundServices;
@@ -19,6 +20,15 @@ public static class InjectExtension
 		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 		
 		services.AddScoped<DeleteExpiredVolunteerService>();
+
+		services.AddMinio(opt =>
+		{
+			opt.WithEndpoint("http://localhost:9000");
+
+			opt.WithCredentials("minioadmin", "minioadmin");
+
+			opt.WithSSL(false);
+		});
 
 		return services;
 	}
