@@ -36,7 +36,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 
 // Add services to the container.
-builder.Services.AddInfrastructure()
+builder.Services.AddInfrastructure(builder.Configuration)
 	.AddContracts();
 
 builder.Services.AddFluentValidationAutoValidation(config =>
