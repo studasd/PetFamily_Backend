@@ -1,6 +1,4 @@
-﻿using PetFamily.Contracts.DTOs;
-using PetFamily.Contracts.Pets.Create;
-using PetFamily.Contracts.Volonteers.Create;
+﻿using PetFamily.Contracts.Pets;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using Swashbuckle.AspNetCore.Filters;
 

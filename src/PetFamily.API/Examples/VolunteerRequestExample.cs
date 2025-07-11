@@ -1,5 +1,5 @@
 ﻿using PetFamily.Contracts.DTOs;
-using PetFamily.Contracts.Volonteers.Create;
+using PetFamily.Contracts.Volonteers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Examples;

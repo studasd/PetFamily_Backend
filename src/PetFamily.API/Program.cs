@@ -1,6 +1,7 @@
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
+using PetFamily.Application;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
 using Serilog;

@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
-using PetFamily.Contracts.Pets.Create;
-using PetFamily.Contracts.Volonteers.Create;
-using PetFamily.Contracts.Volonteers.Delete;
-using PetFamily.Contracts.Volonteers.Updates.BankingDetails;
-using PetFamily.Contracts.Volonteers.Updates.Info;
-using PetFamily.Contracts.Volonteers.Updates.SocialNetworks;
+using PetFamily.Application.Pets.Create;
+using PetFamily.Application.Volonteers.Create;
+using PetFamily.Application.Volonteers.Delete;
+using PetFamily.Application.Volonteers.Updates.BankingDetails;
+using PetFamily.Application.Volonteers.Updates.Info;
+using PetFamily.Application.Volonteers.Updates.SocialNetworks;
+using PetFamily.Contracts.Pets;
+using PetFamily.Contracts.Volonteers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Controllers;
