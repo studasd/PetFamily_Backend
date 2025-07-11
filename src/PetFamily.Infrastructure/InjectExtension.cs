@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
 using PetFamily.Infrastructure.BackgroundServices;
 using PetFamily.Infrastructure.Options;
+using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
 using PetFamily.Infrastructure.Services;
 
@@ -20,6 +22,7 @@ public static class InjectExtension
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+		services.AddScoped<IFileProvider, MinioProvider>();
 
 		services.AddScoped<DeleteExpiredVolunteerService>();
 

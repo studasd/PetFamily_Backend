@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Minio;
-using Minio.DataModel.Args;
+using PetFamily.API.Extensions;
+using PetFamily.Application.FileProvider;
+using PetFamily.Application.Providers;
 
 namespace PetFamily.API.Controllers;
 
@@ -8,11 +10,11 @@ namespace PetFamily.API.Controllers;
 [Route("[controller]")]
 public class FileController : ControllerBase
 {
-	private readonly IMinioClient minioClient;
+	private readonly IFileProvider minioProvider;
 
-	public FileController(IMinioClient minioClient)
+	public FileController(IFileProvider minioProvider)
 	{
-		this.minioClient = minioClient;
+		this.minioProvider = minioProvider;
 	}
 
 
@@ -23,28 +25,14 @@ public class FileController : ControllerBase
 		//var buckets = await minioClient.ListBucketsAsync(token);
 		//var bucketsStr = String.Join(",", buckets.Buckets.Select(b => b.Name));
 
-		var path = Guid.NewGuid();
-
-		var bucketExistArgs = new BucketExistsArgs().WithBucket("photo");
-		var bucketExist = await minioClient.BucketExistsAsync(bucketExistArgs, token);
-		if(bucketExist == false)
-		{
-			var makeBucketArgs = new MakeBucketArgs().WithBucket("photo");
-
-			await minioClient.MakeBucketAsync(makeBucketArgs, token);
-		}
-
-		 
 		await using var stream = file.OpenReadStream();
 
-		var putObjectArgs = new PutObjectArgs()
-			.WithBucket("photos")
-			.WithStreamData(stream)
-			.WithObjectSize(stream.Length)
-			.WithObject(file.FileName);
+		var fd = new FileData(stream, "photos", file.FileName);
 
-		var result = await minioClient.PutObjectAsync(putObjectArgs, token);
+		var result = await minioProvider.UploadFileAsync(fd, token);
+		if (result.IsFailure)
+			return result.Error.ToResponse();
 
-		return Ok(result);
+		return Ok(result.Value);
 	}
 }
