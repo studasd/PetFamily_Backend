@@ -20,7 +20,7 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> UploadFileAsync(FileData fileData, CancellationToken token = default)
+	public async Task<Result<string, Error>> UploadFileAsync(FileUploadData fileData, CancellationToken token = default)
 	{
 		try
 		{
@@ -48,6 +48,47 @@ public class MinioProvider : IFileProvider
 		{
 			logger.LogError(e, "Fail to upload file in minio");
 			return Error.Failure("file_upload", "Fail to upload file in minio");
+		}
+	}
+
+
+	public async Task<UnitResult<Error>> DeleteFileAsync(FileData fileData, CancellationToken token = default)
+	{
+		try
+		{
+			var bucketRemoveArgs = new RemoveObjectArgs()
+				.WithBucket(fileData.BucketName)
+				.WithObject(fileData.FileName);
+
+			await minioClient.RemoveObjectAsync(bucketRemoveArgs);
+
+			return UnitResult.Success<Error>();
+		}
+		catch (Exception e)
+		{
+			logger.LogError(e, "Fail to delete file in minio");
+			return Error.Failure("file_delete", "Fail to delete file in minio");
+		}
+	}
+
+
+	public async Task<Result<string, Error>> PresignedFileAsync(FileData fileData, CancellationToken token = default)
+	{
+		try
+		{
+			var bucketPresignedArgs = new PresignedGetObjectArgs()
+		   .WithBucket(fileData.BucketName)
+		   .WithObject(fileData.FileName)
+		   .WithExpiry(1000);
+			
+			var bucketPresigned = await minioClient.PresignedGetObjectAsync(bucketPresignedArgs);
+
+			return bucketPresigned;
+		}
+		catch (Exception e)
+		{
+			logger.LogError(e, "Fail to presigned file in minio");
+			return Error.Failure("file_presigned", "Fail to presigned file in minio");
 		}
 	}
 }

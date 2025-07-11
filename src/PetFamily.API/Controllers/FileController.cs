@@ -27,9 +27,43 @@ public class FileController : ControllerBase
 
 		await using var stream = file.OpenReadStream();
 
-		var fd = new FileData(stream, "photos", file.FileName);
+		var fn = Guid.NewGuid();
+
+		var fd = new FileUploadData(stream, "photos", fn.ToString());
 
 		var result = await minioProvider.UploadFileAsync(fd, token);
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("{bucketname}/{filename}")]
+	public async Task<IActionResult> DeleteFile(
+		[FromRoute] string bucketname,
+		[FromRoute] Guid filename,
+		CancellationToken token)
+	{
+		var fd = new FileData(bucketname, filename.ToString());
+
+		var result = await minioProvider.DeleteFileAsync(fd, token);
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result);
+	}
+
+
+	[HttpGet("{bucketname}/{filename}")]
+	public async Task<IActionResult> PresignedFile(
+		[FromRoute] string bucketname,
+		[FromRoute] Guid filename,
+		CancellationToken token)
+	{
+		var fd = new FileData(bucketname, filename.ToString());
+
+		var result = await minioProvider.PresignedFileAsync(fd, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
