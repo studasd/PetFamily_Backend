@@ -99,6 +99,8 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		if(moveResult.IsFailure)
 			return moveResult.Error;
 
+		pet.Move(newPosition);
+
 		return Result.Success<Error>();
 	}
 

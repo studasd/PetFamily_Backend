@@ -95,6 +95,9 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		return pet;
 	}
 
+
+	public void Move(Position newPosition) => Position = newPosition;
+
 	public UnitResult<Error> MoveForward()
 	{
 		var newPosition = Position.Forward();
