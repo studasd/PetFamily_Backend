@@ -11,6 +11,8 @@ public static class AppExtensions
 
 		await db.Database.MigrateAsync();
 
+		await DbTestInitializer.InitializeAsync(db);
+
 		return app;
 	}
 }
