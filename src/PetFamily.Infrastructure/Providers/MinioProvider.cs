@@ -21,30 +21,31 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<UnitResult<Error>> UploadFilesAsync(FileUploadData fileData, CancellationToken token = default)
+	public async Task<UnitResult<Error>> UploadFilesAsync(IEnumerable<FileData> fileDatas, CancellationToken token = default)
 	{
 		var semaphoreSlim = new SemaphoreSlim(MAX_THREAD_UPLOAD_FILES);
 
 		try
 		{
-			var bucketExistArgs = new BucketExistsArgs().WithBucket(fileData.BucketName);
-			var bucketExist = await minioClient.BucketExistsAsync(bucketExistArgs, token);
-			if (bucketExist == false)
-			{
-				var makeBucketArgs = new MakeBucketArgs().WithBucket(fileData.BucketName);
-
-				await minioClient.MakeBucketAsync(makeBucketArgs, token);
-			}
-
 			List<Task> tasks = [];
-			foreach (var file in fileData.Files)
+			foreach (var file in fileDatas)
 			{
+				var bucketExistArgs = new BucketExistsArgs().WithBucket(file.BucketName);
+				var bucketExist = await minioClient.BucketExistsAsync(bucketExistArgs, token);
+				if (bucketExist == false)
+				{
+					var makeBucketArgs = new MakeBucketArgs().WithBucket(file.BucketName);
+
+					await minioClient.MakeBucketAsync(makeBucketArgs, token);
+				}
+
+
 				await semaphoreSlim.WaitAsync(token);
 
 				var putObjectArgs = new PutObjectArgs()
-					.WithBucket(fileData.BucketName)
-					.WithStreamData(file.Stream)
-					.WithObjectSize(file.Stream.Length)
+					.WithBucket(file.BucketName)
+					.WithStreamData(file.Content)
+					.WithObjectSize(file.Content.Length)
 					.WithObject(file.FileName);
 
 				var task = minioClient.PutObjectAsync(putObjectArgs, token);
@@ -69,7 +70,7 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<UnitResult<Error>> DeleteFileAsync(FileData fileData, CancellationToken token = default)
+	public async Task<UnitResult<Error>> DeleteFileAsync(FileInform fileData, CancellationToken token = default)
 	{
 		try
 		{
@@ -89,7 +90,7 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> PresignedFileAsync(FileData fileData, CancellationToken token = default)
+	public async Task<Result<string, Error>> PresignedFileAsync(FileInform fileData, CancellationToken token = default)
 	{
 		try
 		{
