@@ -29,13 +29,13 @@ public class FileController : ControllerBase
 
 		var fileName = Guid.NewGuid();
 
-		var fileData = new FileUploadData(stream, "photos", fileName.ToString());
+		var fileData = new FileUploadData([new FileContent(stream, fileName.ToString())], "photos");
 
-		var result = await minioProvider.UploadFileAsync(fileData, token);
+		var result = await minioProvider.UploadFilesAsync(fileData, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
-		return Ok(result.Value);
+		return Ok();
 	}
 
 

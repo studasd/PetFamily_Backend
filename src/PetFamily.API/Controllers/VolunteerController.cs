@@ -4,6 +4,7 @@ using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Pets.Create;
+using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volonteers.Create;
 using PetFamily.Application.Volonteers.Delete;
 using PetFamily.Application.Volonteers.Updates.BankingDetails;
@@ -187,5 +188,43 @@ public class VolunteerController : ControllerBase
 			return result.Error.ToResponse();
 
 		return Ok(result.Value);
+	}
+
+
+	[HttpPost("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	public async Task<IActionResult> UploadPetPhotos(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] UploadPhotosPetHandler handler,
+		[FromForm] UploadPetPhotosRequest request,
+		CancellationToken token = default)
+	{
+		List<UploadFileCommand> uploadFiles = [];
+
+		try
+		{
+			foreach (var file in request.PhotosUpload)
+			{
+				var stream = file.OpenReadStream();
+
+				uploadFiles.Add(new UploadFileCommand(stream, file.FileName, file.ContentType));
+			}
+
+			var command = new UploadPhotosPetCommand(volunteerId, petId, uploadFiles);
+
+			var result = await handler.HandleAsync(command, token);
+
+			if (result.IsFailure)
+				return result.Error.ToResponse();
+
+			return Ok(result.Value);
+		}
+		finally
+		{
+			foreach (var file in uploadFiles)
+			{
+				await file.Stream.DisposeAsync();
+			}
+		}
 	}
 }

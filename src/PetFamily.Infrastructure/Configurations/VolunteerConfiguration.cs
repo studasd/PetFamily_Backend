@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.IDs;
@@ -59,7 +54,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 		builder.ComplexProperty(p => p.Phone,
 			x =>
 			{
-				x.Property(f => f.phone)
+				x.Property(f => f.PhoneNumber)
 					.IsRequired()
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("phone");
@@ -80,7 +75,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("bank_description");
 			});
-
 
 		builder.OwnsMany(p => p.SocialNetworks,
 			pb =>

@@ -8,9 +8,9 @@ namespace PetFamily.Application.Volonteers;
 
 public interface IVolunteerRepository
 {
-	Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token = default);
-	Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token = default);
-	Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token = default);
-	Task<Result<Volunteer, Error>> GetByNameAsync(VolunteerName volunteerName, CancellationToken token = default);
-	Task SaveAsync(CancellationToken token = default);
+	Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token);
+	Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token);
+	Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token);
+	Task<Result<Volunteer, Error>> GetByNameAsync(VolunteerName volunteerName, CancellationToken token);
+	Task SaveAsync(CancellationToken token);
 }

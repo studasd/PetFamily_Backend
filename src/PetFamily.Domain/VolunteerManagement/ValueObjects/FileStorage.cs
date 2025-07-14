@@ -12,11 +12,17 @@ public record FileStorage
 
 	public string PathToStorage { get; }
 
-	public static Result<FileStorage, Error> Create(string pathToStorage)
+	public static Result<FileStorage, Error> Create(Guid path, string extension)
 	{
-		if (String.IsNullOrEmpty(pathToStorage))
-			return Errors.General.ValueIsInvalid("PathToStorage");
+		// валядация расширений файла
 
-		return new FileStorage(pathToStorage);
+		var fullPath = path + extension;
+
+		return new FileStorage(fullPath);
+	}
+
+	public static Result<FileStorage, Error> Create(string fullPath)
+	{
+		return new FileStorage(fullPath);
 	}
 }

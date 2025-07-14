@@ -1,3 +1,3 @@
 ﻿namespace PetFamily.Application.FileProvider;
 
-public record FileUploadData(Stream Stream, string BucketName, string FileName);
+public record FileUploadData(IEnumerable<FileContent> Files, string BucketName);

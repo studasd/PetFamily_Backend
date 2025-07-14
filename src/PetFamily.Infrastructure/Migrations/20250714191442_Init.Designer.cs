@@ -13,8 +13,8 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250711221456_AddPetFileStorage")]
-    partial class AddPetFileStorage
+    [Migration("20250714191442_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,7 +280,7 @@ namespace PetFamily.Infrastructure.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("phone")
+                            b1.Property<string>("PhoneNumber")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
@@ -320,13 +320,14 @@ namespace PetFamily.Infrastructure.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("integer");
 
-                            b1.Property<string>("phone")
+                            b1.Property<string>("PhoneNumber")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("phones");
 
-                            b1.HasKey("PetId", "__synthesizedOrdinal");
+                            b1.HasKey("PetId", "__synthesizedOrdinal")
+                                .HasName("pk_pets");
 
                             b1.ToTable("pets");
 
@@ -350,7 +351,7 @@ namespace PetFamily.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasMaxLength(1500)
                                 .HasColumnType("character varying(1500)")
-                                .HasColumnName("file_storages");
+                                .HasColumnName("files");
 
                             b1.HasKey("PetId", "__synthesizedOrdinal");
 

@@ -8,10 +8,10 @@ namespace PetFamily.Application.Volonteers;
 
 public interface ISpeciesRepository
 {
-	Task<Guid> AddAsync(Species species, CancellationToken token = default);
-	Task<Guid> DeleteAsync(Species species, CancellationToken token = default);
-	Task<Result<Species, Error>> GetByIdAsync(SpeciesId speciesId, CancellationToken token = default);
-	Task<Result<Species, Error>> GetByNameAsync(string speciesName, CancellationToken token = default);
-	Task<Result<PetType, Error>> GetPetTypeByNamesAsync(string speciesName, string breedName, CancellationToken token = default);
-	Task SaveAsync(CancellationToken token = default);
+	Task<Guid> AddAsync(Species species, CancellationToken token);
+	Task<Guid> DeleteAsync(Species species, CancellationToken token);
+	Task<Result<Species, Error>> GetByIdAsync(SpeciesId speciesId, CancellationToken token);
+	Task<Result<Species, Error>> GetByNameAsync(string speciesName, CancellationToken token);
+	Task<Result<PetType, Error>> GetPetTypeByNamesAsync(string speciesName, string breedName, CancellationToken token);
+	Task SaveAsync(CancellationToken token);
 }

@@ -53,7 +53,7 @@ public class AddPetHandler // CreatePetService
 		if(petType.IsFailure)
 			return petType.Error;
 
-		petType = PetType.Create(BreedId.NewBreedId(), Species.NewId());
+		petType = PetType.Create(breed.Value.Id, speciesResult.Value.Id);
 
 
 		var pet = Pet.Create(

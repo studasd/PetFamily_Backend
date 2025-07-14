@@ -4,7 +4,7 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Shared.ValueObjects;
 
-public record Phone(string phone)
+public record Phone(string PhoneNumber)
 {
 	public static Result<Phone, Error> Create(string phone)
 	{

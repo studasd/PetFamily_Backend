@@ -32,8 +32,7 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		Color = color;
 		Weight = weight;
 		Height = height;
-		Phones = phones.ToList();
-		FileStorages = [];
+		phones = phones.ToList();
 		HelpStatus = helpStatus;
 		Address = address;
 		PetType = petType;
@@ -51,7 +50,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public Address Address { get; private set; }
 	public decimal Weight { get; private set; }
 	public decimal Height { get; private set; }
-	public IReadOnlyList<Phone> Phones { get; set; } = [];
+	public IReadOnlyList<Phone> Phones => phones;
+	private readonly List<Phone> phones = [];
 	public bool? IsNeutered { get; private set; }
 	public bool? IsVaccinated { get; private set; }
 	public DateOnly DateBirth { get; private set; } = default;
@@ -60,7 +60,8 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public DateTime DateCreated { get; private set; }
 	
 	public PetType PetType { get; private set; }
-	public IReadOnlyList<FileStorage> FileStorages { get; set; } = [];
+	public IReadOnlyList<FileStorage> FileStorages => fileStorages;
+	private readonly List<FileStorage> fileStorages = [];
 
 
 	public static Guid NewId() => Guid.NewGuid();
@@ -120,6 +121,13 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 			return newPosition.Error;
 
 		Position = newPosition.Value;
+
+		return Result.Success<Error>();
+	}
+
+	public UnitResult<Error> AddPhotos(IEnumerable<FileStorage> addFileStorages)
+	{
+		fileStorages.AddRange(addFileStorages);
 
 		return Result.Success<Error>();
 	}

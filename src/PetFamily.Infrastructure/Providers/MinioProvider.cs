@@ -12,6 +12,7 @@ public class MinioProvider : IFileProvider
 {
 	private readonly IMinioClient minioClient;
 	private readonly ILogger<MinioProvider> logger;
+	const int MAX_THREAD_UPLOAD_FILES = 10;
 
 	public MinioProvider(IMinioClient minioClient, ILogger<MinioProvider> logger)
 	{
@@ -20,8 +21,10 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> UploadFileAsync(FileUploadData fileData, CancellationToken token = default)
+	public async Task<UnitResult<Error>> UploadFilesAsync(FileUploadData fileData, CancellationToken token = default)
 	{
+		var semaphoreSlim = new SemaphoreSlim(MAX_THREAD_UPLOAD_FILES);
+
 		try
 		{
 			var bucketExistArgs = new BucketExistsArgs().WithBucket(fileData.BucketName);
@@ -33,22 +36,36 @@ public class MinioProvider : IFileProvider
 				await minioClient.MakeBucketAsync(makeBucketArgs, token);
 			}
 
+			List<Task> tasks = [];
+			foreach (var file in fileData.Files)
+			{
+				await semaphoreSlim.WaitAsync(token);
 
-			var putObjectArgs = new PutObjectArgs()
-				.WithBucket(fileData.BucketName)
-				.WithStreamData(fileData.Stream)
-				.WithObjectSize(fileData.Stream.Length)
-				.WithObject(fileData.FileName);
+				var putObjectArgs = new PutObjectArgs()
+					.WithBucket(fileData.BucketName)
+					.WithStreamData(file.Stream)
+					.WithObjectSize(file.Stream.Length)
+					.WithObject(file.FileName);
 
-			var result = await minioClient.PutObjectAsync(putObjectArgs, token);
+				var task = minioClient.PutObjectAsync(putObjectArgs, token);
 
-			return result.ObjectName;
+				semaphoreSlim.Release();
+
+				tasks.Add(task);
+			}
+			await Task.WhenAll(tasks);
 		}
 		catch (Exception e)
 		{
 			logger.LogError(e, "Fail to upload file in minio");
 			return Error.Failure("file_upload", "Fail to upload file in minio");
 		}
+		finally
+		{
+			semaphoreSlim.Release();
+		}
+
+		return Result.Success<Error>();
 	}
 
 
