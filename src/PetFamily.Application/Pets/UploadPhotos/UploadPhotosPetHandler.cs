@@ -46,7 +46,7 @@ public class UploadPhotosPetHandler // CreatePetService
 			if (filePath.IsFailure)
 				return filePath.Error;
 
-			var fileContent = new FileContent(file.Stream, filePath.Value.PathToStorage);
+			var fileContent = new FileContent(file.Content, filePath.Value.PathToStorage);
 			fileContents.Add(fileContent);
 			filePaths.Add(filePath.Value);
 		}

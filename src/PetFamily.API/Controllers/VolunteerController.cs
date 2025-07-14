@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
+using PetFamily.API.Processors;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Pets.Create;
 using PetFamily.Application.Pets.UploadPhotos;
@@ -199,32 +200,16 @@ public class VolunteerController : ControllerBase
 		[FromForm] UploadPetPhotosRequest request,
 		CancellationToken token = default)
 	{
-		List<UploadFileCommand> uploadFiles = [];
+		await using var fileProcessor = new FormFileProcessor();
+		var fileDtos = fileProcessor.Process(request.PhotosUpload);
 
-		try
-		{
-			foreach (var file in request.PhotosUpload)
-			{
-				var stream = file.OpenReadStream();
+		var command = new UploadPhotosPetCommand(volunteerId, petId, fileDtos);
 
-				uploadFiles.Add(new UploadFileCommand(stream, file.FileName, file.ContentType));
-			}
+		var result = await handler.HandleAsync(command, token);
 
-			var command = new UploadPhotosPetCommand(volunteerId, petId, uploadFiles);
+		if (result.IsFailure)
+			return result.Error.ToResponse();
 
-			var result = await handler.HandleAsync(command, token);
-
-			if (result.IsFailure)
-				return result.Error.ToResponse();
-
-			return Ok(result.Value);
-		}
-		finally
-		{
-			foreach (var file in uploadFiles)
-			{
-				await file.Stream.DisposeAsync();
-			}
-		}
+		return Ok(result.Value);
 	}
 }
