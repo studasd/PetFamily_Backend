@@ -2,10 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetFamily.Application.Database;
+using PetFamily.Application.FileProvider;
+using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
 using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
@@ -18,6 +21,7 @@ public static class InjectExtension
 	public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration config)
 	{
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
+		services.AddHostedService<FilesCleanerBackgroundService>();
 
 		services.AddScoped<ApplicationDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -27,6 +31,8 @@ public static class InjectExtension
 		services.AddScoped<IFileProvider, MinioProvider>();
 
 		services.AddScoped<DeleteExpiredVolunteerService>();
+
+		services.AddSingleton<IMessageQueue<IEnumerable<FileInform>>, InMemoryMessageQueue<IEnumerable<FileInform>>>();
 
 		services.AddMinio(config);
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Database;
 using PetFamily.Application.FileProvider;
+using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Domain.Shared;
@@ -14,6 +15,7 @@ public class UploadPhotosPetHandler // CreatePetService
 	private readonly IFileProvider fileProvider;
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IUnitOfWork unitOfWork;
+	private readonly IMessageQueue<IEnumerable<FileInform>> messageQueue;
 	private readonly ILogger<UploadPhotosPetHandler> logger;
 	private const string BUCKET_NAME = "photos";
 
@@ -21,11 +23,13 @@ public class UploadPhotosPetHandler // CreatePetService
 		IFileProvider fileProvider,
 		IVolunteerRepository volunteerRepository,
 		IUnitOfWork unitOfWork,
+		IMessageQueue<IEnumerable<FileInform>> messageQueue,
 		ILogger<UploadPhotosPetHandler> logger)
 	{
 		this.fileProvider = fileProvider;
 		this.volunteerRepository = volunteerRepository;
 		this.unitOfWork = unitOfWork;
+		this.messageQueue = messageQueue;
 		this.logger = logger;
 	}
 
@@ -54,14 +58,18 @@ public class UploadPhotosPetHandler // CreatePetService
 				if (filePath.IsFailure)
 					return filePath.Error;
 
-				var fileContent = new FileData(file.Content, filePath.Value.PathToStorage, BUCKET_NAME);
+				var fileContent = new FileData(file.Content, new FileInform(filePath.Value.PathToStorage, BUCKET_NAME));
 				fileContents.Add(fileContent);
 				filePaths.Add(filePath.Value);
 			}
 
 			var uploadResult = await fileProvider.UploadFilesAsync(fileContents, token);
 			if (uploadResult.IsFailure)
+			{
+				await messageQueue.WriteAsync(fileContents.Select(f => f.FileInform), token);
+				
 				return uploadResult.Error;
+			}
 
 			petResult.AddPhotos(filePaths);
 
