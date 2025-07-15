@@ -1,7 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Contracts.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Application.Extensions;
+using PetFamily.Contracts.RequestVolonteers;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
@@ -10,22 +12,31 @@ namespace PetFamily.Application.Volonteers.Updates.SocialNetworks;
 public class UpdateSocialNetworksHandler
 {
 	private readonly IVolunteerRepository volunteerRepository;
+	private readonly IValidator<UpdateSocialNetworksCommand> validator;
 	private readonly ILogger<UpdateSocialNetworksHandler> logger;
 
-	public UpdateSocialNetworksHandler(IVolunteerRepository volunteerRepository, ILogger<UpdateSocialNetworksHandler> logger)
+	public UpdateSocialNetworksHandler(
+		IVolunteerRepository volunteerRepository, 
+		IValidator<UpdateSocialNetworksCommand> validator,
+		ILogger<UpdateSocialNetworksHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
+		this.validator = validator;
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(UpdateSocialNetworksRequest request, CancellationToken token = default)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(UpdateSocialNetworksCommand command, CancellationToken token)
 	{
-		var volunteerResult = await volunteerRepository.GetByIdAsync(request.VolunteerId, token);
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
+
+		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 
 		if (volunteerResult.IsFailure)
-			return volunteerResult.Error;
+			return volunteerResult.Error.ToErrorList();
 
-		var socNetworksResult = request.SocialNetworksDTO.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
+		var socNetworksResult = command.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
 
 		volunteerResult.Value.UpdateSocialNetworks(socNetworksResult);
 

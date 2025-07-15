@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Responses;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 
 namespace PetFamily.API.Extensions;
 
@@ -11,26 +11,30 @@ public static class ResponseExtensions
 	{
 		var responseError = new ResponseError(error.Code, error.Message, null);
 
-		var envelope = Envelope.Error([responseError]);
+		var envelope = Envelope.Error(error.ToErrorList());
 
 		return new ObjectResult(envelope) { StatusCode = error.TypeCode };
 	}
 
 
-	public static ActionResult ToValidationErrorResponse(this ValidationResult result)
+	public static ActionResult ToResponse(this ErrorList errors)
 	{
-		if (result.IsValid)
-			throw new InvalidOperationException("Result can note be succeed");
+		if (!errors.Any())
+		{
+			return new ObjectResult(Envelope.Error(errors))
+			{
+				StatusCode = StatusCodes.Status500InternalServerError
+			};
+		}
 
-		var validationErrors = result.Errors;
+		var distinctErrorTypes = errors.Select(x => x.TypeCode).Distinct().ToList();
 
-		var responseErrors = from validationError in validationErrors
-							 let errorMessage = validationError.ErrorMessage
-							 let error = Error.Deserialize(errorMessage)
-							 select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+		var statusCode = distinctErrorTypes.Count() > 1 
+			? StatusCodes.Status500InternalServerError 
+			: distinctErrorTypes.First();
 
-		var envelope = Envelope.Error(responseErrors);
+		var envelope = Envelope.Error(errors);
 
-		return new ObjectResult(envelope) { StatusCode = StatusCodes.Status400BadRequest };
+		return new ObjectResult(envelope) { StatusCode = statusCode };
 	}
 }

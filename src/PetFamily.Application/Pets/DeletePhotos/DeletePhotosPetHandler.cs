@@ -1,10 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
-using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Domain.Shared.Errores;
+using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.Pets.DeletePhotos;
 
@@ -25,21 +27,21 @@ public class DeletePhotosPetHandler
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(DeletePhotosPetCommand command, CancellationToken token)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(DeletePhotosPetCommand command, CancellationToken token)
 	{
 		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 		if (volunteerResult.IsFailure)
-			return volunteerResult.Error;
+			return volunteerResult.Error.ToErrorList();
 
 		var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
 		if (petResult == null)
-			return Errors.General.NotFound(command.PetId);
+			return Errors.General.NotFound(command.PetId).ToErrorList();
 
 		foreach (var file in command.DeleteFiles)
 		{
 			var deleteResult = await fileProvider.DeleteFileAsync(new FileInform(file.ToString(), BUCKET_NAME), token);
 			if (deleteResult.IsFailure)
-				return deleteResult.Error;
+				return deleteResult.Error.ToErrorList();
 		}
 
 		var deleteFiles = command.DeleteFiles.Select(f => FileStorage.Create(f.ToString()).Value);

@@ -1,5 +1,6 @@
 ﻿
 using PetFamily.Application.Pets.UploadPhotos;
+using PetFamily.Contracts.DTOs;
 
 namespace PetFamily.API.Processors;
 

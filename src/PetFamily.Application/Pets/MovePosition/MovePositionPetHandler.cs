@@ -1,10 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Database;
+using PetFamily.Application.Extensions;
 using PetFamily.Application.Pets.DeletePhotos;
 using PetFamily.Application.Volonteers;
-using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Domain.Shared.Errores;
+using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.Pets.MovePosition;
 
@@ -25,24 +27,25 @@ public class MovePositionPetHandler
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(MovePositionPetCommand command, CancellationToken token)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(MovePositionPetCommand command, CancellationToken token)
 	{
+		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
+		if (volunteerResult.IsFailure)
+			return volunteerResult.Error.ToErrorList();
+
+		var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
+		if (petResult == null)
+			return Errors.General.NotFound(command.PetId).ToErrorList();
+
+		var newPositionResult = Position.Create(command.NewPosition);
+		if (newPositionResult.IsFailure)
+			return newPositionResult.Error.ToErrorList();
+
+
 		using var transaction = await unitOfWork.BeginTransactionAsync(token);
 
 		try
 		{
-			var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
-			if (volunteerResult.IsFailure)
-				return volunteerResult.Error;
-
-			var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
-			if (petResult == null)
-				return Errors.General.NotFound(command.PetId);
-
-			var newPositionResult = Position.Create(command.NewPosition);
-			if (newPositionResult.IsFailure)
-				return newPositionResult.Error;
-
 			volunteerResult.Value.MovePet(petResult, newPositionResult.Value);
 
 			await unitOfWork.SaveChangesAsync(token);
@@ -59,7 +62,7 @@ public class MovePositionPetHandler
 
 			logger.LogError(ex, "Error move pet {id} position", command.PetId);
 
-			return Error.Failure("failure_move_pet", "Error move pet position");
+			return Error.Failure("failure_move_pet", "Error move pet position").ToErrorList();
 		}
 	}
 }

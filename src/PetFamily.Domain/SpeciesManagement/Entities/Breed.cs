@@ -1,13 +1,13 @@
 ﻿
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Domain.SpeciesManagement.Entities;
 
 public class Breed : Entity<BreedId>
 {
-	Breed() { }
+	private Breed() { }
 
 	private Breed(BreedId id, string name) : base(id)
 	{
