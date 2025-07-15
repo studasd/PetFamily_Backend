@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
-using PetFamily.Application.Providers;
 
 namespace PetFamily.Infrastructure.BackgroundServices;
 

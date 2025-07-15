@@ -33,9 +33,9 @@ public class MovePositionPetHandler
 		if (volunteerResult.IsFailure)
 			return volunteerResult.Error.ToErrorList();
 
-		var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
-		if (petResult == null)
-			return Errors.General.NotFound(command.PetId).ToErrorList();
+		var petResult = volunteerResult.Value.GetPetById(command.PetId);
+		if (petResult.IsFailure)
+			return petResult.Error.ToErrorList();
 
 		var newPositionResult = Position.Create(command.NewPosition);
 		if (newPositionResult.IsFailure)
@@ -46,7 +46,7 @@ public class MovePositionPetHandler
 
 		try
 		{
-			volunteerResult.Value.MovePet(petResult, newPositionResult.Value);
+			volunteerResult.Value.MovePet(petResult.Value, newPositionResult.Value);
 
 			await unitOfWork.SaveChangesAsync(token);
 
@@ -54,7 +54,7 @@ public class MovePositionPetHandler
 
 			logger.LogInformation("Move pet {id} position.", command.PetId);
 
-			return petResult.Id.Value;
+			return petResult.Value.Id.Value;
 		}
 		catch (Exception ex)
 		{

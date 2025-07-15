@@ -2,7 +2,6 @@
 using Minio;
 using PetFamily.API.Extensions;
 using PetFamily.Application.FileProvider;
-using PetFamily.Application.Providers;
 
 namespace PetFamily.API.Controllers;
 

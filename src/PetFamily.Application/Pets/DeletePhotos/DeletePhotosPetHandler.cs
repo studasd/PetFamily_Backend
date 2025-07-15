@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
-using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
@@ -14,28 +13,35 @@ public class DeletePhotosPetHandler
 {
 	private readonly IFileProvider fileProvider;
 	private readonly IVolunteerRepository volunteerRepository;
+	private readonly IValidator<DeletePhotosPetCommand> validator;
 	private readonly ILogger<DeletePhotosPetHandler> logger;
 	private const string BUCKET_NAME = "photos";
 
 	public DeletePhotosPetHandler(
 		IFileProvider fileProvider,
 		IVolunteerRepository volunteerRepository,
+		IValidator<DeletePhotosPetCommand> validator,
 		ILogger<DeletePhotosPetHandler> logger)
 	{
 		this.fileProvider = fileProvider;
 		this.volunteerRepository = volunteerRepository;
+		this.validator = validator;
 		this.logger = logger;
 	}
 
 	public async Task<Result<Guid, ErrorList>> HandleAsync(DeletePhotosPetCommand command, CancellationToken token)
 	{
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
+
 		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 		if (volunteerResult.IsFailure)
 			return volunteerResult.Error.ToErrorList();
 
-		var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
-		if (petResult == null)
-			return Errors.General.NotFound(command.PetId).ToErrorList();
+		var petResult = volunteerResult.Value.GetPetById(command.PetId);
+		if (petResult.IsFailure)
+			return petResult.Error.ToErrorList();
 
 		foreach (var file in command.DeleteFiles)
 		{
@@ -46,12 +52,12 @@ public class DeletePhotosPetHandler
 
 		var deleteFiles = command.DeleteFiles.Select(f => FileStorage.Create(f.ToString()).Value);
 
-		petResult.DeletePhotos(deleteFiles);
+		petResult.Value.DeletePhotos(deleteFiles);
 
 		await volunteerRepository.SaveAsync(token);
 
 		logger.LogInformation("Delete pet {id} photos.", command.PetId);
 
-		return petResult.Id.Value;
+		return petResult.Value.Id.Value;
 	}
 }

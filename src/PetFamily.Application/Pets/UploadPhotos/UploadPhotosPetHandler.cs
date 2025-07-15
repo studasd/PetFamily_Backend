@@ -5,7 +5,6 @@ using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
-using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
@@ -17,6 +16,7 @@ public class UploadPhotosPetHandler // CreatePetService
 	private readonly IFileProvider fileProvider;
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IUnitOfWork unitOfWork;
+	private readonly IValidator<UploadPhotosPetCommand> validator;
 	private readonly IMessageQueue<IEnumerable<FileInform>> messageQueue;
 	private readonly ILogger<UploadPhotosPetHandler> logger;
 	private const string BUCKET_NAME = "photos";
@@ -25,25 +25,31 @@ public class UploadPhotosPetHandler // CreatePetService
 		IFileProvider fileProvider,
 		IVolunteerRepository volunteerRepository,
 		IUnitOfWork unitOfWork,
+		IValidator<UploadPhotosPetCommand> validator,
 		IMessageQueue<IEnumerable<FileInform>> messageQueue,
 		ILogger<UploadPhotosPetHandler> logger)
 	{
 		this.fileProvider = fileProvider;
 		this.volunteerRepository = volunteerRepository;
 		this.unitOfWork = unitOfWork;
+		this.validator = validator;
 		this.messageQueue = messageQueue;
 		this.logger = logger;
 	}
 
 	public async Task<Result<Guid, ErrorList>> HandleAsync(UploadPhotosPetCommand command, CancellationToken token)
 	{
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
+
 		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 		if (volunteerResult.IsFailure)
 			return volunteerResult.Error.ToErrorList();
 
-		var petResult = volunteerResult.Value.Pets.FirstOrDefault(p => p.Id.Value == command.PetId);
-		if (petResult == null)
-			return Errors.General.NotFound(command.PetId).ToErrorList();
+		var petResult = volunteerResult.Value.GetPetById(command.PetId);
+		if (petResult.IsFailure)
+			return petResult.Error.ToErrorList();
 
 
 		var transaction = await unitOfWork.BeginTransactionAsync(token);
@@ -51,7 +57,7 @@ public class UploadPhotosPetHandler // CreatePetService
 		try
 		{
 			List<FileStorage> filePaths = [];
-			List<FileData> fileContents = [];
+			List<FileData> fileDatas = [];
 			foreach (var file in command.UploadFiles)
 			{
 				var extension = Path.GetExtension(file.FileName);
@@ -60,20 +66,21 @@ public class UploadPhotosPetHandler // CreatePetService
 				if (filePath.IsFailure)
 					return filePath.Error.ToErrorList();
 
-				var fileContent = new FileData(file.Content, new FileInform(filePath.Value.PathToStorage, BUCKET_NAME));
-				fileContents.Add(fileContent);
+				var fileData = new FileData(file.Content, new FileInform(filePath.Value.PathToStorage, BUCKET_NAME));
+				
+				fileDatas.Add(fileData);
 				filePaths.Add(filePath.Value);
 			}
 
-			var uploadResult = await fileProvider.UploadFilesAsync(fileContents, token);
+			var uploadResult = await fileProvider.UploadFilesAsync(fileDatas, token);
 			if (uploadResult.IsFailure)
 			{
-				await messageQueue.WriteAsync(fileContents.Select(f => f.FileInform), token);
+				await messageQueue.WriteAsync(fileDatas.Select(f => f.FileInform), token);
 				
 				return uploadResult.Error.ToErrorList();
 			}
 
-			petResult.AddPhotos(filePaths);
+			petResult.Value.AddPhotos(filePaths);
 
 			await unitOfWork.SaveChangesAsync(token);
 
@@ -81,7 +88,7 @@ public class UploadPhotosPetHandler // CreatePetService
 
 			logger.LogInformation("Upload pet {id} upload photos.", command.PetId);
 
-			return petResult.Id.Value; //Guid.NewGuid();
+			return petResult.Value.Id.Value; //Guid.NewGuid();
 		}
 		catch(Exception e)
 		{
