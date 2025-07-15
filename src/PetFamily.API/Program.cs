@@ -39,10 +39,10 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 builder.Services.AddInfrastructure(builder.Configuration)
 	.AddContracts();
 
-builder.Services.AddFluentValidationAutoValidation(config =>
-{
-	config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-});
+//builder.Services.AddFluentValidationAutoValidation(config =>
+//{
+//	config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+//});
 
 
 var app = builder.Build();

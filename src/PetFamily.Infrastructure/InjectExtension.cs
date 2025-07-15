@@ -6,7 +6,7 @@ using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Infrastructure.BackgroundServices;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;

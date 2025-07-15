@@ -1,39 +1,43 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.Pets;
-using PetFamily.Domain.Shared;
+using PetFamily.Application.Pets.Add;
+using PetFamily.Contracts.RequestPets;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.Application.Pets.Create;
 
-public class AddPetValidator : AbstractValidator<AddPetRequest>
+public class AddPetCommandValidator : AbstractValidator<AddPetCommand>
 {
-	public AddPetValidator()
+	public AddPetCommandValidator()
 	{
-		RuleFor(c => c.CreatePetDto.Name)
+		RuleFor(c => c.Name)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("Name is not empty"));
 
-		RuleFor(c => c.CreatePetDto.Description)
+		RuleFor(c => c.Description)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("Description is not empty"))
 			.MaximumLength(100).WithError(Errors.General.ValueIsInvalid("Description maximum lenght: 100"));
 
-		RuleFor(c => c.CreatePetDto.Breed)
-			.MustBeValueObject(Breed.Create);
+		RuleFor(c => c.BreedId)
+			.NotEmpty().WithError(Errors.General.ValueIsRequired("Breed is not empty"));
 
-		RuleFor(c => c.CreatePetDto.Species)
+		RuleFor(c => c.SpeciesId)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("Species is not empty"));
 
-		RuleFor(c => c.CreatePetDto.Color)
+		RuleFor(c => c.Color)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("Color is not empty"));
 
-		RuleFor(c => c.CreatePetDto.Weight)
+		RuleFor(c => c.Weight)
 			.InclusiveBetween(0, 100).WithError(Errors.General.ValueIsInvalid("Weight years not valid"));
 
-		RuleFor(c => c.CreatePetDto.Height)
+		RuleFor(c => c.Height)
 			.InclusiveBetween(0, 100).WithError(Errors.General.ValueIsInvalid("Height years not valid"));
 
-		RuleFor(c => c.CreatePetDto.Phone)
+		RuleFor(c => c.Phone)
 			.MustBeValueObject(Phone.Create);
+
+		RuleFor(c => c.Address)
+			.MustBeValueObject(x => Address.Create(x.Country, x.City, x.Street, x.HouseNumber, x.Apartment, x.HouseLiter));
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volonteers;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
@@ -18,7 +18,7 @@ public class VolunteerRepository : IVolunteerRepository
 		this.db = dbContext;
 	}
 
-	public async Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token = default)
+	public async Task<Guid> AddAsync(Volunteer volunteer, CancellationToken token)
 	{
 		await db.Volunteers.AddAsync(volunteer, token);
 
@@ -27,7 +27,7 @@ public class VolunteerRepository : IVolunteerRepository
 		return volunteer.Id;
 	}
 
-	public async Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token = default)
+	public async Task<Result<Volunteer, Error>> GetByIdAsync(VolunteerId volunteerId, CancellationToken token)
 	{
 		var volunteer = await db.Volunteers
 			.Include(x => x.Pets)
@@ -39,7 +39,7 @@ public class VolunteerRepository : IVolunteerRepository
 		return volunteer;
 	}
 
-	public async Task<Result<Volunteer, Error>> GetByNameAsync(VolunteerName volunteerName, CancellationToken token = default)
+	public async Task<Result<Volunteer, Error>> GetByNameAsync(VolunteerName volunteerName, CancellationToken token)
 	{
 		var volunteer = await db.Volunteers
 			.Include(x => x.Pets)
@@ -51,7 +51,7 @@ public class VolunteerRepository : IVolunteerRepository
 		return volunteer;
 	}
 
-	public async Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token = default)
+	public async Task<Guid> DeleteAsync(Volunteer volunteer, CancellationToken token)
 	{
 		db.Volunteers.Remove(volunteer);
 
@@ -60,7 +60,7 @@ public class VolunteerRepository : IVolunteerRepository
 		return volunteer.Id;
 	}
 
-	public async Task SaveAsync(CancellationToken token = default)
+	public async Task SaveAsync(CancellationToken token)
 	{
 		await db.SaveChangesAsync(token);
 	}

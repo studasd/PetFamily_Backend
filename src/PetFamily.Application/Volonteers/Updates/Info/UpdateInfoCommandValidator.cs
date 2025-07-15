@@ -1,15 +1,17 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.Volonteers.Updates.Info;
 
-public class UpdateInfoValidatorDTO : AbstractValidator<UpdateInfoRequestDTO>
+public class UpdateInfoCommandValidator : AbstractValidator<UpdateInfoCommand>
 {
-	public UpdateInfoValidatorDTO() 
+	public UpdateInfoCommandValidator() 
 	{
+		RuleFor(r => r.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired("Volunteer Id is not empty"));
+
 		RuleFor(c => c.Name)
 			.MustBeValueObject(x => VolunteerName.Create(x.Firstname, x.Lastname, x.Surname));
 

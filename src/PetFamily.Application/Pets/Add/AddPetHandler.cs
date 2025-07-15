@@ -1,9 +1,11 @@
 ﻿
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Extensions;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Volonteers;
-using PetFamily.Contracts.Pets;
+using PetFamily.Contracts.RequestPets;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
@@ -17,44 +19,37 @@ public class AddPetHandler // CreatePetService
 {
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly ISpeciesRepository speciesRepository;
+	private readonly IValidator<AddPetCommand> validator;
 	private readonly ILogger<AddPetHandler> logger;
 
 	public AddPetHandler(
 		IVolunteerRepository volunteerRepository, 
 		ISpeciesRepository speciesRepository,
+		IValidator<AddPetCommand> validator,
 		ILogger<AddPetHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
 		this.speciesRepository = speciesRepository;
+		this.validator = validator;
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(AddPetCommand command, CancellationToken token = default)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(AddPetCommand command, CancellationToken token)
 	{
-		var volunteer = await volunteerRepository.GetByIdAsync(command.PetId, token);
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
 
-		if (volunteer.IsFailure)
-			return volunteer.Error;
+		var volunteer = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 
-		var addressDto = command.AddressDTO;
+		var addressDto = command.Address;
 
 		var phone = Phone.Create(command.Phone).Value;
 		var address = Address.Create(addressDto.Country, addressDto.City, addressDto.Street, addressDto.HouseNumber, addressDto.Apartment, addressDto.HouseLiter).Value;
 
-		var breed = Breed.Create(command.Breed);
-		if (breed.IsFailure)
-			return breed.Error;
-
-		var speciesResult = Species.Create(command.Species, [breed.Value]);
-		if (speciesResult.IsFailure)
-			return speciesResult.Error;
-
-		var petType = await speciesRepository.GetPetTypeByNamesAsync(command.Species, command.Breed, token);
-		if(petType.IsFailure)
-			return petType.Error;
-
-		petType = PetType.Create(breed.Value.Id, speciesResult.Value.Id);
-
+		var petTypeResult = PetType.Create(BreedId.Create(command.BreedId), SpeciesId.Create(command.SpeciesId));
+		if (petTypeResult.IsFailure)
+			return petTypeResult.Error.ToErrorList();
 
 		var pet = Pet.Create(
 			command.Name,
@@ -66,7 +61,7 @@ public class AddPetHandler // CreatePetService
 			phone,
 			command.HelpStatus,
 			address,
-			petType.Value).Value;
+			petTypeResult.Value).Value;
 
 		volunteer.Value.AddPet(pet);
 

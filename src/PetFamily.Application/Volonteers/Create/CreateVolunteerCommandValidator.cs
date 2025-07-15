@@ -1,15 +1,15 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Contracts.RequestVolonteers;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.Volonteers.Create;
 
-public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest>
+public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
 {
-	public CreateVolunteerValidator()
+	public CreateVolunteerCommandValidator()
 	{
 		RuleFor(c => c.Name)
 			.MustBeValueObject(x => VolunteerName.Create(x.Firstname, x.Lastname, x.Surname));

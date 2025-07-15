@@ -13,7 +13,7 @@ public class DeleteExpiredVolunteerService
 	}
 
 
-	public async Task StartAsync(CancellationToken token = default)
+	public async Task StartAsync(CancellationToken token)
 	{
 		var dt = DateTime.UtcNow.AddHours(Constants.SOFT_DELETING_HOUR * -1);
 

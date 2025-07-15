@@ -1,27 +1,28 @@
-﻿using PetFamily.Contracts.Pets;
+﻿using PetFamily.Contracts.DTOs;
+using PetFamily.Contracts.RequestPets;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Examples;
 
-public class PetRequestExample : IExamplesProvider<AddPetRequestDTO>
+public class PetRequestExample : IExamplesProvider<AddPetRequest>
 {
-	public AddPetRequestDTO GetExamples()
+	public AddPetRequest GetExamples()
 	{
 		var guid = Guid.NewGuid().ToString().Replace("-", "").ToLower();
 
-		return new AddPetRequestDTO(
+		return new AddPetRequest(
 			Name: guid.Substring(0, 5),
 			Type: PetTypes.Dog,
 			Description: guid.Substring(5, 15),
-			Breed: guid.Substring(8, 7),
-			Species: guid.Substring(11, 5),
+			BreedId: Guid.NewGuid(),
+			SpeciesId: Guid.NewGuid(),
 			Color: guid.Substring(10, 7),
 			Weight: Random.Shared.Next(1, 70),
 			Height: Random.Shared.Next(1, 20),
 			Phone: $"{Random.Shared.NextInt64(79014445865, 79994445865)}",
 			HelpStatus: PetHelpStatuses.NeedsHelp,
-			AddressDTO: new AddPetRequestAddressDTO(
+			AddressDTO: new AddressDTO(
 				Country: "Russia",
 				City: "Tobok",
 				Street: "Mira",

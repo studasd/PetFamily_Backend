@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Application.Extensions;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 
 namespace PetFamily.Application.Volonteers.Updates.BankingDetails;
@@ -8,22 +10,31 @@ namespace PetFamily.Application.Volonteers.Updates.BankingDetails;
 public class UpdateBankingDetailsHandler
 {
 	private readonly IVolunteerRepository volunteerRepository;
+	private readonly IValidator<UpdateBankingDetailsCommand> validator;
 	private readonly ILogger<UpdateBankingDetailsHandler> logger;
 
-	public UpdateBankingDetailsHandler(IVolunteerRepository volunteerRepository, ILogger<UpdateBankingDetailsHandler> logger)
+	public UpdateBankingDetailsHandler(
+		IVolunteerRepository volunteerRepository, 
+		IValidator<UpdateBankingDetailsCommand> validator,
+		ILogger<UpdateBankingDetailsHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
+		this.validator = validator;
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(UpdateBankingDetailsRequest request, CancellationToken token = default)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(UpdateBankingDetailsCommand command, CancellationToken token)
 	{
-		var volunteerResult = await volunteerRepository.GetByIdAsync(request.VolunteerId, token);
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
+
+		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 
 		if (volunteerResult.IsFailure)
-			return volunteerResult.Error;
+			return volunteerResult.Error.ToErrorList();
 
-		var bankingDetailsResult = request.BankingDetailsDTO.BankingDetails.Select(s => Domain.Shared.ValueObjects.BankingDetails.Create(s.Name, s.Description).Value);
+		var bankingDetailsResult = command.BankingDetails.Select(s => Domain.Shared.ValueObjects.BankingDetails.Create(s.Name, s.Description).Value);
 
 		volunteerResult.Value.UpdateBankingDetails(bankingDetailsResult);
 

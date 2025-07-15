@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Domain.VolunteerManagement.ValueObjects;
+namespace PetFamily.Domain.Shared.ValueObjects;
 
 public class Position : ValueObject
 {

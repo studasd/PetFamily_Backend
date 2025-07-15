@@ -1,10 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 
 namespace PetFamily.Application.Extensions;
 
-public static class CustomValidators
+public static class CustomValidatorsExtension
 {
 	// Валидация ValueObjects 6-1.43.20
 	public static IRuleBuilderOptionsConditions<T, TElement> MustBeValueObject<T, TElement, TValueObject>(this IRuleBuilder<T, TElement> ruleBuilder, Func<TElement, Result<TValueObject, Error>> factoryMethod)

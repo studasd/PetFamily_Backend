@@ -7,7 +7,7 @@ namespace PetFamily.Domain.SpeciesManagement.Entities;
 
 public class Breed : Entity<BreedId>
 {
-	Breed() { }
+	private Breed() { }
 
 	private Breed(BreedId id, string name) : base(id)
 	{

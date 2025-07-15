@@ -1,19 +1,19 @@
-﻿using PetFamily.Contracts.Pets;
+﻿using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.Application.Pets.Add;
 
 public record AddPetCommand(
-	Guid PetId, 
+	Guid VolunteerId,
 	string Name,
 	PetTypes Type,
 	string Description,
-	string Breed,
-	string Species,
+	Guid BreedId,
+	Guid SpeciesId,
 	string Color,
 	decimal Weight,
 	decimal Height,
 	string Phone,
 	PetHelpStatuses HelpStatus,
-	AddPetRequestAddressDTO AddressDTO
+	AddressDTO Address
 	);

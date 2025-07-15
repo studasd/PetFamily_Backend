@@ -13,14 +13,14 @@ using PetFamily.Application.Volonteers.Delete;
 using PetFamily.Application.Volonteers.Updates.BankingDetails;
 using PetFamily.Application.Volonteers.Updates.Info;
 using PetFamily.Application.Volonteers.Updates.SocialNetworks;
-using PetFamily.Contracts.Pets;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Contracts.RequestPets;
+using PetFamily.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("volunteer")]
 public class VolunteerController : ControllerBase
 {
 	[HttpPost]
@@ -28,43 +28,16 @@ public class VolunteerController : ControllerBase
 	public async Task<IActionResult> Create(
 		[FromServices] CreateVolunteerHandler handler,
 		[FromBody] CreateVolunteerRequest request,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var result = await handler.HandleAsync(request, token);
-
-		if (result.IsFailure)
-			return result.Error.ToResponse();
-
-		return Ok(result.Value);
-	}
-
-	[HttpPost("pet/{id:guid}")]
-	[SwaggerRequestExample(typeof(AddPetRequestDTO), typeof(PetRequestExample))]
-	public async Task<IActionResult> AddPet(
-		[FromRoute] Guid id,
-		[FromBody] AddPetRequestDTO dto,
-		[FromServices] AddPetHandler handler,
-		[FromServices] IValidator<AddPetRequest> validator,
-		CancellationToken token = default)
-	{
-		var request = new AddPetRequest(id, dto);
-		var validResult = await validator.ValidateAsync(request, token);
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var command = new AddPetCommand(
-			PetId: id,
-			Name: dto.Name,
-			Type: dto.Type,
-			Description: dto.Description,
-			Breed: dto.Breed,
-			Species: dto.Species,
-			Color: dto.Color,
-			Weight: dto.Weight,
-			Height: dto.Height,
-			Phone: dto.Phone,
-			HelpStatus: dto.HelpStatus,
-			AddressDTO: dto.AddressDTO
+		var command = new CreateVolunteerCommand(
+			Name: request.Name,
+			Email: request.Email,
+			Description: request.Description,
+			ExperienceYears: request.ExperienceYears,
+			Phone: request.Phone,
+			BankingDetails: request.BankingDetails ?? [],
+			SocialNetworks: request.SocialNetworks ?? []
 			);
 
 		var result = await handler.HandleAsync(command, token);
@@ -76,22 +49,48 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpPut("info/{id:guid}")]
+	[HttpPost("pet/{volunteerId:guid}")]
+	[SwaggerRequestExample(typeof(AddPetRequest), typeof(PetRequestExample))]
+	public async Task<IActionResult> AddPet(
+		[FromRoute] Guid volunteerId,
+		[FromBody] AddPetRequest request,
+		[FromServices] AddPetHandler handler,
+		CancellationToken token)
+	{
+		var command = new AddPetCommand(
+			VolunteerId: volunteerId,
+			Name: request.Name,
+			Type: request.Type,
+			Description: request.Description,
+			BreedId: request.BreedId,
+			SpeciesId: request.SpeciesId,
+			Color: request.Color,
+			Weight: request.Weight,
+			Height: request.Height,
+			Phone: request.Phone,
+			HelpStatus: request.HelpStatus,
+			Address: request.AddressDTO
+			);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("info/{volunteerId:guid}")]
 	public async Task<IActionResult> Update(
-		[FromRoute] Guid id,
-		[FromBody] UpdateInfoRequestDTO dto,
+		[FromRoute] Guid volunteerId,
+		[FromBody] UpdateInfoRequest request,
 		[FromServices] UpdateInfoHandler handler,
-		[FromServices] IValidator<UpdateInfoRequest> validator,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var request = new UpdateInfoRequest(id, dto);
+		var command = new UpdateInfoCommand(volunteerId, request.Name, request.Email, request.Description);
 
-		var validResult = await validator.ValidateAsync(request, token);
-
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var result = await handler.HandleAsync(request, token);
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -100,22 +99,16 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpPut("social-networks/{id:guid}")]
+	[HttpPut("social-networks/{volunteerId:guid}")]
 	public async Task<IActionResult> UpdateSocials(
-		[FromRoute] Guid id,
-		[FromBody] UpdateSocialNetworksRequestDTO dto,
+		[FromRoute] Guid volunteerId,
+		[FromBody] UpdateSocialNetworksRequest request,
 		[FromServices] UpdateSocialNetworksHandler handler,
-		[FromServices] IValidator<UpdateSocialNetworksRequest> validator,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var request = new UpdateSocialNetworksRequest(id, dto);
+		var command = new UpdateSocialNetworksCommand(volunteerId, request.SocialNetworks);
 
-		var validResult = await validator.ValidateAsync(request, token);
-
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var result = await handler.HandleAsync(request, token);
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -124,22 +117,16 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpPut("bankig-details/{id:guid}")]
+	[HttpPut("bankig-details/{volunteerId:guid}")]
 	public async Task<IActionResult> UpdateBanking(
-		[FromRoute] Guid id,
-		[FromBody] UpdateBankingDetailsRequestDTO dto,
+		[FromRoute] Guid volunteerId,
+		[FromBody] UpdateBankingDetailsRequest request,
 		[FromServices] UpdateBankingDetailsHandler handler,
-		[FromServices] IValidator<UpdateBankingDetailsRequest> validator,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var request = new UpdateBankingDetailsRequest(id, dto);
+		var command = new UpdateBankingDetailsCommand(volunteerId, request.BankingDetails);
 
-		var validResult = await validator.ValidateAsync(request, token);
-
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var result = await handler.HandleAsync(request, token);
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -148,21 +135,15 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpDelete("hard/{id:guid}")]
+	[HttpDelete("hard/{volunteerId:guid}")]
 	public async Task<IActionResult> HardDelete(
-		[FromRoute] Guid id,
+		[FromRoute] Guid volunteerId,
 		[FromServices] DeleteVolunteerHandler handler,
-		[FromServices] IValidator<DeleteVolunteerRequest> validator,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var request = new DeleteVolunteerRequest(id, IsSoftDelete: false);
+		var command = new DeleteVolunteerCommand(volunteerId, IsSoftDelete: false);
 
-		var validResult = await validator.ValidateAsync(request, token);
-
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var result = await handler.HandleAsync(request, token);
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -171,21 +152,15 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpDelete("soft/{id:guid}")]
+	[HttpDelete("soft/{volunteerId:guid}")]
 	public async Task<IActionResult> SoftDelete(
-		[FromRoute] Guid id,
+		[FromRoute] Guid volunteerId,
 		[FromServices] DeleteVolunteerHandler handler,
-		[FromServices] IValidator<DeleteVolunteerRequest> validator,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
-		var request = new DeleteVolunteerRequest(id, IsSoftDelete:true);
+		var command = new DeleteVolunteerCommand(volunteerId, IsSoftDelete:true);
 
-		var validResult = await validator.ValidateAsync(request, token);
-
-		if (validResult.IsValid == false)
-			return validResult.ToValidationErrorResponse();
-
-		var result = await handler.HandleAsync(request, token);
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -194,13 +169,13 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpPost("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	[HttpPost("pet/photos/{volunteerId:guid}/{petId:guid}")]
 	public async Task<IActionResult> UploadPetPhotos(
 		[FromRoute] Guid volunteerId,
 		[FromRoute] Guid petId,
 		[FromServices] UploadPhotosPetHandler handler,
 		[FromForm] UploadPetPhotosRequest request,
-		CancellationToken token = default)
+		CancellationToken token)
 	{
 		await using var fileProcessor = new FormFileProcessor();
 		var fileDtos = fileProcessor.Process(request.PhotosUpload);
@@ -216,7 +191,7 @@ public class VolunteerController : ControllerBase
 	}
 
 
-	[HttpDelete("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	[HttpDelete("pet/photos/{volunteerId:guid}/{petId:guid}")]
 	public async Task<IActionResult> DeletePetPhotos(
 		[FromRoute] Guid volunteerId,
 		[FromRoute] Guid petId,

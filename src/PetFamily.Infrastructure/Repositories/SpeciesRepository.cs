@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volonteers;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
@@ -14,7 +14,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 	private readonly ApplicationDbContext db = context;
 
 
-	public async Task<Guid> AddAsync(Species species, CancellationToken token = default)
+	public async Task<Guid> AddAsync(Species species, CancellationToken token)
 	{
 		await db.Species.AddAsync(species, token);
 
@@ -23,7 +23,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 		return species.Id;
 	}
 
-	public async Task<Result<Species, Error>> GetByIdAsync(SpeciesId speciesId, CancellationToken token = default)
+	public async Task<Result<Species, Error>> GetByIdAsync(SpeciesId speciesId, CancellationToken token)
 	{
 		var species = await db.Species
 			.Include(x => x.Breeds)
@@ -35,7 +35,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 		return species;
 	}
 
-	public async Task<Result<Species, Error>> GetByNameAsync(string speciesName, CancellationToken token = default)
+	public async Task<Result<Species, Error>> GetByNameAsync(string speciesName, CancellationToken token)
 	{
 		var species = await db.Species
 			.Include(x => x.Breeds)
@@ -48,7 +48,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 	}
 
 
-	public async Task<Result<PetType, Error>> GetPetTypeByNamesAsync(string speciesName, string breedName, CancellationToken token = default)
+	public async Task<Result<PetType, Error>> GetPetTypeByNamesAsync(string speciesName, string breedName, CancellationToken token)
 	{
 		var species = await db.Species
 			.Include(x => x.Breeds)
@@ -65,7 +65,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 	}
 
 
-	public async Task<Guid> DeleteAsync(Species species, CancellationToken token = default)
+	public async Task<Guid> DeleteAsync(Species species, CancellationToken token)
 	{
 		db.Species.Remove(species);
 
@@ -74,7 +74,7 @@ public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepositor
 		return species.Id;
 	}
 
-	public async Task SaveAsync(CancellationToken token = default)
+	public async Task SaveAsync(CancellationToken token)
 	{
 		await db.SaveChangesAsync(token);
 	}

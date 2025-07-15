@@ -1,7 +1,9 @@
 ﻿
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Contracts.Volonteers;
+using PetFamily.Application.Extensions;
+using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.Entities;
@@ -12,36 +14,45 @@ namespace PetFamily.Application.Volonteers.Create;
 public class CreateVolunteerHandler // CreateVolunteerService
 {
 	private readonly IVolunteerRepository volunteerRepository;
+	private readonly IValidator<CreateVolunteerCommand> validator;
 	private readonly ILogger<CreateVolunteerHandler> logger;
 
-	public CreateVolunteerHandler(IVolunteerRepository volunteerRepository, ILogger<CreateVolunteerHandler> logger)
+	public CreateVolunteerHandler(
+		IVolunteerRepository volunteerRepository, 
+		IValidator<CreateVolunteerCommand> validator,
+		ILogger<CreateVolunteerHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
+		this.validator = validator;
 		this.logger = logger;
 	}
 
-	public async Task<Result<Guid, Error>> HandleAsync(CreateVolunteerRequest request, CancellationToken token = default)
+	public async Task<Result<Guid, ErrorList>> HandleAsync(CreateVolunteerCommand command, CancellationToken token)
 	{
-		var volunteerName = VolunteerName.Create(request.Name.Firstname, request.Name.Lastname, request.Name.Surname).Value;
+		var validateResult = await validator.ValidateAsync(command, token);
+		if (validateResult.IsValid == false)
+			return validateResult.ToErrorList();
+
+		var volunteerName = VolunteerName.Create(command.Name.Firstname, command.Name.Lastname, command.Name.Surname).Value;
 		
 		var volunteerNameExist = await volunteerRepository.GetByNameAsync(volunteerName, token);
 		
 		if (volunteerNameExist.IsSuccess)
-			return Errors.General.AlreadyExist("Volunteer");
+			return volunteerNameExist.Error.ToErrorList();
 
-		var phone = Phone.Create(request.Phone).Value;
+		var phone = Phone.Create(command.Phone).Value;
 
-		var volunteer = Volunteer.Create(volunteerName, request.Email, request.Description, request.ExperienceYears, phone).Value;
+		var volunteer = Volunteer.Create(volunteerName, command.Email, command.Description, command.ExperienceYears, phone).Value;
 
-		if (request.SocialNetworks.Count() > 0)
+		if (command.SocialNetworks.Count() > 0)
 		{
-			var socNetworksResult = request.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
+			var socNetworksResult = command.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
 			volunteer.AddSocialNetworks(socNetworksResult);
 		}
 
-		if (request.BankingDetails.Count() > 0)
+		if (command.BankingDetails.Count() > 0)
 		{
-			var bankDetailsResult = request.BankingDetails.Select(s => BankingDetails.Create(s.Name, s.Description).Value);
+			var bankDetailsResult = command.BankingDetails.Select(s => BankingDetails.Create(s.Name, s.Description).Value);
 			volunteer.AddBankingDetails(bankDetailsResult);
 		}
 

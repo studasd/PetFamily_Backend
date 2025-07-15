@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.VolunteerManagement.Enums;
 
-namespace PetFamily.Contracts.Pets;
+namespace PetFamily.Contracts.RequestPets;
 
-public record AddPetRequestDTO(
+public record AddPetRequest(
 	string Name,
 	PetTypes Type,
 	string Description,
-	string Breed,
-	string Species,
+	Guid BreedId,
+	Guid SpeciesId,
 	string Color,
 	decimal Weight,
 	decimal Height,
 	string Phone,
 	PetHelpStatuses HelpStatus,
-	AddPetRequestAddressDTO AddressDTO);
+	AddressDTO AddressDTO);

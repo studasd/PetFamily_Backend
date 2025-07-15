@@ -108,7 +108,7 @@ public class MinioProvider : IFileProvider
 	
 
 
-	public async Task<UnitResult<Error>> DeleteFileAsync(FileInform fileData, CancellationToken token = default)
+	public async Task<UnitResult<Error>> DeleteFileAsync(FileInform fileData, CancellationToken token)
 	{
 		try
 		{
@@ -139,7 +139,7 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> PresignedFileAsync(FileInform fileData, CancellationToken token = default)
+	public async Task<Result<string, Error>> PresignedFileAsync(FileInform fileData, CancellationToken token)
 	{
 		try
 		{
