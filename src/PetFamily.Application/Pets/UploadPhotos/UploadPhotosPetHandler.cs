@@ -5,7 +5,7 @@ using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.Pets.UploadPhotos;

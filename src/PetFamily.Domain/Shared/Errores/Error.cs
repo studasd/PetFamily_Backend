@@ -1,23 +1,26 @@
-﻿namespace PetFamily.Domain.Shared;
+﻿namespace PetFamily.Domain.Shared.Errores;
 
 public class Error
 {
 	public const string SEPARATOR = "||";
 
-	private Error(string code, string message, ErrorTypes type)
+	private Error(string code, string message, ErrorTypes type, string? invalidField = null)
 	{
 		Code = code;
 		Message = message;
 		Type = type;
+		InvalidField = invalidField;
 	}
 
 	public string Code { get; }
 	public string Message { get; }
 	public ErrorTypes Type { get; }
 	public int TypeCode => (int)Type;
+	public string? InvalidField { get; } = null;
 
 
-	public static Error Validation(string code, string message) => new(code, message, ErrorTypes.Validation);
+	public static Error Validation(string code, string message, string? invalidField = null) => 
+		new(code, message, ErrorTypes.Validation, invalidField);
 	public static string ValidationSerialize(string code, string message) => Validation(code, message).Serialize();
 
 	public static Error NotFound(string code, string message) => new(code, message, ErrorTypes.NotFound);
@@ -29,8 +32,10 @@ public class Error
 	public static Error Conflict(string code, string message) => new(code, message, ErrorTypes.Conflict);
 	public static string ConflictSerialize(string code, string message) => Conflict(code, message).Serialize();
 
+	public ErrorList ToErrorList() => new([this]);
 
-	public string Serialize() => String.Join(SEPARATOR, Code, Message, Type);
+
+	public string Serialize() => string.Join(SEPARATOR, Code, Message, Type);
 
 
 	public static Error Deserialize(string serialaze)

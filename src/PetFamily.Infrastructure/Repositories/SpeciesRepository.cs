@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

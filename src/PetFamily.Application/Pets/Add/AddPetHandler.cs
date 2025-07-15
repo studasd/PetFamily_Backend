@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Pets;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;

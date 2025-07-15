@@ -1,5 +1,4 @@
-﻿
-namespace PetFamily.Domain.Shared;
+﻿namespace PetFamily.Domain.Shared.Errores;
 
 public static class Errors
 {

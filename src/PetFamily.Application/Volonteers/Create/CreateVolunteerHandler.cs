@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetFamily.Contracts.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

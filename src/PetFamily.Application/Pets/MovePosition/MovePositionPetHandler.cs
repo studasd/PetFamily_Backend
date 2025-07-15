@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using PetFamily.Application.Database;
 using PetFamily.Application.Pets.DeletePhotos;
 using PetFamily.Application.Volonteers;
-using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.Pets.MovePosition;
