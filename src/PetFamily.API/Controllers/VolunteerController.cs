@@ -5,6 +5,7 @@ using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Pets.Create;
+using PetFamily.Application.Pets.DeletePhotos;
 using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volonteers.Create;
 using PetFamily.Application.Volonteers.Delete;
@@ -204,6 +205,25 @@ public class VolunteerController : ControllerBase
 		var fileDtos = fileProcessor.Process(request.PhotosUpload);
 
 		var command = new UploadPhotosPetCommand(volunteerId, petId, fileDtos);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	public async Task<IActionResult> DeletePetPhotos(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] DeletePhotosPetHandler handler,
+		[FromBody] DeletePetPhotosRequest request,
+		CancellationToken token)
+	{
+		var command = new DeletePhotosPetCommand(volunteerId, petId, request.PhotosDelete);
 
 		var result = await handler.HandleAsync(command, token);
 

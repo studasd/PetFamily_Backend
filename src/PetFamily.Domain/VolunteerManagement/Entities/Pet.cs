@@ -131,4 +131,12 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 
 		return Result.Success<Error>();
 	}
+
+	public UnitResult<Error> DeletePhotos(IEnumerable<FileStorage> delFileStorages)
+	{
+		foreach (var fileStorage in delFileStorages)
+			fileStorages.Remove(fileStorage);
+
+		return Result.Success<Error>();
+	}
 }
