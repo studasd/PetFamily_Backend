@@ -29,7 +29,7 @@ public class UpdateInfoHandler
 
 		volunteerResult.Value.UpdateInfo(name, request.UpdateInfoDTO.Email, request.UpdateInfoDTO.Description);
 
-		await volunteerRepository.SaveAsync();
+		await volunteerRepository.SaveAsync(token);
 
 		logger.LogInformation("Updated volunteer {name}, {email}, {description} with id {volunteerId}", name, request.UpdateInfoDTO.Email, request.UpdateInfoDTO.Description, volunteerResult.Value.Id);
 

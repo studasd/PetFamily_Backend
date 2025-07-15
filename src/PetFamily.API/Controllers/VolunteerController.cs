@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
+using PetFamily.API.Processors;
+using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Pets.Create;
+using PetFamily.Application.Pets.DeletePhotos;
+using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volonteers.Create;
 using PetFamily.Application.Volonteers.Delete;
 using PetFamily.Application.Volonteers.Updates.BankingDetails;
@@ -34,20 +38,35 @@ public class VolunteerController : ControllerBase
 	}
 
 	[HttpPost("pet/{id:guid}")]
-	[SwaggerRequestExample(typeof(CreatePetRequestDTO), typeof(PetRequestExample))]
+	[SwaggerRequestExample(typeof(AddPetRequestDTO), typeof(PetRequestExample))]
 	public async Task<IActionResult> AddPet(
 		[FromRoute] Guid id,
-		[FromBody] CreatePetRequestDTO dto,
-		[FromServices] CreatePetHandler handler,
-		[FromServices] IValidator<CreatePetRequest> validator,
+		[FromBody] AddPetRequestDTO dto,
+		[FromServices] AddPetHandler handler,
+		[FromServices] IValidator<AddPetRequest> validator,
 		CancellationToken token = default)
 	{
-		var request = new CreatePetRequest(id, dto);
+		var request = new AddPetRequest(id, dto);
 		var validResult = await validator.ValidateAsync(request, token);
 		if (validResult.IsValid == false)
 			return validResult.ToValidationErrorResponse();
 
-		var result = await handler.HandleAsync(request, token);
+		var command = new AddPetCommand(
+			PetId: id,
+			Name: dto.Name,
+			Type: dto.Type,
+			Description: dto.Description,
+			Breed: dto.Breed,
+			Species: dto.Species,
+			Color: dto.Color,
+			Weight: dto.Weight,
+			Height: dto.Height,
+			Phone: dto.Phone,
+			HelpStatus: dto.HelpStatus,
+			AddressDTO: dto.AddressDTO
+			);
+
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();
@@ -166,6 +185,47 @@ public class VolunteerController : ControllerBase
 			return validResult.ToValidationErrorResponse();
 
 		var result = await handler.HandleAsync(request, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPost("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	public async Task<IActionResult> UploadPetPhotos(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] UploadPhotosPetHandler handler,
+		[FromForm] UploadPetPhotosRequest request,
+		CancellationToken token = default)
+	{
+		await using var fileProcessor = new FormFileProcessor();
+		var fileDtos = fileProcessor.Process(request.PhotosUpload);
+
+		var command = new UploadPhotosPetCommand(volunteerId, petId, fileDtos);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("{volunteerId:guid}/pet/{petId:guid}/photos")]
+	public async Task<IActionResult> DeletePetPhotos(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] DeletePhotosPetHandler handler,
+		[FromBody] DeletePetPhotosRequest request,
+		CancellationToken token)
+	{
+		var command = new DeletePhotosPetCommand(volunteerId, petId, request.PhotosDelete);
+
+		var result = await handler.HandleAsync(command, token);
 
 		if (result.IsFailure)
 			return result.Error.ToResponse();

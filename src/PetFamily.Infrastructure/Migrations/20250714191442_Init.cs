@@ -95,6 +95,7 @@ namespace PetFamily.Infrastructure.Migrations
                     position = table.Column<int>(type: "integer", nullable: false),
                     is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    file_storages = table.Column<string>(type: "jsonb", nullable: true),
                     phones = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>

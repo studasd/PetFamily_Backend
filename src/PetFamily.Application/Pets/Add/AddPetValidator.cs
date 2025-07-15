@@ -7,9 +7,9 @@ using PetFamily.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.Application.Pets.Create;
 
-public class CreatePetValidator : AbstractValidator<CreatePetRequest>
+public class AddPetValidator : AbstractValidator<AddPetRequest>
 {
-	public CreatePetValidator()
+	public AddPetValidator()
 	{
 		RuleFor(c => c.CreatePetDto.Name)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("Name is not empty"));
@@ -35,11 +35,5 @@ public class CreatePetValidator : AbstractValidator<CreatePetRequest>
 
 		RuleFor(c => c.CreatePetDto.Phone)
 			.MustBeValueObject(Phone.Create);
-
-		//if (type == default)
-		//	return Errors.General.ValueIsRequired("Pet type");
-
-		//if (helpStatus == default)
-		//	return Errors.General.ValueIsRequired("Help status");
 	}
 }

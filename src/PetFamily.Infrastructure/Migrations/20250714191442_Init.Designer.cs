@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250711101322_Init")]
+    [Migration("20250714191442_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -280,7 +280,7 @@ namespace PetFamily.Infrastructure.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("phone")
+                            b1.Property<string>("PhoneNumber")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
@@ -320,13 +320,14 @@ namespace PetFamily.Infrastructure.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("integer");
 
-                            b1.Property<string>("phone")
+                            b1.Property<string>("PhoneNumber")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("phones");
 
-                            b1.HasKey("PetId", "__synthesizedOrdinal");
+                            b1.HasKey("PetId", "__synthesizedOrdinal")
+                                .HasName("pk_pets");
 
                             b1.ToTable("pets");
 
@@ -336,6 +337,34 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_pet_id");
                         });
+
+                    b.OwnsMany("PetFamily.Domain.VolunteerManagement.ValueObjects.FileStorage", "FileStorages", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("PathToStorage")
+                                .IsRequired()
+                                .HasMaxLength(1500)
+                                .HasColumnType("character varying(1500)")
+                                .HasColumnName("files");
+
+                            b1.HasKey("PetId", "__synthesizedOrdinal");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("file_storages");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_pet_id");
+                        });
+
+                    b.Navigation("FileStorages");
 
                     b.Navigation("Phones");
                 });

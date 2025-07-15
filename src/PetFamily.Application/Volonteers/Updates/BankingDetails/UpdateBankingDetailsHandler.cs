@@ -27,7 +27,7 @@ public class UpdateBankingDetailsHandler
 
 		volunteerResult.Value.UpdateBankingDetails(bankingDetailsResult);
 
-		await volunteerRepository.SaveAsync();
+		await volunteerRepository.SaveAsync(token);
 
 		logger.LogInformation("Updated volunteer banking details {bankings} with id {volunteerId}", bankingDetailsResult, volunteerResult.Value.Id);
 

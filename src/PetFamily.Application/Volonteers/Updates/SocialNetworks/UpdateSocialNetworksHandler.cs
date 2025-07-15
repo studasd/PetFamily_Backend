@@ -29,7 +29,7 @@ public class UpdateSocialNetworksHandler
 
 		volunteerResult.Value.UpdateSocialNetworks(socNetworksResult);
 
-		await volunteerRepository.SaveAsync();
+		await volunteerRepository.SaveAsync(token);
 
 		logger.LogInformation("Updated volunteer social networks {socials} with id {volunteerId}", socNetworksResult, volunteerResult.Value.Id);
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFamily.Application.Database;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Volonteers;
 using PetFamily.Contracts.Volonteers;
@@ -19,6 +20,7 @@ public static class InjectExtension
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
 
 		services.AddScoped<ApplicationDbContext>();
+		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 		services.AddScoped<ISpeciesRepository, SpeciesRepository>();

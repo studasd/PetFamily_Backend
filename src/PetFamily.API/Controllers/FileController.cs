@@ -29,13 +29,13 @@ public class FileController : ControllerBase
 
 		var fileName = Guid.NewGuid();
 
-		var fileData = new FileUploadData(stream, "photos", fileName.ToString());
+		List<FileData> fileDatas = [new FileData(stream, fileName.ToString(), "photos")];
 
-		var result = await minioProvider.UploadFileAsync(fileData, token);
+		var result = await minioProvider.UploadFilesAsync(fileDatas, token);
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
-		return Ok(result.Value);
+		return Ok();
 	}
 
 
@@ -45,7 +45,7 @@ public class FileController : ControllerBase
 		[FromRoute] Guid filename,
 		CancellationToken token)
 	{
-		var fileData = new FileData(bucketname, filename.ToString());
+		var fileData = new FileInform(bucketname, filename.ToString());
 
 		var result = await minioProvider.DeleteFileAsync(fileData, token);
 		if (result.IsFailure)
@@ -61,7 +61,7 @@ public class FileController : ControllerBase
 		[FromRoute] Guid filename,
 		CancellationToken token)
 	{
-		var fileData = new FileData(bucketname, filename.ToString());
+		var fileData = new FileInform(bucketname, filename.ToString());
 
 		var result = await minioProvider.PresignedFileAsync(fileData, token);
 		if (result.IsFailure)

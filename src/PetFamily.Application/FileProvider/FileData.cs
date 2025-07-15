@@ -1,3 +1,3 @@
 ﻿namespace PetFamily.Application.FileProvider;
 
-public record FileData(string BucketName, string FileName);
+public record FileData(Stream Content, string FileName, string BucketName);

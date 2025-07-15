@@ -21,7 +21,6 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		Phone = phone;
 	}
 
-	private readonly List<Pet> pets = [];
 
 	public VolunteerName Name { get; private set; }
 	public string? Email { get; private set; }
@@ -39,6 +38,7 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 
 
 	public IReadOnlyList<Pet> Pets => pets;
+	private readonly List<Pet> pets = [];
 
 	public static Guid NewId() => Guid.NewGuid();
 

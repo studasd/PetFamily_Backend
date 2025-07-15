@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.Entities;
@@ -96,12 +91,23 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 		builder.OwnsMany(p => p.Phones,
 			pb =>
 			{
-				pb.ToJson();
+				pb.ToJson("phones");
 
-				pb.Property(s => s.phone)
+				pb.Property(s => s.PhoneNumber)
 					.IsRequired()
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("phones");
+			});
+
+		builder.OwnsMany(p => p.FileStorages,
+			pb =>
+			{
+				pb.ToJson("file_storages");
+
+				pb.Property(s => s.PathToStorage)
+					.IsRequired()
+					.HasMaxLength(Constants.MAX_HIGHT_TEXT_LENGHT)
+					.HasColumnName("files");
 			});
 
 		builder.Property(p => p.IsNeutered)

@@ -5,6 +5,7 @@ using Minio.DataModel.Args;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Providers;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Infrastructure.Providers;
 
@@ -12,6 +13,7 @@ public class MinioProvider : IFileProvider
 {
 	private readonly IMinioClient minioClient;
 	private readonly ILogger<MinioProvider> logger;
+	const int MAX_THREAD_UPLOAD_FILES = 10;
 
 	public MinioProvider(IMinioClient minioClient, ILogger<MinioProvider> logger)
 	{
@@ -20,39 +22,91 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> UploadFileAsync(FileUploadData fileData, CancellationToken token = default)
+	public async Task<Result<IReadOnlyList<string>, Error>> UploadFilesAsync(IEnumerable<FileData> fileDatas, CancellationToken token)
 	{
+		var semaphoreSlim = new SemaphoreSlim(MAX_THREAD_UPLOAD_FILES);
+		var filesList = fileDatas.ToList();
+
 		try
 		{
-			var bucketExistArgs = new BucketExistsArgs().WithBucket(fileData.BucketName);
-			var bucketExist = await minioClient.BucketExistsAsync(bucketExistArgs, token);
-			if (bucketExist == false)
-			{
-				var makeBucketArgs = new MakeBucketArgs().WithBucket(fileData.BucketName);
+			await IfBucketsNotExistCreateBucket(filesList, token);
 
-				await minioClient.MakeBucketAsync(makeBucketArgs, token);
-			}
+			var tasks = filesList.Select(async file =>
+				await PutObject(file, semaphoreSlim, token));
 
+			var pathResult = await Task.WhenAll(tasks);
 
-			var putObjectArgs = new PutObjectArgs()
-				.WithBucket(fileData.BucketName)
-				.WithStreamData(fileData.Stream)
-				.WithObjectSize(fileData.Stream.Length)
-				.WithObject(fileData.FileName);
+			if (pathResult.Any(p => p.IsFailure))
+				return pathResult.First().Error;
 
-			var result = await minioClient.PutObjectAsync(putObjectArgs, token);
+			var results = pathResult.Select(p => p.Value).ToList();
 
-			return result.ObjectName;
+			return results;
 		}
 		catch (Exception e)
 		{
 			logger.LogError(e, "Fail to upload file in minio");
 			return Error.Failure("file_upload", "Fail to upload file in minio");
 		}
+		finally
+		{
+			semaphoreSlim.Release();
+		}
 	}
 
 
-	public async Task<UnitResult<Error>> DeleteFileAsync(FileData fileData, CancellationToken token = default)
+	private async Task<Result<string, Error>> PutObject(FileData fileData, SemaphoreSlim semaphoreSlim, CancellationToken token)
+	{
+		await semaphoreSlim.WaitAsync(token);
+
+		var putObjectArgs = new PutObjectArgs()
+			.WithBucket(fileData.BucketName)
+			.WithStreamData(fileData.Content)
+			.WithObjectSize(fileData.Content.Length)
+			.WithObject(fileData.FileName);
+
+		try
+		{
+			await minioClient.PutObjectAsync(putObjectArgs, token);
+
+			return fileData.FileName;
+		}
+		catch (Exception ex)
+		{
+			logger.LogError(ex, "Fail to upload file in minio with path {path} in bucket {bucket}", fileData.FileName, fileData.BucketName);
+
+			return Error.Failure("file_upload", "Fail to upload file in minio");
+		}
+		finally
+		{
+			semaphoreSlim.Release();
+		}
+	}
+
+	private async Task IfBucketsNotExistCreateBucket(IEnumerable<FileData> fileDatas, CancellationToken token)
+	{
+		HashSet<string> bucketNames = [.. fileDatas.Select(file => file.BucketName)];
+
+		foreach (var bucketName in bucketNames)
+		{
+			var bucketExistArgs = new BucketExistsArgs()
+				.WithBucket(bucketName);
+
+			var bucketExists = await minioClient.BucketExistsAsync(bucketExistArgs, token);
+
+			if (bucketExists == false)
+			{
+				var makeBucketArgs = new MakeBucketArgs()
+					.WithBucket(bucketName);
+
+				await minioClient.MakeBucketAsync(makeBucketArgs, token);
+			}
+		}
+	}
+	
+
+
+	public async Task<UnitResult<Error>> DeleteFileAsync(FileInform fileData, CancellationToken token = default)
 	{
 		try
 		{
@@ -72,7 +126,7 @@ public class MinioProvider : IFileProvider
 	}
 
 
-	public async Task<Result<string, Error>> PresignedFileAsync(FileData fileData, CancellationToken token = default)
+	public async Task<Result<string, Error>> PresignedFileAsync(FileInform fileData, CancellationToken token = default)
 	{
 		try
 		{
