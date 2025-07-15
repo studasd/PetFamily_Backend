@@ -6,6 +6,7 @@ using PetFamily.API.Processors;
 using PetFamily.Application.Pets.Add;
 using PetFamily.Application.Pets.Create;
 using PetFamily.Application.Pets.DeletePhotos;
+using PetFamily.Application.Pets.MovePosition;
 using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volonteers.Create;
 using PetFamily.Application.Volonteers.Delete;
@@ -224,6 +225,26 @@ public class VolunteerController : ControllerBase
 		CancellationToken token)
 	{
 		var command = new DeletePhotosPetCommand(volunteerId, petId, request.PhotosDelete);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+
+	[HttpPut("pet/move-position/{volunteerId:guid}/{petId:guid}/{newPosition:int}")]
+	public async Task<IActionResult> MovePetPosition(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromRoute] int newPosition,
+		[FromServices] MovePositionPetHandler handler,
+		CancellationToken token)
+	{
+		var command = new MovePositionPetCommand(volunteerId, petId, newPosition);
 
 		var result = await handler.HandleAsync(command, token);
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Application.Pets.Create;
 using PetFamily.Application.Pets.DeletePhotos;
+using PetFamily.Application.Pets.MovePosition;
 using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volonteers.Create;
 using PetFamily.Application.Volonteers.Delete;
@@ -19,6 +20,7 @@ public static class InjectExtension
 		services.AddScoped<DeleteVolunteerHandler>();
 		services.AddScoped<UploadPhotosPetHandler>();
 		services.AddScoped<DeletePhotosPetHandler>();
+		services.AddScoped<MovePositionPetHandler>();
 
 		services.AddValidatorsFromAssembly(typeof(InjectExtension).Assembly);
 
