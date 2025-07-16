@@ -3,7 +3,7 @@ using PetFamily.Application.Extensions;
 using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Application.DTOValidators;
+namespace PetFamily.Application.DTOs.Validators;
 
 public class UploadFileDtoValidator : AbstractValidator<UploadFileDto>
 {

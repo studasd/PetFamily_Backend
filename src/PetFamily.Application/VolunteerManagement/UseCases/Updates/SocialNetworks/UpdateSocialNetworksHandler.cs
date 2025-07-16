@@ -7,7 +7,7 @@ using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Application.Volunteers.Updates.SocialNetworks;
+namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 
 public class UpdateSocialNetworksHandler
 {

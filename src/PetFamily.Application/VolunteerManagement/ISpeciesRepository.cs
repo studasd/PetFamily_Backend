@@ -4,7 +4,7 @@ using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Application.Volunteers;
+namespace PetFamily.Application.VolunteerManagement;
 
 public interface ISpeciesRepository
 {

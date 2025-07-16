@@ -9,7 +9,7 @@ using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Application.Volunteers.Create;
+namespace PetFamily.Application.VolunteerManagement.UseCases.Create;
 
 public class CreateVolunteerHandler // CreateVolunteerService
 {

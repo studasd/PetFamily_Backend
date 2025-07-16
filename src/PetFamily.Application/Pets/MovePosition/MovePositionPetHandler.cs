@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Pets.DeletePhotos;
-using PetFamily.Application.Volunteers;
+using PetFamily.Application.VolunteerManagement;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 

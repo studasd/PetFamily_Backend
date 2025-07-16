@@ -8,11 +8,11 @@ using PetFamily.Application.Pets.Create;
 using PetFamily.Application.Pets.DeletePhotos;
 using PetFamily.Application.Pets.MovePosition;
 using PetFamily.Application.Pets.UploadPhotos;
-using PetFamily.Application.Volunteers.Create;
-using PetFamily.Application.Volunteers.Delete;
-using PetFamily.Application.Volunteers.Updates.BankingDetails;
-using PetFamily.Application.Volunteers.Updates.Info;
-using PetFamily.Application.Volunteers.Updates.SocialNetworks;
+using PetFamily.Application.VolunteerManagement.UseCases.Create;
+using PetFamily.Application.VolunteerManagement.UseCases.Delete;
+using PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
+using PetFamily.Application.VolunteerManagement.UseCases.Updates.Info;
+using PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
@@ -23,6 +23,18 @@ namespace PetFamily.API.Controllers;
 [Route("volunteer")]
 public class VolunteerController : ControllerBase
 {
+	[HttpGet]
+	public async Task<IActionResult> GetAll(
+	//[FromServices] GetAllVolunteersHandler handler,
+	CancellationToken token)
+	{
+		//var result = await handler.HandleAsync(token);
+		//if (result.IsFailure)
+		//	return result.Error.ToResponse();
+		return Ok();
+	}
+
+
 	[HttpPost]
 	[SwaggerRequestExample(typeof(CreateVolunteerRequest), typeof(VolunteerRequestExample))]
 	public async Task<IActionResult> Create(

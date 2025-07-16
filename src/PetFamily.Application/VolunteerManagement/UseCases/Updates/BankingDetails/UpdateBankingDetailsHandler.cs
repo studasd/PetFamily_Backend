@@ -5,7 +5,7 @@ using PetFamily.Application.Extensions;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Application.Volunteers.Updates.BankingDetails;
+namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
 
 public class UpdateBankingDetailsHandler
 {
