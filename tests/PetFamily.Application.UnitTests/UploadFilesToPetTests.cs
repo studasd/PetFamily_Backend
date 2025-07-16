@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
@@ -9,6 +10,7 @@ using PetFamily.Application.Messaging;
 using PetFamily.Application.Pets.UploadPhotos;
 using PetFamily.Application.Volunteers;
 using PetFamily.Contracts.DTOs;
+using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
@@ -22,25 +24,15 @@ namespace PetFamily.Application.UnitTests;
 
 public class UploadFilesToPetTests
 {
-	[Fact]
-	public async Task Handle_Should_Upload_Files_To_Pet()
-	{
-		// arrange
-		var token = new CancellationTokenSource().Token;
+	private readonly Mock<IFileProvider> fileProviderMock = new();
+	private readonly Mock<IVolunteerRepository> volunteerRepositoryMock = new();
+	private readonly Mock<IUnitOfWork> unitOfWorkMock = new();
+	private readonly Mock<IValidator<UploadPhotosPetCommand>> validatorMock = new();
+	private readonly Mock<IMessageQueue<IEnumerable<FileInform>>> messageQueueMock = new();
+	private readonly Mock<ILogger<UploadPhotosPetHandler>> loggerMock = new();
 
-		var volunteer = new Volunteer(
-			id: VolunteerId.NewVolunteerId(),
-			name: VolunteerName.Create(
-				firstname: "fghfd",
-				lastname: "fghfgh",
-				surname: "вапрп").Value,
-			email: "sgf@sgeg.ef",
-			description: "sgrfsdrg",
-			experienceYears: 1,
-			phone: Phone.Create("7897879878").Value
-			);
 
-		var pet = new Pet(
+	private static Pet GeneratePet() => new Pet(
 			id: PetId.NewPeetId(),
 			name: "rgeeed",
 			type: PetTypes.Dog,
@@ -60,6 +52,27 @@ public class UploadFilesToPetTests
 			petType: PetType.Create(BreedId.NewBreedId(), SpeciesId.NewSpeciesId()).Value
 		);
 
+	private static Volunteer GenerateVolunteer() => new Volunteer(
+			id: VolunteerId.NewVolunteerId(),
+			name: VolunteerName.Create(
+				firstname: "fghfd",
+				lastname: "fghfgh",
+				surname: "вапрп").Value,
+			email: "sgf@sgeg.ef",
+			description: "sgrfsdrg",
+			experienceYears: 1,
+			phone: Phone.Create("7897879878").Value
+			);
+
+
+	[Fact]
+	public async Task Handle_Should_Upload_Files_To_Pet()
+	{
+		// arrange
+		var token = new CancellationTokenSource().Token;
+		Volunteer volunteer = GenerateVolunteer();
+		Pet pet = GeneratePet();
+
 		volunteer.AddPet(pet);
 
 		var stream = new MemoryStream();
@@ -71,17 +84,15 @@ public class UploadFilesToPetTests
 
 		var command = new UploadPhotosPetCommand(volunteer.Id.Value, pet.Id.Value, files);
 
-		var fileProviderMock = new Mock<IFileProvider>();
+
 		fileProviderMock
 			.Setup(fp => fp.UploadFilesAsync(It.IsAny<List<FileData>>(), token))
 			.ReturnsAsync(new List<string> { "file1.jpg", "file2.jpg" });
 
-		var volunteerRepositoryMock = new Mock<IVolunteerRepository>();
 		volunteerRepositoryMock
 			.Setup(vr => vr.GetByIdAsync(volunteer.Id, token))
 			.ReturnsAsync(volunteer);
 
-		var unitOfWorkMock = new Mock<IUnitOfWork>();
 		unitOfWorkMock
 			.Setup(uow => uow.SaveChangesAsync(token))
 			.Returns(Task.CompletedTask);
@@ -89,22 +100,17 @@ public class UploadFilesToPetTests
 			.Setup(tr => tr.BeginTransactionAsync(token))
 			.ReturnsAsync(Mock.Of<IDbTransaction>());
 
-
-		var validatorMock = new Mock<IValidator<UploadPhotosPetCommand>>();
 		validatorMock
 			.Setup(v => v.ValidateAsync(command, token))
 			.ReturnsAsync(new ValidationResult());
 
-		var messageQueueMock = new Mock<IMessageQueue<IEnumerable<FileInform>>>();
 		messageQueueMock
 			.Setup(mq => mq.WriteAsync(It.IsAny<IEnumerable<FileInform>>(), token))
 			.Returns(Task.CompletedTask);
 
-		var loggerMock = new Mock<ILogger<UploadPhotosPetHandler>>();
-
 
 		var handler = new UploadPhotosPetHandler(
-			fileProviderMock.Object, 
+			fileProviderMock.Object,
 			volunteerRepositoryMock.Object,
 			unitOfWorkMock.Object,
 			validatorMock.Object,
@@ -118,5 +124,68 @@ public class UploadFilesToPetTests
 		// assert
 		result.IsSuccess.Should().BeTrue();
 		result.Value.Should().Be(pet.Id.Value);
+	}
+
+
+	[Fact]
+	public async Task Handle_Should_Return_Error_When_Volunteer_Does_Not_Exist()
+	{
+		// arrange
+		var token = new CancellationTokenSource().Token;
+
+		Volunteer volunteer = GenerateVolunteer();
+		Pet pet = GeneratePet();
+
+		volunteer.AddPet(pet);
+
+		var stream = new MemoryStream();
+		var filename = "test.jpeg";
+
+		var uploadFileDto = new UploadFileDto(stream, filename, "");
+		List<UploadFileDto> files = [uploadFileDto, uploadFileDto];
+
+
+		var command = new UploadPhotosPetCommand(volunteer.Id.Value, pet.Id.Value, files);
+
+		fileProviderMock
+			.Setup(fp => fp.UploadFilesAsync(It.IsAny<List<FileData>>(), token))
+			.ReturnsAsync(new List<string> { "file1.jpg", "file2.jpg" });
+
+		volunteerRepositoryMock
+			.Setup(vr => vr.GetByIdAsync(volunteer.Id, token))
+			.ReturnsAsync(Result.Failure<Volunteer, Error>(Errors.General.NotFound()));
+
+		unitOfWorkMock
+			.Setup(uow => uow.SaveChangesAsync(token))
+			.Returns(Task.CompletedTask);
+		unitOfWorkMock
+			.Setup(tr => tr.BeginTransactionAsync(token))
+			.ReturnsAsync(Mock.Of<IDbTransaction>());
+
+		validatorMock
+			.Setup(v => v.ValidateAsync(command, token))
+			.ReturnsAsync(new ValidationResult());
+
+		messageQueueMock
+			.Setup(mq => mq.WriteAsync(It.IsAny<IEnumerable<FileInform>>(), token))
+			.Returns(Task.CompletedTask);
+
+
+		var handler = new UploadPhotosPetHandler(
+			fileProviderMock.Object,
+			volunteerRepositoryMock.Object,
+			unitOfWorkMock.Object,
+			validatorMock.Object,
+			messageQueueMock.Object,
+			loggerMock.Object
+			);
+
+		// act
+		var result = await handler.HandleAsync(command, token);
+
+		// assert
+		result.IsSuccess.Should().BeFalse();
+		result.Error.Should().NotBeNull();
+		result.Error.Should().BeOfType(typeof(ErrorList));
 	}
 }
