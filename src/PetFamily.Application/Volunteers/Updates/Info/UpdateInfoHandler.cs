@@ -6,7 +6,7 @@ using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Application.Volonteers.Updates.Info;
+namespace PetFamily.Application.Volunteers.Updates.Info;
 
 public class UpdateInfoHandler
 {

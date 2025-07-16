@@ -3,7 +3,7 @@ using PetFamily.Application.Extensions;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Application.Volonteers.Delete;
+namespace PetFamily.Application.Volunteers.Delete;
 
 public class DeleteVolunteerCommandValidator : AbstractValidator<DeleteVolunteerCommand>
 {

@@ -1,6 +1,6 @@
 ﻿using PetFamily.Contracts.DTOs;
 
-namespace PetFamily.Application.Volonteers.Create;
+namespace PetFamily.Application.Volunteers.Create;
 
 public record CreateVolunteerCommand(
 	NameDTO Name, 

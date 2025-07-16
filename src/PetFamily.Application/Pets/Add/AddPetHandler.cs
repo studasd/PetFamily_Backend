@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Pets.Add;
-using PetFamily.Application.Volonteers;
+using PetFamily.Application.Volunteers;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;

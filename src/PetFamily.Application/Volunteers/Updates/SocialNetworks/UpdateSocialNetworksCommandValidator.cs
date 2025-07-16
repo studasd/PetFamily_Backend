@@ -4,7 +4,7 @@ using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 
-namespace PetFamily.Application.Volonteers.Updates.SocialNetworks;
+namespace PetFamily.Application.Volunteers.Updates.SocialNetworks;
 
 public class UpdateSocialNetworksCommandValidator : AbstractValidator<UpdateSocialNetworksCommand>
 {

@@ -1,3 +1,3 @@
-﻿namespace PetFamily.Application.Volonteers.Delete;
+﻿namespace PetFamily.Application.Volunteers.Delete;
 
 public record DeleteVolunteerCommand(Guid VolunteerId, bool IsSoftDelete);

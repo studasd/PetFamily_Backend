@@ -3,7 +3,7 @@ using PetFamily.Application.Extensions;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 
-namespace PetFamily.Application.Volonteers.Updates.BankingDetails;
+namespace PetFamily.Application.Volunteers.Updates.BankingDetails;
 
 public class UpdateBankingDetailsCommandValidator : AbstractValidator<UpdateBankingDetailsCommand>
 {
