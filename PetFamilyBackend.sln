@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{36D591C7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain.UnitTests", "tests\PetFamily.Domain.UnitTests\PetFamily.Domain.UnitTests.csproj", "{93B64294-F19D-6E16-5860-E96ABC38FADF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Application.UnitTests", "tests\PetFamily.Application.UnitTests\PetFamily.Application.UnitTests.csproj", "{7057300E-EE1D-8B94-1617-F5FBA46240E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,12 +55,17 @@ Global
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7057300E-EE1D-8B94-1617-F5FBA46240E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7057300E-EE1D-8B94-1617-F5FBA46240E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7057300E-EE1D-8B94-1617-F5FBA46240E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7057300E-EE1D-8B94-1617-F5FBA46240E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{93B64294-F19D-6E16-5860-E96ABC38FADF} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
+		{7057300E-EE1D-8B94-1617-F5FBA46240E3} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5CEAF2AF-4272-42F9-BAD4-BB51AAF7CEB1}
