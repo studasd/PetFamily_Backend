@@ -3,12 +3,12 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
-using PetFamily.Application.Pets.DeletePhotos;
+using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 
-namespace PetFamily.Application.Pets.MovePosition;
+namespace PetFamily.Application.PetsManagement.Commands.MovePosition;
 
 public class MovePositionPetHandler
 {

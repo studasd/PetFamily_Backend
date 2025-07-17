@@ -2,7 +2,7 @@
 using PetFamily.Application.Extensions;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Application.Pets.MovePosition;
+namespace PetFamily.Application.PetsManagement.Commands.MovePosition;
 
 public class MovePositionPetValidator : AbstractValidator<MovePositionPetCommand>
 {

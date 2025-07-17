@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Pets.Create;
-using PetFamily.Application.Pets.DeletePhotos;
-using PetFamily.Application.Pets.MovePosition;
-using PetFamily.Application.Pets.UploadPhotos;
-using PetFamily.Application.VolunteerManagement.Queries.GetPetsWithPagination;
+using PetFamily.Application.PetsManagement.Commands.Add;
+using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
+using PetFamily.Application.PetsManagement.Commands.MovePosition;
+using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
+using PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;

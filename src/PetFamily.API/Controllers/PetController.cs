@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Responses;
-using PetFamily.Application.VolunteerManagement.Queries.GetPetsWithPagination;
+using PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
 using PetFamily.Contracts.RequestPets;
 
 namespace PetFamily.API.Controllers;

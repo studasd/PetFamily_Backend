@@ -3,7 +3,6 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Extensions;
-using PetFamily.Application.Pets.Add;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Domain.Shared.Errores;
@@ -13,7 +12,7 @@ using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
-namespace PetFamily.Application.Pets.Create;
+namespace PetFamily.Application.PetsManagement.Commands.Add;
 
 public class AddPetHandler // CreatePetService
 {

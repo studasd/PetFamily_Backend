@@ -9,7 +9,7 @@ using PetFamily.Application.VolunteerManagement;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
 
-namespace PetFamily.Application.Pets.UploadPhotos;
+namespace PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 
 public class UploadPhotosPetHandler // CreatePetService
 {

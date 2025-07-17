@@ -7,7 +7,7 @@ using Moq;
 using PetFamily.Application.Database;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
-using PetFamily.Application.Pets.UploadPhotos;
+using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.Shared.Errores;

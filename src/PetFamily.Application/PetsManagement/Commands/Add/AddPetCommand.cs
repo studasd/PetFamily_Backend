@@ -1,7 +1,7 @@
 ﻿using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.VolunteerManagement.Enums;
 
-namespace PetFamily.Application.Pets.Add;
+namespace PetFamily.Application.PetsManagement.Commands.Add;
 
 public record AddPetCommand(
 	Guid VolunteerId,

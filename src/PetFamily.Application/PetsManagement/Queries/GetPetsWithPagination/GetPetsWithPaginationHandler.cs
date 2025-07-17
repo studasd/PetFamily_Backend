@@ -4,7 +4,7 @@ using PetFamily.Application.DTOs;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Models;
 
-namespace PetFamily.Application.VolunteerManagement.Queries.GetPetsWithPagination;
+namespace PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
 
 public class GetPetsWithPaginationHandler
 {
@@ -12,12 +12,12 @@ public class GetPetsWithPaginationHandler
 
 	public GetPetsWithPaginationHandler(IReadDbContext readDbContext)
 	{
-		this.db = readDbContext;
+		db = readDbContext;
 	}
 
 	public async Task<PageList<PetDto>> HandleAsync(GetPetsWithPaginationQuery query, CancellationToken token)
 	{
-		var petQuery = db.Pets.AsQueryable();
+		var petQuery = db.Pets;
 
 		var pets = await petQuery
 			.ToPagedListAsync(query.Page, query.PageSize, token);

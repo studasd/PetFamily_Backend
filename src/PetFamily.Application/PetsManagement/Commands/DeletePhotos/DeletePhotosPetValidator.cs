@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using PetFamily.Application.DTOs.Validators;
 using PetFamily.Application.Extensions;
 using PetFamily.Domain.Shared.Errores;
 
-namespace PetFamily.Application.Pets.UploadPhotos;
+namespace PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 
-public class UploadPhotosPetValidator : AbstractValidator<UploadPhotosPetCommand>
+public class DeletePhotosPetValidator : AbstractValidator<DeletePhotosPetCommand>
 {
-	public UploadPhotosPetValidator()
+	public DeletePhotosPetValidator()
 	{
 		RuleFor(c => c.VolunteerId)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("VolunteerId is not empty"));
@@ -15,6 +14,7 @@ public class UploadPhotosPetValidator : AbstractValidator<UploadPhotosPetCommand
 		RuleFor(c => c.PetId)
 			.NotEmpty().WithError(Errors.General.ValueIsRequired("PetId is not empty"));
 
-		RuleForEach(c => c.UploadFiles).SetValidator(new UploadFileDtoValidator());
+		RuleForEach(c => c.DeleteFiles)
+			.NotEmpty().WithError(Errors.General.ValueIsRequired("Filename is not empty"));
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using PetFamily.Contracts.DTOs;
 
-namespace PetFamily.Application.Pets.UploadPhotos;
+namespace PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 
 public record UploadPhotosPetCommand(Guid VolunteerId, Guid PetId, IEnumerable<UploadFileDto> UploadFiles);
