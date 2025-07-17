@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Application.DTOs;
+using PetFamily.Domain.Shared.ValueObjects;
+using System.Text.Json;
 
 namespace PetFamily.Infrastructure.Configurations.Read;
 
@@ -24,7 +26,6 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
 
 		builder.Property(f => f.AddressApartment).HasColumnName("addr_apartment");
 
-		
 
 		builder.Property(p => p.Type)
 			.IsRequired()
@@ -37,5 +38,23 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
 			.HasConversion<string>()
 			.HasDefaultValue(default)
 			.HasColumnName("pet_status");
+
+		// from jsonb
+		//builder.OwnsMany(p => p.FileStorages,
+		//	pb =>
+		//	{
+		//		pb.ToJson("file_storages");
+
+		//		pb.Property(s => s.PathToStorage)
+		//			.HasColumnName("files");
+		//	});
+
+		// from conversion
+		builder.Property(p => p.FileStorages)
+			.HasConversion(
+				files => JsonSerializer.Serialize(String.Empty, JsonSerializerOptions.Default),
+				json => JsonSerializer.Deserialize<FileStorageDto[]>(json, JsonSerializerOptions.Default)!
+			)
+			.HasColumnName("file_storages");
 	}
 }

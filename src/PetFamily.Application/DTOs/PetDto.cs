@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.VolunteerManagement.Enums;
+﻿using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.Application.DTOs;
 
@@ -49,5 +50,18 @@ public class PetDto
 	// jsonb
 	public string Phones { get; init; } = String.Empty;
 
-	public string FileStorages { get; init; } = String.Empty;
+
+	////public string FileStorages { get; init; } = String.Empty;
+	// from jsonb
+	//public IReadOnlyList<FileStorage> FileStorages => fileStorages;
+	//private readonly List<FileStorage> fileStorages = [];
+
+	// from conversion
+	public FileStorageDto[] FileStorages { get; init; } = null!;
+
+}
+
+public class FileStorageDto
+{
+	public string PathToStorage { get; set; }
 }
