@@ -11,11 +11,11 @@ public class PetController : ApplicationController
 {
 	[HttpGet]
 	public async Task<IActionResult> GetAll(
-		[FromQuery] GetPetsWithPaginationRequest request,
-		[FromServices] GetPetsWithPaginationHandler handler,
+		[FromQuery] GetFilteredPetsWithPaginationRequest request,
+		[FromServices] GetFilteredPetsWithPaginationHandler handler,
 		CancellationToken token)
 	{
-		var query = new GetPetsWithPaginationQuery(request.Page, request.PageSize);
+		var query = new GetFilteredPetsWithPaginationQuery(request.Name, request.Page, request.PageSize);
 
 		var response = await handler.HandleAsync(query, token);
 

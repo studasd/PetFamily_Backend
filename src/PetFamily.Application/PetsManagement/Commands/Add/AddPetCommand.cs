@@ -1,4 +1,5 @@
-﻿using PetFamily.Contracts.DTOs;
+﻿using PetFamily.Application.Abstractions;
+using PetFamily.Contracts.DTOs;
 using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.Application.PetsManagement.Commands.Add;
@@ -16,4 +17,4 @@ public record AddPetCommand(
 	string Phone,
 	PetHelpStatuses HelpStatus,
 	AddressDTO Address
-	);
+	) : ICommand;

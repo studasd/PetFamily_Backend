@@ -1,4 +1,5 @@
-﻿using PetFamily.Contracts.DTOs;
+﻿using PetFamily.Application.Abstractions;
+using PetFamily.Contracts.DTOs;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Create;
 
@@ -10,4 +11,4 @@ public record CreateVolunteerCommand(
 	string Phone, 
 	IEnumerable<BankingDetailsDTO> BankingDetails, 
 	IEnumerable<SocialNetworkDTO> SocialNetworks
-	);
+	) : ICommand;

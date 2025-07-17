@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
@@ -8,7 +9,7 @@ using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.Info;
 
-public class UpdateInfoHandler
+public class UpdateInfoHandler : ICommandHandler<Guid, UpdateInfoCommand>
 {
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IValidator<UpdateInfoCommand> validator;

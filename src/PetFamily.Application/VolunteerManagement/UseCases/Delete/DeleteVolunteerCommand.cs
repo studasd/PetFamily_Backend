@@ -1,3 +1,5 @@
-﻿namespace PetFamily.Application.VolunteerManagement.UseCases.Delete;
+﻿using PetFamily.Application.Abstractions;
 
-public record DeleteVolunteerCommand(Guid VolunteerId, bool IsSoftDelete);
+namespace PetFamily.Application.VolunteerManagement.UseCases.Delete;
+
+public record DeleteVolunteerCommand(Guid VolunteerId, bool IsSoftDelete) : ICommand;

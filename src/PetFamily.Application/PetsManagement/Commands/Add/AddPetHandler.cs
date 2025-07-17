@@ -2,6 +2,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.RequestPets;
@@ -14,7 +15,7 @@ using PetFamily.Domain.VolunteerManagement.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.Add;
 
-public class AddPetHandler // CreatePetService
+public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetService
 {
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly ISpeciesRepository speciesRepository;

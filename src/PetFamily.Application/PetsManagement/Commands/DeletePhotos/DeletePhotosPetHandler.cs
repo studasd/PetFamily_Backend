@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.VolunteerManagement;
@@ -9,7 +10,7 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 
-public class DeletePhotosPetHandler
+public class DeletePhotosPetHandler : ICommandHandler<Guid, DeletePhotosPetCommand>
 {
 	private readonly IFileProvider fileProvider;
 	private readonly IVolunteerRepository volunteerRepository;

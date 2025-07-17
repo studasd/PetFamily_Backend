@@ -1,13 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Domain.Shared.Errores;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
 
-public class UpdateBankingDetailsHandler
+public class UpdateBankingDetailsHandler : ICommandHandler<Guid, UpdateBankingDetailsCommand>
 {
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IValidator<UpdateBankingDetailsCommand> validator;

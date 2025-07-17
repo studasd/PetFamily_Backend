@@ -1,15 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.PetsManagement.Commands.Add;
-using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
-using PetFamily.Application.PetsManagement.Commands.MovePosition;
-using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
-using PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
-using PetFamily.Application.VolunteerManagement.UseCases.Create;
-using PetFamily.Application.VolunteerManagement.UseCases.Delete;
-using PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
-using PetFamily.Application.VolunteerManagement.UseCases.Updates.Info;
-using PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
+using PetFamily.Application.Abstractions;
 
 namespace PetFamily.Application;
 
@@ -17,16 +8,23 @@ public static class InjectExtension
 {
 	public static IServiceCollection AddContracts(this IServiceCollection services)
 	{
-		services.AddScoped<CreateVolunteerHandler>();
-		services.AddScoped<AddPetHandler>();
-		services.AddScoped<DeleteVolunteerHandler>();
-		services.AddScoped<DeletePhotosPetHandler>();
-		services.AddScoped<UploadPhotosPetHandler>();
-		services.AddScoped<MovePositionPetHandler>();
-		services.AddScoped<UpdateInfoHandler>();
-		services.AddScoped<UpdateSocialNetworksHandler>();
-		services.AddScoped<UpdateBankingDetailsHandler>();
-		services.AddScoped<GetPetsWithPaginationHandler>();
+
+		services.Scan(scan =>
+		{
+			scan.FromAssemblies(typeof(InjectExtension).Assembly)
+				.AddClasses(c => c.AssignableToAny([typeof(ICommandHandler<,>), typeof(ICommandHandler<>)]))
+				.AsSelfWithInterfaces()
+				.WithScopedLifetime();
+		});
+
+		services.Scan(scan =>
+		{
+			scan.FromAssemblies(typeof(InjectExtension).Assembly)
+				.AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+				.AsSelfWithInterfaces()
+				.WithScopedLifetime();
+		});
+
 
 		services.AddValidatorsFromAssembly(typeof(InjectExtension).Assembly);
 

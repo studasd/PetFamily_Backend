@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
@@ -11,7 +12,7 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 
-public class UploadPhotosPetHandler // CreatePetService
+public class UploadPhotosPetHandler : ICommandHandler<Guid, UploadPhotosPetCommand> // CreatePetService
 {
 	private readonly IFileProvider fileProvider;
 	private readonly IVolunteerRepository volunteerRepository;

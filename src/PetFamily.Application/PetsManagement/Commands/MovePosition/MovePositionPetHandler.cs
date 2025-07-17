@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
@@ -10,7 +11,7 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.MovePosition;
 
-public class MovePositionPetHandler
+public class MovePositionPetHandler : ICommandHandler<Guid, MovePositionPetCommand>
 {
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IUnitOfWork unitOfWork;
