@@ -5,13 +5,14 @@ using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure;
 
 public class DbTestInitializer
 {
 
-	public static async Task InitializeAsync(ApplicationDbContext db)
+	public static async Task InitializeAsync(WriteDbContext db)
 	{
 		if (await db.Volunteers.AnyAsync() == true)
 			return;

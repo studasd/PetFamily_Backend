@@ -4,7 +4,7 @@ using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 
-namespace PetFamily.Infrastructure.Configurations;
+namespace PetFamily.Infrastructure.Configurations.Write;
 internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 {
 	public void Configure(EntityTypeBuilder<Pet> builder)

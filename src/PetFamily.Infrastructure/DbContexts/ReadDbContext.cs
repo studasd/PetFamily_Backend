@@ -1,24 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.DTOs;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.Entities;
 
-namespace PetFamily.Infrastructure;
+namespace PetFamily.Infrastructure.DbContexts;
 
-public class ApplicationDbContext(IConfiguration configuration) : DbContext
+public class ReadDbContext(IConfiguration configuration) : DbContext
 {
-	private const string DATABASE = "Database";
+	public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
 
-	
-	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-
-	public DbSet<Species> Species => Set<Species>();
+	public DbSet<PetDto> Pets => Set<PetDto>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE))
+		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
 			.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.UseSnakeCaseNamingConvention();
@@ -26,13 +24,13 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 		optionsBuilder.EnableSensitiveDataLogging();
 
 		optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-
-		//optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+		modelBuilder.ApplyConfigurationsFromAssembly(
+			typeof(WriteDbContext).Assembly,
+			t => t.FullName?.Contains("Configurations.Read") ?? false);
 	}
 
 	ILoggerFactory CreateLoggerFactory() => 

@@ -6,14 +6,15 @@ using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure.Repositories;
 
 public class VolunteerRepository : IVolunteerRepository
 {
-	private readonly ApplicationDbContext db;
+	private readonly WriteDbContext db;
 
-	public VolunteerRepository(ApplicationDbContext dbContext)
+	public VolunteerRepository(WriteDbContext dbContext)
 	{
 		this.db = dbContext;
 	}

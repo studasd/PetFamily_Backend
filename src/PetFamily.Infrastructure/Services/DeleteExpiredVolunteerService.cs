@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Domain.Shared;
+using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure.Services;
 
 public class DeleteExpiredVolunteerService
 {
-	private readonly ApplicationDbContext db;
+	private readonly WriteDbContext db;
 
-	public DeleteExpiredVolunteerService(ApplicationDbContext db)
+	public DeleteExpiredVolunteerService(WriteDbContext db)
 	{
 		this.db = db;
 	}

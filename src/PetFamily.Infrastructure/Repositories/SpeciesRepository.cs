@@ -6,12 +6,13 @@ using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure.Repositories;
 
-public class SpeciesRepository(ApplicationDbContext context) : ISpeciesRepository
+public class SpeciesRepository(WriteDbContext context) : ISpeciesRepository
 {
-	private readonly ApplicationDbContext db = context;
+	private readonly WriteDbContext db = context;
 
 
 	public async Task<Guid> AddAsync(Species species, CancellationToken token)

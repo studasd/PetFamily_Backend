@@ -4,7 +4,7 @@ using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
 
-namespace PetFamily.Infrastructure.Configurations;
+namespace PetFamily.Infrastructure.Configurations.Write;
 
 public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {

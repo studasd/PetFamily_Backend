@@ -7,6 +7,7 @@ using PetFamily.Application.Messaging;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
@@ -22,7 +23,7 @@ public static class InjectExtension
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
 		services.AddHostedService<FilesCleanerBackgroundService>();
 
-		services.AddScoped<ApplicationDbContext>();
+		services.AddScoped<WriteDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
