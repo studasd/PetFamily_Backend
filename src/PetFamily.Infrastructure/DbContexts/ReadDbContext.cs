@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
-using PetFamily.Domain.SpeciesManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.Entities;
 
 namespace PetFamily.Infrastructure.DbContexts;
-
-public class ReadDbContext(IConfiguration configuration) : DbContext
+public class ReadDbContext(IConfiguration configuration) : DbContext, IReadDbContext
 {
 	public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
 
@@ -24,12 +22,14 @@ public class ReadDbContext(IConfiguration configuration) : DbContext
 		optionsBuilder.EnableSensitiveDataLogging();
 
 		optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+
+		optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(WriteDbContext).Assembly,
+			typeof(ReadDbContext).Assembly,
 			t => t.FullName?.Contains("Configurations.Read") ?? false);
 	}
 

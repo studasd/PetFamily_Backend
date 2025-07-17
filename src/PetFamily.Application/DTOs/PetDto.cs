@@ -38,8 +38,8 @@ public class PetDto
 
 	public PetHelpStatuses HelpStatus { get; init; }
 
-	public string? BankingName { get; init; }
-	public string? BankingDescription { get; init; }
+	public string? BankName { get; init; }
+	public string? BankDescription { get; init; }
 
 	public DateTime DateCreated { get; init; }
 

@@ -23,18 +23,6 @@ namespace PetFamily.API.Controllers;
 [Route("volunteer")]
 public class VolunteerController : ControllerBase
 {
-	[HttpGet]
-	public async Task<IActionResult> GetAll(
-	//[FromServices] GetAllVolunteersHandler handler,
-	CancellationToken token)
-	{
-		//var result = await handler.HandleAsync(token);
-		//if (result.IsFailure)
-		//	return result.Error.ToResponse();
-		return Ok();
-	}
-
-
 	[HttpPost]
 	[SwaggerRequestExample(typeof(CreateVolunteerRequest), typeof(VolunteerRequestExample))]
 	public async Task<IActionResult> Create(

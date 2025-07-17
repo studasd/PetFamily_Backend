@@ -4,6 +4,7 @@ using PetFamily.Application.Pets.Create;
 using PetFamily.Application.Pets.DeletePhotos;
 using PetFamily.Application.Pets.MovePosition;
 using PetFamily.Application.Pets.UploadPhotos;
+using PetFamily.Application.VolunteerManagement.Queries.GetPetsWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
@@ -25,6 +26,7 @@ public static class InjectExtension
 		services.AddScoped<UpdateInfoHandler>();
 		services.AddScoped<UpdateSocialNetworksHandler>();
 		services.AddScoped<UpdateBankingDetailsHandler>();
+		services.AddScoped<GetPetsWithPaginationHandler>();
 
 		services.AddValidatorsFromAssembly(typeof(InjectExtension).Assembly);
 

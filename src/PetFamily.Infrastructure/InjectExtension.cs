@@ -20,10 +20,14 @@ public static class InjectExtension
 {
 	public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration config)
 	{
+		services.AddMinio(config);
+
+
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
 		services.AddHostedService<FilesCleanerBackgroundService>();
 
 		services.AddScoped<WriteDbContext>();
+		services.AddScoped<IReadDbContext, ReadDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
@@ -34,7 +38,6 @@ public static class InjectExtension
 
 		services.AddSingleton<IMessageQueue<IEnumerable<FileInform>>, InMemoryMessageQueue<IEnumerable<FileInform>>>();
 
-		services.AddMinio(config);
 
 		return services;
 	}

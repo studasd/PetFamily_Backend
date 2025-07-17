@@ -6,10 +6,10 @@ using PetFamily.Domain.VolunteerManagement.Entities;
 
 namespace PetFamily.Infrastructure.DbContexts;
 
+// add-migration -context WriteDbContext Init
 public class WriteDbContext(IConfiguration configuration) : DbContext
 {
 
-	
 	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
 
 	public DbSet<Species> Species => Set<Species>();
