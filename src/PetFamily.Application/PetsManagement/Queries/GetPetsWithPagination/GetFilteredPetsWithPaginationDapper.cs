@@ -48,7 +48,7 @@ public class GetFilteredPetsWithPaginationDapper : IQueryHandler<PageList<PetDto
 
 		return new PageList<PetDto>
 		{
-			Pets = pets.ToList(), 
+			Items = pets.ToList(), 
 			Page = query.Page, 
 			PageSize = query.PageSize,
 			TotalCount = totalCount

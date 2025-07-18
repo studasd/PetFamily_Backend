@@ -7,6 +7,7 @@ using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
+using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
@@ -226,5 +227,23 @@ public class VolunteerController : ControllerBase
 			return result.Error.ToResponse();
 
 		return Ok(result.Value);
+	}
+
+
+	[HttpGet("/{volunteerId:guid}")]
+	public async Task<IActionResult> GetById(
+		[FromRoute] Guid volunteerId,
+		[FromQuery] GetVolunteerByIdRequest request,
+		[FromServices] GetVolunteerByIdHandler handler,
+		CancellationToken token)
+	{
+		var query = new GetVolunteerByIdQuery(
+			volunteerId,
+			request.Page,
+			request.PageSize);
+
+		var response = await handler.HandleAsync(query, token);
+
+		return Ok(response);
 	}
 }

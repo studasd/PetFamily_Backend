@@ -2,7 +2,7 @@
 
 public class PageList<T>
 {
-	public IReadOnlyList<T> Pets { get; init; }
+	public IReadOnlyList<T> Items { get; init; }
 
 	public long TotalCount { get; init; }
 

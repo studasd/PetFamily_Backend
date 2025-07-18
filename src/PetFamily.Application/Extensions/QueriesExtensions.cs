@@ -21,7 +21,7 @@ public static class QueriesExtensions
 
 		return new PageList<T>
 		{
-			Pets = items,
+			Items = items,
 			PageSize = pageSize,
 			Page = page,
 			TotalCount = totalCount
