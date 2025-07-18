@@ -45,8 +45,15 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 	public int GetCountPetFoundHouse() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.FoundHouse);
 	public int GetCountPetLookingHome() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.LookingHome);
 	public int GetCountPetNeedsHelp() => Pets.Count(p => p.HelpStatus == PetHelpStatuses.NeedsHelp);
-	public Result<Pet, Error> GetPetById(PetId id) => Pets.FirstOrDefault(p => p.Id == id);
+	
+	public Result<Pet, Error> GetPetById(PetId id)
+	{
+		var pet = Pets.FirstOrDefault(p => p.Id == id);
+		if (pet == null)
+			return Errors.General.NotFound(id);
 
+		return pet;
+	}
 
 	public static Result<Volunteer, Error> Create(VolunteerName volunteerName, string email, string description, int experienceYears, Phone phone)
 	{

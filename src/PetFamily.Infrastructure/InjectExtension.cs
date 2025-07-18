@@ -4,10 +4,10 @@ using Minio;
 using PetFamily.Application.Database;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
-using PetFamily.Application.Providers;
-using PetFamily.Application.Volonteers;
+using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.RequestVolonteers;
 using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
@@ -20,11 +20,18 @@ public static class InjectExtension
 {
 	public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration config)
 	{
+		services.AddMinio(config);
+
+
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
 		services.AddHostedService<FilesCleanerBackgroundService>();
 
-		services.AddScoped<ApplicationDbContext>();
+		services.AddScoped<WriteDbContext>();
+		services.AddScoped<IReadDbContext, ReadDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
+		services.AddSingleton<ISqlConnectFactory, SqlConnectFactory>();
+
+		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
@@ -34,7 +41,6 @@ public static class InjectExtension
 
 		services.AddSingleton<IMessageQueue<IEnumerable<FileInform>>, InMemoryMessageQueue<IEnumerable<FileInform>>>();
 
-		services.AddMinio(config);
 
 		return services;
 	}
