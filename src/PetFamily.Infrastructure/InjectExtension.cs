@@ -29,6 +29,9 @@ public static class InjectExtension
 		services.AddScoped<WriteDbContext>();
 		services.AddScoped<IReadDbContext, ReadDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
+		services.AddSingleton<ISqlConnectFactory, SqlConnectFactory>();
+
+		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 		services.AddScoped<ISpeciesRepository, SpeciesRepository>();

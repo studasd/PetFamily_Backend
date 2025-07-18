@@ -26,4 +26,22 @@ public class PetController : ApplicationController
 
 		return Ok(response);
 	}
+
+	[HttpGet("dapper")]
+	public async Task<IActionResult> GetAllDapper(
+		[FromQuery] GetFilteredPetsWithPaginationRequest request,
+		[FromServices] GetFilteredPetsWithPaginationDapper handler,
+		CancellationToken token)
+	{
+		var query = new GetFilteredPetsWithPaginationQuery(
+			request.Page,
+			request.PageSize,
+			request.Name,
+			request.PositionFrom,
+			request.PositionTo);
+
+		var response = await handler.HandleAsync(query, token);
+
+		return Ok(response);
+	}
 }

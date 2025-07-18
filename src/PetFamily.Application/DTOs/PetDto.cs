@@ -5,59 +5,59 @@ namespace PetFamily.Application.DTOs;
 
 public class PetDto
 {
-	public Guid Id { get; init; }
-	public Guid VolunteerId { get; init; }
+	public Guid Id { get; set; }
+	public Guid VolunteerId { get; set; }
 
-	public string Name { get; init; }
+	public string Name { get; set; }
 
-	public PetTypes Type { get; init; }
+	public PetTypes Type { get; set; }
 
-	public string Description { get; init; }
+	public string Description { get; set; }
 
-	public int Position { get; init; }
+	public int Position { get; set; }
 
-	public string Color { get; init; }
+	public string Color { get; set; }
 
-	public string? HealthInfo { get; init; }
+	public string? HealthInfo { get; set; }
 
-	public string AddressCountry { get; init; }
-	public string AddressCity { get; init; }
-	public string AddressStreet { get; init; }
-	public int AddressHouseNumber { get; init; }
-	public string? AddressHouseLiter { get; init; }
-	public int AddressApartment { get; init; }
+	public string AddressCountry { get; set; }
+	public string AddressCity { get; set; }
+	public string AddressStreet { get; set; }
+	public int AddressHouseNumber { get; set; }
+	public string? AddressHouseLiter { get; set; }
+	public int AddressApartment { get; set; }
 
-	public decimal Weight { get; init; }
+	public decimal Weight { get; set; }
 
-	public decimal Height { get; init; }
+	public decimal Height { get; set; }
 
-	public bool? IsNeutered { get; init; }
+	public bool? IsNeutered { get; set; }
 
-	public bool? IsVaccinated { get; init; }
+	public bool? IsVaccinated { get; set; }
 
-	public DateOnly DateBirth { get; init; } = default;
+	public DateOnly DateBirth { get; set; } = default;
 
-	public PetHelpStatuses HelpStatus { get; init; }
+	public PetHelpStatuses HelpStatus { get; set; }
 
-	public string? BankName { get; init; }
-	public string? BankDescription { get; init; }
+	public string? BankName { get; set; }
+	public string? BankDescription { get; set; }
 
-	public DateTime DateCreated { get; init; }
+	public DateTime DateCreated { get; set; }
 
-	public Guid SpeciesId { get; init; }
-	public Guid BreedId { get; init; }
+	public Guid SpeciesId { get; set; }
+	public Guid BreedId { get; set; }
 
 	// jsonb
-	public string Phones { get; init; } = String.Empty;
+	public string Phones { get; set; } = String.Empty;
 
 
-	////public string FileStorages { get; init; } = String.Empty;
+	////public string FileStorages { get; set; } = String.Empty;
 	// from jsonb
 	//public IReadOnlyList<FileStorage> FileStorages => fileStorages;
 	//private readonly List<FileStorage> fileStorages = [];
 
 	// from conversion
-	public FileStorageDto[] FileStorages { get; init; } = null!;
+	public FileStorageDto[] FileStorages { get; set; } = null!;
 
 }
 

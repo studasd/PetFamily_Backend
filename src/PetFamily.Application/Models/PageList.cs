@@ -4,7 +4,7 @@ public class PageList<T>
 {
 	public IReadOnlyList<T> Pets { get; init; }
 
-	public int TotalCount { get; init; }
+	public long TotalCount { get; init; }
 
 	public int PageSize {  get; init; }
 
