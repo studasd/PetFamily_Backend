@@ -35,7 +35,7 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("species_id")
+                    b.Property<Guid?>("species_id")
                         .HasColumnType("uuid")
                         .HasColumnName("species_id");
 
@@ -296,7 +296,6 @@ namespace PetFamily.Infrastructure.Migrations
                         .WithMany("Breeds")
                         .HasForeignKey("species_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_breeds_species_species_id");
                 });
 

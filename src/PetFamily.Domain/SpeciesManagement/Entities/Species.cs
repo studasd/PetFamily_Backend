@@ -16,11 +16,13 @@ public class Species : Entity<SpeciesId>
 	public Species(SpeciesId id, string name, IEnumerable<Breed> breeds) : base(id)
 	{
 		Name = name;
-		Breeds = breeds.ToList();
+		breeds = breeds.ToList();
 	}
 
 	public string Name { get; set; }
-	public IReadOnlyList<Breed> Breeds { get; set; } = [];
+
+	public IReadOnlyList<Breed> Breeds => breeds;
+	private List<Breed> breeds { get; set; } = [];
 
 
 	public static Guid NewId() => Guid.NewGuid();

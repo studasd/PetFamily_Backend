@@ -8,7 +8,7 @@ public static class Errors
 			Error.Validation("value_is_invalid", $"'{name ?? "value"}' is invalid");
 
 		public static Error NotFound(Guid? id = null) =>
-			Error.NotFound("record_not_found", $"Record not found for id '{(id is null ? "" : $" for Id '{id}'")}'");
+			Error.NotFound("record_not_found", $"Record not found '{(id is null ? "" : $"for Id '{id}'")}'");
 
 		public static Error NotFound(string name) =>
 			Error.NotFound("record_not_found", $"Record not found for name '{name}'");
@@ -18,5 +18,8 @@ public static class Errors
 
 		public static Error AlreadyExist(string name) =>
 			Error.Validation("record_already_exist", $"'{name}' already exist");
+
+		public static Error AlreadyIsUsed(string name) =>
+			Error.Validation("record_already_used", $"'{name}' already used");
 	}
 }
