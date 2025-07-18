@@ -1,3 +1,3 @@
 ﻿namespace PetFamily.Contracts.RequestPets;
 
-public record GetFilteredPetsWithPaginationRequest(string? Name, int Page, int PageSize);
+public record GetFilteredPetsWithPaginationRequest(int Page, int PageSize, string? Name, int? PositionFrom, int? PositionTo);

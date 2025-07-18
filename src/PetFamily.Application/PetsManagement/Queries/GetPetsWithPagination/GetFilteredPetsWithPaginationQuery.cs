@@ -2,4 +2,4 @@
 
 namespace PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
 
-public record GetFilteredPetsWithPaginationQuery(string? Name, int Page, int PageSize) : IQuery;
+public record GetFilteredPetsWithPaginationQuery(int Page, int PageSize, string? Name, int? PositionFrom, int? PositionTo) : IQuery;

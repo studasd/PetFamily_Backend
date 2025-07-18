@@ -15,7 +15,12 @@ public class PetController : ApplicationController
 		[FromServices] GetFilteredPetsWithPaginationHandler handler,
 		CancellationToken token)
 	{
-		var query = new GetFilteredPetsWithPaginationQuery(request.Name, request.Page, request.PageSize);
+		var query = new GetFilteredPetsWithPaginationQuery(
+			request.Page, 
+			request.PageSize, 
+			request.Name, 
+			request.PositionFrom, 
+			request.PositionTo);
 
 		var response = await handler.HandleAsync(query, token);
 
