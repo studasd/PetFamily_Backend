@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Application.SpeciesManagemets.Commands.Delete;
+using PetFamily.Application.SpeciesManagemets.Queries.GetSpeciesPagination;
+using PetFamily.Contracts.RequestBreeds;
 
 namespace PetFamily.API.Controllers;
 
@@ -39,5 +41,19 @@ public class SpeciesController : ApplicationController
 			return result.Error.ToResponse();
 
 		return Ok(result.Value);
+	}
+
+
+	[HttpGet]
+	public async Task<ActionResult> GetAllSpecies(
+			[FromQuery] GetFilteredSpeciesWithPaginationRequest request,
+			[FromServices] GetFilteredSpeciesWithPaginationHandler handler,
+			CancellationToken token)
+	{
+		var query = new GetFilteredSpeciesWithPaginationQuery(request.Page, request.PageSize);
+
+		var response = await handler.HandleAsync(query, token);
+
+		return Ok(response);
 	}
 }
