@@ -1,8 +1,10 @@
 ﻿
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Abstractions;
+using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.SpeciesManagemets;
 using PetFamily.Application.VolunteerManagement;
@@ -21,17 +23,20 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetSe
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly ISpeciesRepository speciesRepository;
 	private readonly IValidator<AddPetCommand> validator;
+	private readonly IReadDbContext db;
 	private readonly ILogger<AddPetHandler> logger;
 
 	public AddPetHandler(
 		IVolunteerRepository volunteerRepository, 
 		ISpeciesRepository speciesRepository,
 		IValidator<AddPetCommand> validator,
+		IReadDbContext readDbContext,
 		ILogger<AddPetHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
 		this.speciesRepository = speciesRepository;
 		this.validator = validator;
+		this.db = readDbContext;
 		this.logger = logger;
 	}
 
@@ -47,6 +52,17 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetSe
 
 		var phone = Phone.Create(command.Phone).Value;
 		var address = Address.Create(addressDto.Country, addressDto.City, addressDto.Street, addressDto.HouseNumber, addressDto.Apartment, addressDto.HouseLiter).Value;
+
+		var isSpeciesExist = await db.Species
+				.AnyAsync(b => b.Id == command.SpeciesId, token);
+		if (!isSpeciesExist)
+			return Errors.General.NotFound(command.SpeciesId).ToErrorList();
+
+		var isBreedExist = await db.Breeds
+				.AnyAsync(b => b.Id == command.BreedId, token);
+		if (!isBreedExist)
+			return Errors.General.NotFound(command.BreedId).ToErrorList();
+
 
 		var petTypeResult = PetType.Create(BreedId.Create(command.BreedId), SpeciesId.Create(command.SpeciesId));
 		if (petTypeResult.IsFailure)
