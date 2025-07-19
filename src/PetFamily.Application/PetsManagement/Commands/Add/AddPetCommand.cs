@@ -7,7 +7,6 @@ namespace PetFamily.Application.PetsManagement.Commands.Add;
 public record AddPetCommand(
 	Guid VolunteerId,
 	string Name,
-	PetTypes Type,
 	string Description,
 	Guid BreedId,
 	Guid SpeciesId,

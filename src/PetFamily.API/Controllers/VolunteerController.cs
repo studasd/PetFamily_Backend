@@ -60,7 +60,6 @@ public class VolunteerController : ControllerBase
 		var command = new AddPetCommand(
 			VolunteerId: volunteerId,
 			Name: request.Name,
-			Type: request.Type,
 			Description: request.Description,
 			BreedId: request.BreedId,
 			SpeciesId: request.SpeciesId,

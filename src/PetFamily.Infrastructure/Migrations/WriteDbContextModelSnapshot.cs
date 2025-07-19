@@ -128,11 +128,6 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("pet_type");
-
                     b.Property<decimal>("Weight")
                         .HasColumnType("numeric")
                         .HasColumnName("weight");

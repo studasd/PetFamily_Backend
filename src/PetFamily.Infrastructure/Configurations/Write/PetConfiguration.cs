@@ -24,12 +24,6 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.IsRequired()
 			.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
-		builder.Property(p => p.Type)
-			.IsRequired()
-			.HasConversion<string>()
-			.HasDefaultValue(default)
-			.HasColumnName("pet_type");
-
 		builder.Property(p => p.Description)
 			.IsRequired()
 			.HasMaxLength(Constants.MAX_HIGHT_TEXT_LENGHT);

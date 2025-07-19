@@ -15,7 +15,6 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public Pet(
 		PetId id, 
 		string name, 
-		PetTypes type, 
 		string description, 
 		string color, 
 		decimal weight, 
@@ -27,7 +26,6 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		) : base(id)
 	{
 		Name = name;
-		Type = type;
 		Description = description;
 		Color = color;
 		Weight = weight;
@@ -40,7 +38,7 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	}
 
 	public string Name { get; private set; }
-	public PetTypes Type { get; private set; }
+
 	public string Description { get; private set; }
 
 	public Position Position { get; private set; }
@@ -70,7 +68,6 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 
 	public static Result<Pet, Error> Create(
 		string name, 
-		PetTypes type, 
 		string description, 
 		string color, 
 		decimal weight, 
@@ -84,7 +81,6 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 		var pet = new Pet(
 			PetId.NewPeetId(), 
 			name, 
-			type, 
 			description, 
 			color, 
 			weight, 

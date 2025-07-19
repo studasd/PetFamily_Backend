@@ -54,7 +54,6 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetSe
 
 		var pet = Pet.Create(
 			command.Name,
-			command.Type,
 			command.Description,
 			command.Color,
 			command.Weight,

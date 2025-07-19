@@ -93,7 +93,6 @@ public class DbTestInitializer
 
 			var pet = Pet.Create(
 				name: guid.Substring(0, 5),
-				type: PetTypes.Dog,
 				description: guid.Substring(5, 15),
 				color: guid.Substring(5, 5),
 				weight: Math.Round((decimal)Random.Shared.NextDouble() * Random.Shared.Next(1, 20), 2),

@@ -6,7 +6,6 @@ namespace PetFamily.Contracts.RequestPets;
 
 public record AddPetRequest(
 	string Name,
-	PetTypes Type,
 	string Description,
 	Guid BreedId,
 	Guid SpeciesId,

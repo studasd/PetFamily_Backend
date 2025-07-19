@@ -70,7 +70,6 @@ namespace PetFamily.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    pet_type = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
                     color = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     health_info = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),

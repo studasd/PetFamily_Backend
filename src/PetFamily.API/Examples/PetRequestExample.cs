@@ -13,7 +13,6 @@ public class PetRequestExample : IExamplesProvider<AddPetRequest>
 
 		return new AddPetRequest(
 			Name: guid.Substring(0, 5),
-			Type: PetTypes.Dog,
 			Description: guid.Substring(5, 15),
 			BreedId: Guid.NewGuid(),
 			SpeciesId: Guid.NewGuid(),

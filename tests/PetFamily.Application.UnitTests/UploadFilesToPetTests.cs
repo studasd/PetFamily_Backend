@@ -35,7 +35,6 @@ public class UploadFilesToPetTests
 	private static Pet GeneratePet() => new Pet(
 			id: PetId.NewPeetId(),
 			name: "rgeeed",
-			type: PetTypes.Dog,
 			description: "dsagvfsdgvsd",
 			color: "iohioihohio",
 			weight: 1,
