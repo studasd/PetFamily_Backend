@@ -37,4 +37,24 @@ public class Species : Entity<SpeciesId>
 
 		return species;
 	}
+
+
+	public UnitResult<Error> AddBreeds(IEnumerable<Breed> breeds)
+	{
+		this.breeds.AddRange(breeds);
+
+		return UnitResult.Success<Error>();
+	}
+
+
+	public UnitResult<Error> DeleteBreed(BreedId breedId)
+	{
+		var breed = breeds.FirstOrDefault(b => b.Id == breedId);
+		if (breed is null)
+			return Errors.General.NotFound(breedId.Value);
+
+		var result = breeds.Remove(breed);
+
+		return UnitResult.Success<Error>();
+	}
 }

@@ -44,11 +44,16 @@ public class DbTestInitializer
 			Breed.Create("Yorkshire Terrier").Value
 		};
 		var speciesDog = Species.Create("Dogs", breedDogs).Value;
-		await db.Species.AddAsync(speciesDog);
+		var res = await db.Species.AddAsync(speciesDog);
 
 		var dogSpeciesId = speciesDog.Id;
 		var dogBreedId1 = breedDogs.FirstOrDefault()!.Id;
 		var dogBreedId2 = breedDogs.LastOrDefault()!.Id;
+
+		await db.SaveChangesAsync();
+
+		speciesDog.AddBreeds(breedDogs);
+		speciesCat.AddBreeds(breedCats);
 
 		await db.SaveChangesAsync();
 
