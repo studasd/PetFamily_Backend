@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Application.SpeciesManagemets.Commands.Delete;
+using PetFamily.Application.SpeciesManagemets.Queries.GetBreedsPagination;
 using PetFamily.Application.SpeciesManagemets.Queries.GetSpeciesPagination;
 using PetFamily.Contracts.RequestBreeds;
 
@@ -46,11 +47,26 @@ public class SpeciesController : ApplicationController
 
 	[HttpGet]
 	public async Task<ActionResult> GetAllSpecies(
-			[FromQuery] GetFilteredSpeciesWithPaginationRequest request,
-			[FromServices] GetFilteredSpeciesWithPaginationHandler handler,
-			CancellationToken token)
+		[FromQuery] GetFilteredSpeciesWithPaginationRequest request,
+		[FromServices] GetFilteredSpeciesWithPaginationHandler handler,
+		CancellationToken token)
 	{
 		var query = new GetFilteredSpeciesWithPaginationQuery(request.Page, request.PageSize);
+
+		var response = await handler.HandleAsync(query, token);
+
+		return Ok(response);
+	}
+
+
+	[HttpGet("breeds/{speciesId:guid}")]
+	public async Task<ActionResult> GetAllBreeds(
+		[FromRoute] Guid speciesId,
+		[FromQuery] GetFilteredBreedsWithPaginationRequest request,
+		[FromServices] GetFilteredBreedsWithPaginationHandler handler,
+		CancellationToken token)
+	{
+		var query = new GetFilteredBreedsWithPaginationQuery(speciesId, request.Page, request.PageSize);
 
 		var response = await handler.HandleAsync(query, token);
 
