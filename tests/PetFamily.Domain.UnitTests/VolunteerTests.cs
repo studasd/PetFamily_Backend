@@ -256,7 +256,6 @@ public class VolunteerTests
 		var pet = new Pet(
 				id: petId ?? PetId.NewPeetId(),
 				name: "nameCat",
-				type: PetTypes.Cat,
 				description: "description",
 				color: "color",
 				weight: 3,

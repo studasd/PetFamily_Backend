@@ -10,8 +10,6 @@ public class PetDto
 
 	public string Name { get; set; }
 
-	public PetTypes Type { get; set; }
-
 	public string Description { get; set; }
 
 	public int Position { get; set; }

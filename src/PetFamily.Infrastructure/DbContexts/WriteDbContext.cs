@@ -7,6 +7,7 @@ using PetFamily.Domain.VolunteerManagement.Entities;
 namespace PetFamily.Infrastructure.DbContexts;
 
 // add-migration -context WriteDbContext Init
+// update-database -context WriteDbContext
 public class WriteDbContext(IConfiguration configuration) : DbContext
 {
 

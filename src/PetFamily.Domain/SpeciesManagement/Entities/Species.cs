@@ -16,11 +16,13 @@ public class Species : Entity<SpeciesId>
 	public Species(SpeciesId id, string name, IEnumerable<Breed> breeds) : base(id)
 	{
 		Name = name;
-		Breeds = breeds.ToList();
+		breeds = breeds.ToList();
 	}
 
 	public string Name { get; set; }
-	public IReadOnlyList<Breed> Breeds { get; set; } = [];
+
+	public IReadOnlyList<Breed> Breeds => breeds;
+	private List<Breed> breeds { get; set; } = [];
 
 
 	public static Guid NewId() => Guid.NewGuid();
@@ -34,5 +36,25 @@ public class Species : Entity<SpeciesId>
 		var species = new Species(SpeciesId.NewSpeciesId(), name, breeds);
 
 		return species;
+	}
+
+
+	public UnitResult<Error> AddBreeds(IEnumerable<Breed> breeds)
+	{
+		this.breeds.AddRange(breeds);
+
+		return UnitResult.Success<Error>();
+	}
+
+
+	public UnitResult<Error> DeleteBreed(BreedId breedId)
+	{
+		var breed = breeds.FirstOrDefault(b => b.Id == breedId);
+		if (breed is null)
+			return Errors.General.NotFound(breedId.Value);
+
+		var result = breeds.Remove(breed);
+
+		return UnitResult.Success<Error>();
 	}
 }

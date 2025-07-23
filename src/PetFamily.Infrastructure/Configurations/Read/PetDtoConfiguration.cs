@@ -27,12 +27,6 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
 		builder.Property(f => f.AddressApartment).HasColumnName("addr_apartment");
 
 
-		builder.Property(p => p.Type)
-			.IsRequired()
-			.HasConversion<string>()
-			.HasDefaultValue(default)
-			.HasColumnName("pet_type");
-
 		builder.Property(p => p.HelpStatus)
 			.IsRequired()
 			.HasConversion<string>()

@@ -25,10 +25,10 @@ internal class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 			.IsRequired()
 			.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
 
+
 		builder.HasMany(p => p.Breeds)
 			.WithOne()
 			.HasForeignKey("species_id")
-			.IsRequired()
 			.OnDelete(DeleteBehavior.Cascade);
 	}
 }
