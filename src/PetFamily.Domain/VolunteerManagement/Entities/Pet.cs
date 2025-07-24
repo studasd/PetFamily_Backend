@@ -54,7 +54,7 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 	public bool? IsVaccinated { get; private set; }
 	public DateOnly DateBirth { get; private set; } = default;
 	public PetHelpStatuses HelpStatus { get; private set; }
-	public BankingDetails BankingВetails { get; private set; } = new(null, null);
+	public BankingDetails BankingDetails { get; private set; } = new(null, null);
 	public DateTime DateCreated { get; private set; }
 	
 	public PetType PetType { get; private set; }
@@ -134,5 +134,49 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 			fileStorages.Remove(fileStorage);
 
 		return Result.Success<Error>();
+	}
+
+
+
+	public UnitResult<Error> UpdateInfo(PetUpdateInfoDto petInfo)
+	{
+		Name = petInfo.Name;
+		Description = petInfo.Description;
+		Color = petInfo.Color;
+		HealthInfo = petInfo.HealthInfo;
+		Address = petInfo.Address;
+		Weight = petInfo.Weight;
+		Height = petInfo.Height;
+		this.phones.Clear();
+		this.phones.AddRange(petInfo.Phones);
+		IsNeutered = petInfo.IsNeutered;
+		IsVaccinated = petInfo.IsVaccinated;
+		DateBirth = petInfo.DateBirth;
+		HelpStatus = petInfo.HelpStatus;
+		BankingDetails = petInfo.BankingDetails;
+		PetType = petInfo.PetType;
+
+		return UnitResult.Success<Error>();
+	}
+
+	public UnitResult<Error> UpdateStatus(PetHelpStatuses helpStatus)
+	{
+		HelpStatus = helpStatus;
+
+		return UnitResult.Success<Error>();
+	}
+	
+	public UnitResult<Error> UpdatePrimePhoto(string pathPhoto)
+	{
+		var fileStoragesNew = fileStorages
+			.Select(f => FileStorage.Create(f.PathToStorage, f.PathToStorage == pathPhoto).Value)
+			.OrderByDescending(f => f.IsPrime)
+			.ToList();
+
+		fileStorages.Clear();
+
+		fileStorages.AddRange(fileStoragesNew);
+
+		return UnitResult.Success<Error>();
 	}
 }

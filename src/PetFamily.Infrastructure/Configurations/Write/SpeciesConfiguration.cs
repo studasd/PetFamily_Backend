@@ -29,6 +29,7 @@ internal class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 		builder.HasMany(p => p.Breeds)
 			.WithOne()
 			.HasForeignKey("species_id")
+			.IsRequired()
 			.OnDelete(DeleteBehavior.Cascade);
 	}
 }

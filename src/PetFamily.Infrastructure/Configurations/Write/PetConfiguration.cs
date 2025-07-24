@@ -98,6 +98,10 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			{
 				pb.ToJson("file_storages");
 
+				pb.Property(s => s.IsPrime)
+					.IsRequired()
+					.HasColumnName("is_prime");
+
 				pb.Property(s => s.PathToStorage)
 					.IsRequired()
 					.HasMaxLength(Constants.MAX_HIGHT_TEXT_LENGHT)
@@ -120,7 +124,7 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.HasDefaultValue(default)
 			.HasColumnName("pet_status");
 
-		builder.ComplexProperty(p => p.BankingВetails,
+		builder.ComplexProperty(p => p.BankingDetails,
 			x =>
 			{
 				x.Property(f => f.Name)

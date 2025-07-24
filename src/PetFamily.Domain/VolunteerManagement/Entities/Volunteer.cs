@@ -158,6 +158,36 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		Description = description;
 	}
 
+	public UnitResult<Error> UpdatePetInfo(PetId petId, PetUpdateInfoDto petInfo)
+	{
+		var petResult = GetPetById(petId);
+
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		return petResult.Value.UpdateInfo(petInfo);
+	}
+
+	public UnitResult<Error> UpdatePetStatus(PetId petId, PetHelpStatuses helpStatus)
+	{
+		var petResult = GetPetById(petId);
+
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		return petResult.Value.UpdateStatus(helpStatus);
+	}
+
+	public UnitResult<Error> UpdatePetPrimePhoto(PetId petId, string pathPhoto)
+	{
+		var petResult = GetPetById(petId);
+
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		return petResult.Value.UpdatePrimePhoto(pathPhoto);
+	}
+
 	public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
 	{
 		this.socialNetworks.Clear();
@@ -168,6 +198,31 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 	{
 		this.bankingDetails.Clear();
 		this.bankingDetails.AddRange(bankingDetails);
+	}
+
+	public UnitResult<Error> DeletePet(PetId petId)
+	{
+		var petResult = GetPetById(petId);
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		var pet = petResult.Value;
+		pet.Delete();
+
+		return UnitResult.Success<Error>();
+	}
+
+
+	public Result<Pet, Error> DeletePetHard(PetId petId)
+	{
+		var petResult = GetPetById(petId);
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		var pet = petResult.Value;
+		pets.Remove(pet);
+
+		return petResult.Value;
 	}
 
 	public override void Delete()

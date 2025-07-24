@@ -20,7 +20,7 @@ public class UploadPhotosPetHandler : ICommandHandler<Guid, UploadPhotosPetComma
 	private readonly IValidator<UploadPhotosPetCommand> validator;
 	private readonly IMessageQueue<IEnumerable<FileInform>> messageQueue;
 	private readonly ILogger<UploadPhotosPetHandler> logger;
-	private const string BUCKET_NAME = "photos";
+	public const string BUCKET_NAME = "photos";
 
 	public UploadPhotosPetHandler(
 		IFileProvider fileProvider,

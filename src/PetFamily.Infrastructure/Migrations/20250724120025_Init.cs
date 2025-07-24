@@ -51,7 +51,7 @@ namespace PetFamily.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    species_id = table.Column<Guid>(type: "uuid", nullable: true)
+                    species_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +80,7 @@ namespace PetFamily.Infrastructure.Migrations
                     date_birth = table.Column<DateOnly>(type: "date", nullable: false),
                     pet_status = table.Column<string>(type: "text", nullable: false),
                     date_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     addr_apartment = table.Column<int>(type: "integer", nullable: false),
                     addr_city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     addr_country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
