@@ -6,6 +6,7 @@ using PetFamily.API.Processors;
 using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
+using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
@@ -219,6 +220,43 @@ public class VolunteerController : ControllerBase
 		CancellationToken token)
 	{
 		var command = new MovePositionPetCommand(volunteerId, petId, newPosition);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("pet/{volunteerId:guid}/{petId:guid}")]
+	public async Task<IActionResult> UpdatePetInfo(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromBody] UpdatePetInfoRequest request,
+		[FromServices] UpdatePetInfoHandler handler,
+		CancellationToken token)
+	{
+		var command = new UpdatePetInfoCommand(
+			volunteerId, 
+			petId, 
+			request.SpeciesId, 
+			request.BreedId, 
+			request.Name, 
+			request.Description, 
+			request.Color, 
+			request.HealthInfo, 
+			request.Address, 
+			request.DateBirth,
+			request.Weight, 
+			request.Height, 
+			request.Phones, 
+			request.IsNeutered, 
+			request.IsVaccinated, 
+			request.HelpStatus, 
+			request.BankingВetails
+			);
 
 		var result = await handler.HandleAsync(command, token);
 

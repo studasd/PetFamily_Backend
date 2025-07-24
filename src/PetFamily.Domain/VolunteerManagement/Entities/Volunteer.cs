@@ -158,6 +158,16 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		Description = description;
 	}
 
+	public UnitResult<Error> UpdatePetInfo(PetId petId, PetUpdateInfoDto petInfo)
+	{
+		var petResult = GetPetById(petId);
+
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		return petResult.Value.UpdateInfo(petInfo);
+	}
+
 	public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
 	{
 		this.socialNetworks.Clear();

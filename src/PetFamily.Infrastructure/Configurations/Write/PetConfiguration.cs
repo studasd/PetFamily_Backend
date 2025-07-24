@@ -120,7 +120,7 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			.HasDefaultValue(default)
 			.HasColumnName("pet_status");
 
-		builder.ComplexProperty(p => p.BankingВetails,
+		builder.ComplexProperty(p => p.BankingDetails,
 			x =>
 			{
 				x.Property(f => f.Name)
