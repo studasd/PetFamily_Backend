@@ -190,6 +190,31 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		this.bankingDetails.AddRange(bankingDetails);
 	}
 
+	public UnitResult<Error> DeletePet(PetId petId)
+	{
+		var petResult = GetPetById(petId);
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		var pet = petResult.Value;
+		pet.Delete();
+
+		return UnitResult.Success<Error>();
+	}
+
+
+	public Result<Pet, Error> DeletePetHard(PetId petId)
+	{
+		var petResult = GetPetById(petId);
+		if (petResult.IsFailure)
+			return petResult.Error;
+
+		var pet = petResult.Value;
+		pets.Remove(pet);
+
+		return petResult.Value;
+	}
+
 	public override void Delete()
 	{
 		base.Delete();

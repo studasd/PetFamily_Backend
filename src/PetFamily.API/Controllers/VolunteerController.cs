@@ -4,6 +4,7 @@ using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
 using PetFamily.Application.PetsManagement.Commands.Add;
+using PetFamily.Application.PetsManagement.Commands.Delete;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
 using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
@@ -137,7 +138,7 @@ public class VolunteerController : ControllerBase
 
 
 	[HttpDelete("hard/{volunteerId:guid}")]
-	public async Task<IActionResult> HardDelete(
+	public async Task<IActionResult> DeleteHard(
 		[FromRoute] Guid volunteerId,
 		[FromServices] DeleteVolunteerHandler handler,
 		CancellationToken token)
@@ -154,12 +155,49 @@ public class VolunteerController : ControllerBase
 
 
 	[HttpDelete("soft/{volunteerId:guid}")]
-	public async Task<IActionResult> SoftDelete(
+	public async Task<IActionResult> DeleteSoft(
 		[FromRoute] Guid volunteerId,
 		[FromServices] DeleteVolunteerHandler handler,
 		CancellationToken token)
 	{
 		var command = new DeleteVolunteerCommand(volunteerId, IsSoftDelete:true);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+
+	[HttpDelete("pet/hard/{volunteerId:guid}/{petId:guid}")]
+	public async Task<IActionResult> DeletePetHard(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] DeletePetHandler handler,
+		CancellationToken token)
+	{
+		var command = new DeletePetCommand(volunteerId, petId, IsSoftDelete: false);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpDelete("pet/soft/{volunteerId:guid}/{petId:guid}")]
+	public async Task<IActionResult> DeletePetSoft(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromServices] DeletePetHandler handler,
+		CancellationToken token)
+	{
+		var command = new DeletePetCommand(volunteerId, petId, IsSoftDelete: true);
 
 		var result = await handler.HandleAsync(command, token);
 

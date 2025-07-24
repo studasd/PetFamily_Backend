@@ -5,9 +5,9 @@ using PetFamily.Domain.Shared.Errores;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Delete;
 
-public class DeleteVolunteerCommandValidator : AbstractValidator<DeleteVolunteerCommand>
+public class DeleteVolunteerValidator : AbstractValidator<DeleteVolunteerCommand>
 {
-	public DeleteVolunteerCommandValidator() 
+	public DeleteVolunteerValidator() 
 	{
 		RuleFor(r => r.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired("Volunteer Id is not empty"));
 	}
