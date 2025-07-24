@@ -165,4 +165,18 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 
 		return UnitResult.Success<Error>();
 	}
+	
+	public UnitResult<Error> UpdatePrimePhoto(string pathPhoto)
+	{
+		var fileStoragesNew = fileStorages
+			.Select(f => FileStorage.Create(f.PathToStorage, f.PathToStorage == pathPhoto).Value)
+			.OrderByDescending(f => f.IsPrime)
+			.ToList();
+
+		fileStorages.Clear();
+
+		fileStorages.AddRange(fileStoragesNew);
+
+		return UnitResult.Success<Error>();
+	}
 }

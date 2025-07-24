@@ -8,6 +8,7 @@ using PetFamily.Application.PetsManagement.Commands.Delete;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
 using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
+using PetFamily.Application.PetsManagement.Commands.UpdatePrimePhoto;
 using PetFamily.Application.PetsManagement.Commands.UpdateStatus;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
@@ -315,6 +316,25 @@ public class VolunteerController : ControllerBase
 		CancellationToken token)
 	{
 		var command = new UpdatePetStatusCommand(volunteerId, petId, request.HelpStatus);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("pet/prime-photo/{volunteerId:guid}/{petId:guid}")]
+	public async Task<IActionResult> UpdatePetPrimePhoto(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromBody] UpdatePetPrimePhotoRequest request,
+		[FromServices] UpdatePetPrimePhotoHandler handler,
+		CancellationToken token)
+	{
+		var command = new UpdatePetPrimePhotoCommand(volunteerId, petId, request.PathPhoto);
 
 		var result = await handler.HandleAsync(command, token);
 

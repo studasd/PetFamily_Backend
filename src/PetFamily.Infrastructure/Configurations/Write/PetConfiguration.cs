@@ -98,6 +98,10 @@ internal class PetConfiguration : IEntityTypeConfiguration<Pet>
 			{
 				pb.ToJson("file_storages");
 
+				pb.Property(s => s.IsPrime)
+					.IsRequired()
+					.HasColumnName("is_prime");
+
 				pb.Property(s => s.PathToStorage)
 					.IsRequired()
 					.HasMaxLength(Constants.MAX_HIGHT_TEXT_LENGHT)

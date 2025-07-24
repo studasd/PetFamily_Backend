@@ -5,12 +5,14 @@ namespace PetFamily.Domain.Shared.ValueObjects;
 
 public record FileStorage
 {
-	private FileStorage(string pathToStorage)
+	private FileStorage(string pathToStorage, bool isPrime = false)
 	{
 		PathToStorage = pathToStorage;
+		IsPrime = isPrime;
 	}
 
 	public string PathToStorage { get; }
+	public bool IsPrime { get; }
 
 	public static Result<FileStorage, Error> Create(Guid path, string extension)
 	{
@@ -21,8 +23,8 @@ public record FileStorage
 		return new FileStorage(fullPath);
 	}
 
-	public static Result<FileStorage, Error> Create(string fullPath)
+	public static Result<FileStorage, Error> Create(string fullPath, bool isPrime = false)
 	{
-		return new FileStorage(fullPath);
+		return new FileStorage(fullPath, isPrime);
 	}
 }
