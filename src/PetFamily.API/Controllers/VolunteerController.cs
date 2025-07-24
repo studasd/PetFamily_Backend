@@ -7,6 +7,7 @@ using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
 using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
+using PetFamily.Application.PetsManagement.Commands.UpdateStatus;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
@@ -257,6 +258,25 @@ public class VolunteerController : ControllerBase
 			request.HelpStatus, 
 			request.BankingВetails
 			);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("pet/status/{volunteerId:guid}/{petId:guid}")]
+	public async Task<IActionResult> UpdatePetStatus(
+		[FromRoute] Guid volunteerId,
+		[FromRoute] Guid petId,
+		[FromBody] UpdatePetStatusRequest request,
+		[FromServices] UpdatePetStatusHandler handler,
+		CancellationToken token)
+	{
+		var command = new UpdatePetStatusCommand(volunteerId, petId, request.HelpStatus);
 
 		var result = await handler.HandleAsync(command, token);
 

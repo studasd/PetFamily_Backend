@@ -158,4 +158,11 @@ public class Pet : AbsSoftDeletableEntity<PetId>
 
 		return UnitResult.Success<Error>();
 	}
+
+	public UnitResult<Error> UpdateStatus(PetHelpStatuses helpStatus)
+	{
+		HelpStatus = helpStatus;
+
+		return UnitResult.Success<Error>();
+	}
 }
