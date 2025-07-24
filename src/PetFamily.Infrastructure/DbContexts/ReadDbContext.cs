@@ -5,7 +5,7 @@ using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
 
 namespace PetFamily.Infrastructure.DbContexts;
-public class ReadDbContext(IConfiguration configuration) : DbContext, IReadDbContext
+public class ReadDbContext(string connectionString) : DbContext, IReadDbContext
 {
 	public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
 
@@ -19,7 +19,8 @@ public class ReadDbContext(IConfiguration configuration) : DbContext, IReadDbCon
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+		//optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+		optionsBuilder.UseNpgsql(connectionString)
 			.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.UseSnakeCaseNamingConvention();

@@ -8,7 +8,7 @@ namespace PetFamily.Infrastructure.DbContexts;
 
 // add-migration -context WriteDbContext Init
 // update-database -context WriteDbContext
-public class WriteDbContext(IConfiguration configuration) : DbContext
+public class WriteDbContext(string connectionString) : DbContext
 {
 
 	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
@@ -18,7 +18,8 @@ public class WriteDbContext(IConfiguration configuration) : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+		//optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+		optionsBuilder.UseNpgsql(connectionString)
 			.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.UseSnakeCaseNamingConvention();
