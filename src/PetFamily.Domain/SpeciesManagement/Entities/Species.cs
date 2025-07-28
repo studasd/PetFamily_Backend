@@ -16,7 +16,7 @@ public class Species : Entity<SpeciesId>
 	public Species(SpeciesId id, string name, IEnumerable<Breed> breeds) : base(id)
 	{
 		Name = name;
-		breeds = breeds.ToList();
+		this.breeds = breeds.ToList();
 	}
 
 	public string Name { get; set; }
