@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
+using PetFamily.Application.PetsManagement.Commands.UpdatePrimePhoto;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Contracts.DTOs;
 
@@ -141,6 +142,19 @@ public static class FixtureExtensions
 			.With(x => x.Weight, weight ?? 10.0m)
 			.With(x => x.Height, height ?? 20.0m)
 			.With(x => x.Phones, phone is null ? [Random.Shared.NextInt64(79010000000, 79999999999).ToString()] : [phone])
+			.Create();
+	}
+
+	public static UpdatePetPrimePhotoCommand CreateUpdatePetPrimePhotoCommand(
+		this IFixture fixture,
+		Guid volunteerId,
+		Guid petId,
+		string? photoPath = null)
+	{
+		return fixture.Build<UpdatePetPrimePhotoCommand>()
+			.With(x => x.VolunteerId, volunteerId)
+			.With(x => x.PetId, petId)
+			.With(x => x.PathPhoto, photoPath ?? $"/photos/{Guid.NewGuid():N}.jpg")
 			.Create();
 	}
 }
