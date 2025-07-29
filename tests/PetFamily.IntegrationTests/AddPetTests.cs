@@ -13,7 +13,7 @@ using AutoFixture;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 
-namespace PetFamily.Volunteer.IntegrationTests;
+namespace PetFamily.IntegrationTests;
 
 public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
@@ -38,7 +38,7 @@ public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLife
 		var (speciesId, breedId) = await SeedSpecies();
 
 		var command = fixture.CreateAddPetCommand(volunteerId, speciesId, breedId);
-
+		
 		// act
 		// AddPetHandler
 		var result = await sut.HandleAsync(command, CancellationToken.None);
@@ -56,7 +56,7 @@ public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLife
 
 	private async Task<Guid> SeedModule()
 	{
-		var volunteer = new PetFamily.Domain.VolunteerManagement.Entities.Volunteer(
+		var volunteer = new Volunteer(
 			VolunteerId.NewVolunteerId(),
 			VolunteerName.Create("firstname", "lastname", "surname").Value,
 			"email@ma.il",
@@ -90,8 +90,6 @@ public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLife
 		await db.Species.AddAsync(species);
 
 		await db.SaveChangesAsync();
-
-
 
 		return (species.Id, breed.Id);
 	}

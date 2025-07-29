@@ -7,7 +7,7 @@ using PetFamily.Application.Database;
 using PetFamily.Infrastructure.DbContexts;
 using Testcontainers.PostgreSql;
 
-namespace PetFamily.Volunteer.IntegrationTests;
+namespace PetFamily.IntegrationTests;
 
 public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
