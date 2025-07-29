@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using PetFamily.Application.PetsManagement.Commands.Add;
+using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Contracts.DTOs;
 
@@ -113,6 +114,33 @@ public static class FixtureExtensions
 			.With(x => x.Phone, "bad-phone")
 			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
 			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
+			.Create();
+	}
+
+	public static UpdatePetInfoCommand CreateUpdatePetInfoCommand(
+		this IFixture fixture,
+		Guid volunteerId,
+		Guid petId,
+		Guid? speciesId = null, 
+		Guid? breedId = null,
+		string? name = null,
+		string? description = null,
+		string? color = null,
+		decimal? weight = null,
+		decimal? height = null,
+		string? phone = null)
+	{
+		return fixture.Build<UpdatePetInfoCommand>()
+			.With(x => x.VolunteerId, volunteerId)
+			.With(x => x.PetId, petId)
+			.With(x => x.SpeciesId, speciesId ?? Guid.NewGuid())
+			.With(x => x.BreedId, breedId ?? Guid.NewGuid())
+			.With(x => x.Name, name ?? $"Pet_{Guid.NewGuid():N}")
+			.With(x => x.Description, description ?? "Updated description")
+			.With(x => x.Color, color ?? "black")
+			.With(x => x.Weight, weight ?? 10.0m)
+			.With(x => x.Height, height ?? 20.0m)
+			.With(x => x.Phones, phone is null ? [Random.Shared.NextInt64(79010000000, 79999999999).ToString()] : [phone])
 			.Create();
 	}
 }
