@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Datas\" />
+    <Folder Include="Speciess\" />
   </ItemGroup>
 
 </Project>
