@@ -2,8 +2,10 @@
 using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
 using PetFamily.Application.PetsManagement.Commands.UpdatePrimePhoto;
+using PetFamily.Application.PetsManagement.Commands.UpdateStatus;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Contracts.DTOs;
+using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.IntegrationTests;
 
@@ -155,6 +157,19 @@ public static class FixtureExtensions
 			.With(x => x.VolunteerId, volunteerId)
 			.With(x => x.PetId, petId)
 			.With(x => x.PathPhoto, photoPath ?? $"/photos/{Guid.NewGuid():N}.jpg")
+			.Create();
+	}
+
+	public static UpdatePetStatusCommand CreateUpdatePetStatusCommand(
+		this IFixture fixture,
+		Guid volunteerId,
+		Guid petId,
+		PetHelpStatuses? status = null)
+	{
+		return fixture.Build<UpdatePetStatusCommand>()
+			.With(x => x.VolunteerId, volunteerId)
+			.With(x => x.PetId, petId)
+			.With(x => x.HelpStatus, status ?? PetHelpStatuses.FoundHouse)
 			.Create();
 	}
 }
