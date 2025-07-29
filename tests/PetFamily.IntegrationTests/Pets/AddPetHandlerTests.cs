@@ -146,20 +146,9 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
 
     public Task InitializeAsync() => Task.CompletedTask;
 
-    public async Task DisposeAsync()
+    public Task DisposeAsync()
     {
-        // Clean up the database after each test
-        if (db != null)
-        {
-            var volunteers = await db.Volunteers.ToListAsync();
-            db.Volunteers.RemoveRange(volunteers);
-
-            var species = await db.Species.ToListAsync();
-            db.Species.RemoveRange(species);
-
-            await db.SaveChangesAsync();
-        }
-        
-        scope.Dispose();
-    }
+		scope.Dispose();
+		return Task.CompletedTask;
+	}
 }

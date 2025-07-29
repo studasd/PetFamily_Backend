@@ -66,6 +66,6 @@ public class DeletePetHandler : ICommandHandler<Guid, DeletePetCommand>
 
 		logger.LogInformation("Deleted pet ID {petId} with volunteer id {volunteerId}", command.PetId, volunteerResult.Value.Id);
 
-		return volunteerResult.Value.Id.Value;
+		return command.PetId;
 	}
 }
