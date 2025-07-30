@@ -39,7 +39,7 @@ public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerComma
 		var volunteerNameExist = await volunteerRepository.GetByNameAsync(volunteerName, token);
 		
 		if (volunteerNameExist.IsSuccess)
-			return volunteerNameExist.Error.ToErrorList();
+			return Errors.General.AlreadyExist($"Volunteer with name '{volunteerName.Firstname} {volunteerName.Lastname} {volunteerName.Surname}'").ToErrorList();
 
 		var phone = Phone.Create(command.Phone).Value;
 
