@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetFamily.API.Extensions;
 using PetFamily.API.Responses;
+using PetFamily.Application.PetsManagement.Queries.GetPetById;
 using PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;
 using PetFamily.Contracts.RequestPets;
 
@@ -69,5 +71,22 @@ public class PetController : ApplicationController
 		var response = await handler.HandleAsync(query, token);
 
 		return Ok(response);
+	}
+
+
+	[HttpGet("{petId:guid}")]
+	public async Task<IActionResult> GetPetById(
+		[FromRoute] Guid petId,
+		[FromServices] GetPetByIdHandler handler,
+		CancellationToken token)
+	{
+		var query = new GetPetByIdQuery(petId);
+
+		var result = await handler.HandleAsync(query, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
 	}
 }
