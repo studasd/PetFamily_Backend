@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using PetFamily.Application.Database;
 using PetFamily.Infrastructure.DbContexts;
 using Testcontainers.PostgreSql;
@@ -11,7 +12,7 @@ namespace PetFamily.IntegrationTests;
 
 public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-	private readonly PostgreSqlContainer dbContainer = new PostgreSqlBuilder()
+	private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
 		.WithImage("postgres")
 		.WithDatabase("pet_family")
 		.WithUsername("postgres")
@@ -29,25 +30,18 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
 	protected virtual void ConfigureDefaultServices(IServiceCollection services)
 	{
-		var writeContext = services.SingleOrDefault(s => s.ServiceType == typeof(WriteDbContext));
+		services.RemoveAll<WriteDbContext>();
+		services.RemoveAll<ReadDbContext>();
 
-		var readContext = services.SingleOrDefault(s => s.ServiceType == typeof(ReadDbContext));
+		services.AddScoped<WriteDbContext>(_ => new WriteDbContext(_dbContainer.GetConnectionString()));
 
-		if(writeContext is not null)
-			services.Remove(writeContext);
-
-		if(readContext is not null)
-			services.Remove(readContext);
-
-		services.AddScoped<WriteDbContext>(_ => new WriteDbContext(dbContainer.GetConnectionString()));
-
-		services.AddScoped<IReadDbContext, ReadDbContext>(_ => new ReadDbContext(dbContainer.GetConnectionString()));
+		services.AddScoped<IReadDbContext, ReadDbContext>(_ => new ReadDbContext(_dbContainer.GetConnectionString()));
 	}
 
 
 	public async Task InitializeAsync()
 	{
-		await dbContainer.StartAsync();
+		await _dbContainer.StartAsync();
 
 		await using var scope = Services.CreateAsyncScope();
 
@@ -58,7 +52,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
 	async Task IAsyncLifetime.DisposeAsync()
 	{
-		await dbContainer.StopAsync();
-		await dbContainer.DisposeAsync();
+		await _dbContainer.StopAsync();
+		await _dbContainer.DisposeAsync();
 	}
 }

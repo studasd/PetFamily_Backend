@@ -19,19 +19,19 @@ namespace PetFamily.IntegrationTests.PetsManagement;
 
 public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
-    private readonly IServiceScope scope;
-    private readonly WriteDbContext db;
-    private readonly IReadDbContext readDb;
-    private readonly ICommandHandler<Guid, AddPetCommand> sut;
-    private readonly Fixture fixture;
+    private readonly IServiceScope _scope;
+    private readonly WriteDbContext _db;
+    private readonly IReadDbContext _readDb;
+    private readonly ICommandHandler<Guid, AddPetCommand> _sut;
+    private readonly Fixture _fixture;
 
     public AddPetHandlerTests(IntegrationTestsWebFactory factory)
     {
-        scope = factory.Services.CreateScope();
-        db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-        readDb = scope.ServiceProvider.GetRequiredService<IReadDbContext>();
-        sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, AddPetCommand>>();
-        fixture = new Fixture();
+        _scope = factory.Services.CreateScope();
+        _db = _scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        _readDb = _scope.ServiceProvider.GetRequiredService<IReadDbContext>();
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, AddPetCommand>>();
+        _fixture = new Fixture();
     }
 
     [Fact]
@@ -62,14 +62,14 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
             ));
 
         // Act
-        var result = await sut.HandleAsync(command, CancellationToken.None);
+        var result = await _sut.HandleAsync(command, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeEmpty();
 
         // Verify the pet was added to the database
-        var pet = await readDb.Pets.FirstOrDefaultAsync(p => p.Id == result.Value);
+        var pet = await _readDb.Pets.FirstOrDefaultAsync(p => p.Id == result.Value);
         pet.Should().NotBeNull();
         pet!.Name.Should().Be("TestPet");
         pet.Description.Should().Be("Test Description");
@@ -110,7 +110,7 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
             ));
 
         // Act
-        var result = await sut.HandleAsync(command, CancellationToken.None);
+        var result = await _sut.HandleAsync(command, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeFalse();
@@ -127,8 +127,8 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
             1,
             Phone.Create("79001234567").Value);
 
-        db.Volunteers.Add(volunteer);
-        await db.SaveChangesAsync();
+        _db.Volunteers.Add(volunteer);
+        await _db.SaveChangesAsync();
 
         return volunteer.Id;
     }
@@ -138,8 +138,8 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
         var breed = Breed.Create("TestBreed").Value;
         var species = Species.Create("TestSpecies", new[] { breed }).Value;
 
-        db.Species.Add(species);
-        await db.SaveChangesAsync();
+        _db.Species.Add(species);
+        await _db.SaveChangesAsync();
 
         return (species.Id, breed.Id);
     }
@@ -148,7 +148,7 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
 
     public Task DisposeAsync()
     {
-		scope.Dispose();
+		_scope.Dispose();
 		return Task.CompletedTask;
 	}
 }
