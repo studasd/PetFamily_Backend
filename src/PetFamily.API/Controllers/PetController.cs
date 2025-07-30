@@ -17,14 +17,27 @@ public class PetController : ApplicationController
 	{
 		var query = new GetFilteredPetsWithPaginationQuery(
 			request.Page, 
-			request.PageSize, 
-			request.Name, 
+			request.PageSize,
+			request.VolunteerIds,
+			request.Name,
+			request.Age,
+			request.SpeciesId,
+			request.BreedId,
+			request.Color,
+			request.Weight,
+			request.Height,
+			request.Country,
+			request.City,
+			request.HelpStatus,
 			request.PositionFrom, 
-			request.PositionTo);
+			request.PositionTo,
+			request.SortBy,
+			request.SortDirection
+		);
 
-		var response = await handler.HandleAsync(query, token);
+		var result = await handler.HandleAsync(query, token);
 
-		return Ok(response);
+		return Ok(result);
 	}
 
 	[HttpGet("dapper")]
@@ -36,9 +49,22 @@ public class PetController : ApplicationController
 		var query = new GetFilteredPetsWithPaginationQuery(
 			request.Page,
 			request.PageSize,
+			request.VolunteerIds,
 			request.Name,
+			request.Age,
+			request.SpeciesId,
+			request.BreedId,
+			request.Color,
+			request.Weight,
+			request.Height,
+			request.Country,
+			request.City,
+			request.HelpStatus,
 			request.PositionFrom,
-			request.PositionTo);
+			request.PositionTo,
+			request.SortBy,
+			request.SortDirection
+		);
 
 		var response = await handler.HandleAsync(query, token);
 
