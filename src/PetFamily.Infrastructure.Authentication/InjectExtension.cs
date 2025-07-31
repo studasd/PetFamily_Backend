@@ -53,22 +53,10 @@ public static class InjectExtension
 				};
 			});
 
-		services.AddAuthorization(options =>
-		{
-			options.AddPolicy("CreatePetRequirement", policy =>
-				policy.AddRequirements(new PermissionRequirement("create.pet")));
-
-			options.AddPolicy("UpdatePetRequirement", policy =>
-				policy.AddRequirements(new PermissionRequirement("update.pet")));
-
-			options.AddPolicy("DeletePetRequirement", policy =>
-				policy.AddRequirements(new PermissionRequirement("delete.pet")));
-
-			options.AddPolicy("GetPetRequirement", policy =>
-				policy.AddRequirements(new PermissionRequirement("get.pet")));
-		});
+		services.AddAuthorization();
 
 		services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+		services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
 		return services;
 	}
