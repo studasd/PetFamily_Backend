@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Application.AccountManagement.Commands;
+using PetFamily.Application.AccountManagement.Commands.Login;
 using PetFamily.Application.AccountManagement.Commands.Register;
 using PetFamily.Contracts.RequestAccounts;
 
@@ -23,5 +24,23 @@ public class AccountController : ApplicationController
 			return result.Error.ToResponse();
 
 		return Ok();
+	}
+
+
+	[HttpPost("login")]
+	public async Task<IActionResult> Login(
+		[FromBody] LoginUserRequest request,
+		[FromServices] LoginUserHandler handler,
+		CancellationToken token
+		)
+	{
+		var command = new LoginUserCommand(request.Email, request.Password);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
 	}
 }

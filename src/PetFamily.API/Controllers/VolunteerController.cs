@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -32,31 +33,6 @@ namespace PetFamily.API.Controllers;
 [Route("volunteer")]
 public class VolunteerController : ControllerBase
 {
-
-	[HttpPost("jwt")]
-	public ActionResult Login(CancellationToken token)
-	{
-		var claims = new[]
-		{
-			new Claim(JwtRegisteredClaimNames.Sub, "userId"),
-			new Claim("customClaim", "customClaimValue")
-		};
-
-		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("tjtyjtyuj56ujy5rttytijkyjkytujhrtjh45rth455"));
-		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-		var tokenJwt = new JwtSecurityToken(
-			issuer: "test",
-			audience: "test",
-			claims: claims,
-			signingCredentials: creds
-		);
-
-		var stringToken = new JwtSecurityTokenHandler().WriteToken(tokenJwt);
-
-		return Ok(stringToken);
-	}
-
 
 	[Authorize]
 	[HttpPost]

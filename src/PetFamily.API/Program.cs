@@ -71,7 +71,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration)
-	.AddInfrastructureAuthorization()
+	.AddInfrastructureAuthorization(builder.Configuration)
 	.AddContracts();
 
 
@@ -90,6 +90,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

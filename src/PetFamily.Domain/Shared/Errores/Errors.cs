@@ -22,4 +22,10 @@ public static class Errors
 		public static Error AlreadyIsUsed(string name) =>
 			Error.Validation("record_already_used", $"'{name}' already used");
 	}
+
+	public static class User
+	{
+		public static Error InvalidCredentials() =>
+			Error.Validation("credentials_is_invalid", "Your credentials is invalid");
+	}
 }
