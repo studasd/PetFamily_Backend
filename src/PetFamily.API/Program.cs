@@ -9,6 +9,7 @@ using PetFamily.API.Validations;
 using PetFamily.Application;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
+using PetFamily.Infrastructure.Authentication;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -70,24 +71,9 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration)
+	.AddInfrastructureAuthorization()
 	.AddContracts();
 
-builder.Services
-	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(option =>
-	{
-		option.TokenValidationParameters = new TokenValidationParameters
-		{
-			ValidIssuer = "test",
-			ValidAudience = "test",
-			IssuerSigningKey = new SymmetricSecurityKey(
-				Encoding.UTF8.GetBytes("tjtyjtyuj56ujy5rttytijkyjkytujhrtjh45rth455")),
-			ValidateIssuer = true,
-			ValidateAudience = true,
-			ValidateLifetime = false,
-			ValidateIssuerSigningKey = true
-		};
-	});
 
 
 var app = builder.Build();
