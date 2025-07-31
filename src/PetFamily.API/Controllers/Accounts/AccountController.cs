@@ -9,7 +9,7 @@ using PetFamily.Contracts.RequestAccounts;
 namespace PetFamily.API.Controllers.Accounts;
 public class AccountController : ApplicationController
 {
-	[Authorize(Policy = "RequireAdministratorRole")]
+	[Authorize(Policy = "CreatePetRequirement")]
 	[HttpPost("admin")]
 	public IActionResult TestAdmin()
 	{

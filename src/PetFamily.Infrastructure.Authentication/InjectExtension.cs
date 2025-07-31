@@ -55,17 +55,20 @@ public static class InjectExtension
 
 		services.AddAuthorization(options =>
 		{
-			options.DefaultPolicy = new AuthorizationPolicyBuilder()
-				.RequireClaim("Role", "User")
-				.RequireAuthenticatedUser()
-				.Build();
+			options.AddPolicy("CreatePetRequirement", policy =>
+				policy.AddRequirements(new PermissionRequirement("create.pet")));
 
-			options.AddPolicy("RequireAdministratorRole", policy =>
-			{
-				policy.RequireClaim("Role", "Admin");
-				policy.RequireAuthenticatedUser();
-			});
+			options.AddPolicy("UpdatePetRequirement", policy =>
+				policy.AddRequirements(new PermissionRequirement("update.pet")));
+
+			options.AddPolicy("DeletePetRequirement", policy =>
+				policy.AddRequirements(new PermissionRequirement("delete.pet")));
+
+			options.AddPolicy("GetPetRequirement", policy =>
+				policy.AddRequirements(new PermissionRequirement("get.pet")));
 		});
+
+		services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
 
 		return services;
 	}
