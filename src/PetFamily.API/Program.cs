@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
@@ -11,6 +13,7 @@ using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
@@ -34,6 +37,32 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSerilog();
 builder.Services.AddSwaggerGen(c =>
 {
+	c.SwaggerDoc("v1", new OpenApiInfo
+	{
+		Title = "My API",
+		Version = "v1"
+	});
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Please insert JWT with Bearer into field",
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey
+	});
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{ 
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
 	c.ExampleFilters();
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); // Регистрация примеров
@@ -44,8 +73,21 @@ builder.Services.AddInfrastructure(builder.Configuration)
 	.AddContracts();
 
 builder.Services
-	.AddAuthentication("custom")
-	.AddScheme<AuthOptions, CustomAuth>("custom", "custom", null);
+	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(option =>
+	{
+		option.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidIssuer = "test",
+			ValidAudience = "test",
+			IssuerSigningKey = new SymmetricSecurityKey(
+				Encoding.UTF8.GetBytes("tjtyjtyuj56ujy5rttytijkyjkytujhrtjh45rth455")),
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = false,
+			ValidateIssuerSigningKey = true
+		};
+	});
 
 
 var app = builder.Build();
@@ -73,34 +115,3 @@ app.MapControllers();
 app.Run();
 
 public partial class Program;
-
-
-public class AuthOptions : AuthenticationSchemeOptions
-{
-
-}
-
-public class CustomAuth : AuthenticationHandler<AuthOptions>
-{
-	public CustomAuth(
-		IOptionsMonitor<AuthOptions> options, 
-		ILoggerFactory logger, 
-		UrlEncoder encoder, 
-		ISystemClock clock) : base(options, logger, encoder, clock)
-	{
-	}
-
-	public CustomAuth(
-		IOptionsMonitor<AuthOptions> options,
-		ILoggerFactory logger,
-		UrlEncoder encoder
-	) : base(options, logger, encoder)
-	{
-	}
-
-
-	protected override Task<AuthenticateResult> HandleAuthenticateAsync()
-	{
-		return AuthenticateAsync();
-	}
-}

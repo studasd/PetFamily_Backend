@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
@@ -20,6 +22,9 @@ using PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PetFamily.API.Controllers;
 
@@ -27,6 +32,33 @@ namespace PetFamily.API.Controllers;
 [Route("volunteer")]
 public class VolunteerController : ControllerBase
 {
+
+	[HttpPost("jwt")]
+	public ActionResult Login(CancellationToken token)
+	{
+		var claims = new[]
+		{
+			new Claim(JwtRegisteredClaimNames.Sub, "userId"),
+			new Claim("customClaim", "customClaimValue")
+		};
+
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("tjtyjtyuj56ujy5rttytijkyjkytujhrtjh45rth455"));
+		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+		var tokenJwt = new JwtSecurityToken(
+			issuer: "test",
+			audience: "test",
+			claims: claims,
+			signingCredentials: creds
+		);
+
+		var stringToken = new JwtSecurityTokenHandler().WriteToken(tokenJwt);
+
+		return Ok(stringToken);
+	}
+
+
+	[Authorize]
 	[HttpPost]
 	[SwaggerRequestExample(typeof(CreateVolunteerRequest), typeof(VolunteerRequestExample))]
 	public async Task<IActionResult> Create(
