@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PetFamily.Application.Authorization.DataModels;
 using System.Text;
 
 namespace PetFamily.Infrastructure.Authentication;
@@ -10,7 +11,10 @@ public static class InjectExtension
 {
 	public static IServiceCollection AddInfrastructureAuthorization(this IServiceCollection services)
 	{
-		services.AddIdentity<User, Role>()
+		services.AddIdentity<User, Role>(options =>
+			{
+				options.User.RequireUniqueEmail = true;
+			})
 			.AddEntityFrameworkStores<AuthorizationDbContext>();
 
 		services.AddScoped<AuthorizationDbContext>();

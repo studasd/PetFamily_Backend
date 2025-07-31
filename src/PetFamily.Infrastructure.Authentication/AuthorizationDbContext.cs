@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Infrastructure.DbContexts;
+using PetFamily.Application.Authorization.DataModels;
 
 namespace PetFamily.Infrastructure.Authentication;
 
