@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
@@ -8,6 +11,7 @@ using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,10 +43,9 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 builder.Services.AddInfrastructure(builder.Configuration)
 	.AddContracts();
 
-//builder.Services.AddFluentValidationAutoValidation(config =>
-//{
-//	config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-//});
+builder.Services
+	.AddAuthentication("custom")
+	.AddScheme<AuthOptions, CustomAuth>("custom", "custom", null);
 
 
 var app = builder.Build();
@@ -69,5 +72,35 @@ app.MapControllers();
 
 app.Run();
 
-
 public partial class Program;
+
+
+public class AuthOptions : AuthenticationSchemeOptions
+{
+
+}
+
+public class CustomAuth : AuthenticationHandler<AuthOptions>
+{
+	public CustomAuth(
+		IOptionsMonitor<AuthOptions> options, 
+		ILoggerFactory logger, 
+		UrlEncoder encoder, 
+		ISystemClock clock) : base(options, logger, encoder, clock)
+	{
+	}
+
+	public CustomAuth(
+		IOptionsMonitor<AuthOptions> options,
+		ILoggerFactory logger,
+		UrlEncoder encoder
+	) : base(options, logger, encoder)
+	{
+	}
+
+
+	protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+	{
+		return AuthenticateAsync();
+	}
+}
