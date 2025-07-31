@@ -34,7 +34,6 @@ namespace PetFamily.API.Controllers;
 public class VolunteerController : ControllerBase
 {
 
-	[Authorize]
 	[HttpPost]
 	[SwaggerRequestExample(typeof(CreateVolunteerRequest), typeof(VolunteerRequestExample))]
 	public async Task<IActionResult> Create(

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ public static class InjectExtension
 
 		services.AddScoped<AuthorizationDbContext>();
 
+
 		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()
 			?? throw new ApplicationException("Missing jwt configuration");
 
@@ -51,7 +53,19 @@ public static class InjectExtension
 				};
 			});
 
-		services.AddAuthorization();
+		services.AddAuthorization(options =>
+		{
+			options.DefaultPolicy = new AuthorizationPolicyBuilder()
+				.RequireClaim("Role", "User")
+				.RequireAuthenticatedUser()
+				.Build();
+
+			options.AddPolicy("RequireAdministratorRole", policy =>
+			{
+				policy.RequireClaim("Role", "Admin");
+				policy.RequireAuthenticatedUser();
+			});
+		});
 
 		return services;
 	}

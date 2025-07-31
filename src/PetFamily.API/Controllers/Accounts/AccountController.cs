@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Application.AccountManagement.Commands;
 using PetFamily.Application.AccountManagement.Commands.Login;
@@ -8,6 +9,20 @@ using PetFamily.Contracts.RequestAccounts;
 namespace PetFamily.API.Controllers.Accounts;
 public class AccountController : ApplicationController
 {
+	[Authorize(Policy = "RequireAdministratorRole")]
+	[HttpPost("admin")]
+	public IActionResult TestAdmin()
+	{
+		return Ok();
+	}
+	
+	[Authorize()]
+	[HttpPost("user")]
+	public IActionResult TestUser()
+	{
+		return Ok();
+	}
+
 
 	[HttpPost("registration")]
 	public async Task<IActionResult> Register(
