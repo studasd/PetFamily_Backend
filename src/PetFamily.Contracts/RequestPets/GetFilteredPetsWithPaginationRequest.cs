@@ -1,3 +1,23 @@
-﻿namespace PetFamily.Contracts.RequestPets;
+﻿using PetFamily.Domain.VolunteerManagement.Enums;
 
-public record GetFilteredPetsWithPaginationRequest(int Page, int PageSize, string? Name, int? PositionFrom, int? PositionTo);
+namespace PetFamily.Contracts.RequestPets;
+
+public record GetFilteredPetsWithPaginationRequest(
+	int Page,
+	int PageSize,
+	Guid[]? VolunteerIds,
+	string? Name,
+	int? Age,
+	Guid? SpeciesId,
+	Guid? BreedId,
+	string? Color,
+	decimal? Weight,
+	decimal? Height,
+	string? Country,
+	string? City,
+	PetHelpStatuses? HelpStatus,
+	int? PositionFrom,
+	int? PositionTo,
+	string? SortBy,
+	string? SortDirection // desc, asc
+);
