@@ -2,13 +2,13 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.VolunteerManagement;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 using PetFamily.Domain.Entities;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

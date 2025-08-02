@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
 using PetFamily.Application.SpeciesManagemets.Commands.Delete;
@@ -13,6 +12,7 @@ using PetFamily.Infrastructure.DbContexts;
 using Xunit;
 using AutoFixture;
 using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Core.Abstractions;
 
 namespace PetFamily.IntegrationTests.Speciess;
 

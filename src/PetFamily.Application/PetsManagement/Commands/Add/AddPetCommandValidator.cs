@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.RequestPets;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.Add;
 

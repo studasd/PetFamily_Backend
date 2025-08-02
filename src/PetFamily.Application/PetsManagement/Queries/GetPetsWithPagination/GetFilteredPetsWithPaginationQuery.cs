@@ -1,5 +1,4 @@
-﻿using PetFamily.Application.Abstractions;
-using PetFamily.Domain.Shared.ValueObjects;
+﻿using PetFamily.Core.Abstractions;
 using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;

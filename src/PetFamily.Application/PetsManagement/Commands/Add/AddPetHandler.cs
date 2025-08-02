@@ -1,17 +1,14 @@
-﻿
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.SpeciesManagemets;
 using PetFamily.Application.VolunteerManagement;
-using PetFamily.Contracts.RequestPets;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

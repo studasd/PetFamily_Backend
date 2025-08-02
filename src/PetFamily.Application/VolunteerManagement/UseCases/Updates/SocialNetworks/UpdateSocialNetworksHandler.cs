@@ -1,12 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 

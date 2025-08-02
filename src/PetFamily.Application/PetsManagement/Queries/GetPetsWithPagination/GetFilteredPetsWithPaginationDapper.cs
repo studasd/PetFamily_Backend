@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
 using PetFamily.Application.Models;
+using PetFamily.Core.Abstractions;
 using System.Text.Json;
 
 namespace PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;

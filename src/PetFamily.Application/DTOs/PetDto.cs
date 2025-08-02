@@ -1,5 +1,4 @@
-﻿using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.VolunteerManagement.Enums;
+﻿using PetFamily.Domain.VolunteerManagement.Enums;
 
 namespace PetFamily.Application.DTOs;
 

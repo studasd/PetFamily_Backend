@@ -3,8 +3,7 @@ using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
 using PetFamily.Application.FileProvider;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Infrastructure.Providers;
 

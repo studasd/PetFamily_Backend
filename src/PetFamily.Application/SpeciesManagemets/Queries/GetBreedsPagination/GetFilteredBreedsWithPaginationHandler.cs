@@ -1,8 +1,8 @@
-﻿using PetFamily.Application.Abstractions;
-using PetFamily.Application.Database;
+﻿using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Models;
+using PetFamily.Core.Abstractions;
 
 namespace PetFamily.Application.SpeciesManagemets.Queries.GetBreedsPagination;
 

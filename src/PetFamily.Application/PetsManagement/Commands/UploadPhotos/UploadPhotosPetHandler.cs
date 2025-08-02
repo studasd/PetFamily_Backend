@@ -1,14 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
 using PetFamily.Application.Messaging;
 using PetFamily.Application.VolunteerManagement;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 
 namespace PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 

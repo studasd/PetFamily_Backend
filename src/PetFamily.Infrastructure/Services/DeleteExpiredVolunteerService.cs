@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetFamily.Domain.Shared;
 using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure.Services;

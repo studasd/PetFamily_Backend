@@ -1,4 +1,4 @@
-﻿using PetFamily.Application.Abstractions;
+﻿using PetFamily.Core.Abstractions;
 
 namespace PetFamily.Application.PetsManagement.Commands.MovePosition;
 

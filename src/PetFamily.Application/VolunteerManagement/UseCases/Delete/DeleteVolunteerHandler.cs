@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Delete;
 

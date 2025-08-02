@@ -1,8 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.SpeciesManagemets;
-using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Errores;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

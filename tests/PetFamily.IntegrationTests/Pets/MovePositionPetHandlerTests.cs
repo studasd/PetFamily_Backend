@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.PetsManagement.Commands.MovePosition;
 using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
-using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using Xunit;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Application.Database;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.ValueObjects;
 
 namespace PetFamily.IntegrationTests.Pets;
 

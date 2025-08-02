@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Delete;
 

@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
 using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
@@ -23,9 +19,6 @@ using PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace PetFamily.API.Controllers;
 

@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Extensions;
-using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
 
@@ -35,7 +34,7 @@ public class UpdateBankingDetailsHandler : ICommandHandler<Guid, UpdateBankingDe
 		if (volunteerResult.IsFailure)
 			return volunteerResult.Error.ToErrorList();
 
-		var bankingDetailsResult = command.BankingDetails.Select(s => Domain.Shared.ValueObjects.BankingDetails.Create(s.Name, s.Description).Value);
+		var bankingDetailsResult = command.BankingDetails.Select(s => Core.ValueObjects.BankingDetails.Create(s.Name, s.Description).Value);
 
 		volunteerResult.Value.UpdateBankingDetails(bankingDetailsResult);
 

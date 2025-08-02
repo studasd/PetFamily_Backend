@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using PetFamily.Application.Authorization;
-using PetFamily.Application.Authorization.DataModels;
+using PetFamily.Accounts.Application;
+using PetFamily.Accounts.Domain;
 using System.Text;
 
-namespace PetFamily.Infrastructure.Authentication;
+namespace PetFamily.Accounts.Infrastructure;
 
 public static class InjectExtension
 {
@@ -55,9 +55,6 @@ public static class InjectExtension
 			});
 
 		services.AddAuthorization();
-
-		services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-		services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
 		return services;
 	}

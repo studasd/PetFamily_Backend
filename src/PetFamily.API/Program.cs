@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PetFamily.Accounts.Infrastructure;
+using PetFamily.API.Authorization;
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
 using PetFamily.Application;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
-using PetFamily.Infrastructure.Authentication;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -74,7 +76,8 @@ builder.Services.AddInfrastructure(builder.Configuration)
 	.AddInfrastructureAuthorization(builder.Configuration)
 	.AddContracts();
 
-
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
 var app = builder.Build();
 

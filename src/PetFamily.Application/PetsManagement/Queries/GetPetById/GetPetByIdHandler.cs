@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.PetsManagement.Queries.GetPetById;
 

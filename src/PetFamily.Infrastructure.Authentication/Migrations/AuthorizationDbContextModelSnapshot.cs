@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetFamily.Infrastructure.Authentication;
+using PetFamily.Accounts.Infrastructure;
+
 
 #nullable disable
 
-namespace PetFamily.Infrastructure.Authentication.Migrations
+namespace PetFamily.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
     partial class AuthorizationDbContextModelSnapshot : ModelSnapshot

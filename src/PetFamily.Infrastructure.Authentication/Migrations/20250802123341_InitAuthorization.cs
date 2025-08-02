@@ -4,8 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PetFamily.Infrastructure.Authentication.Migrations
-{
+namespace PetFamily.Accounts.Infrastructure.Migrations;
+
     /// <inheritdoc />
     public partial class InitAuthorization : Migration
     {
@@ -275,4 +275,3 @@ namespace PetFamily.Infrastructure.Authentication.Migrations
                 name: "users");
         }
     }
-}

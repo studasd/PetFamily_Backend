@@ -1,12 +1,8 @@
-﻿using CSharpFunctionalExtensions;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using PetFamily.Application.Abstractions;
-using PetFamily.Application.Database;
+﻿using PetFamily.Application.Database;
 using PetFamily.Application.DTOs;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Models;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Abstractions;
 using System.Linq.Expressions;
 
 namespace PetFamily.Application.PetsManagement.Queries.GetPetsWithPagination;

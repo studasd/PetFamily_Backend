@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Core.Errores;
+using PetFamily.Core.ValueObjects;
 using PetFamily.Domain.Entities;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;

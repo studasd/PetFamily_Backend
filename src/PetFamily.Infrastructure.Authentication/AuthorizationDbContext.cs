@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Authorization.DataModels;
+using PetFamily.Accounts.Domain;
+using PetFamily.Infrastructure;
 using System.Text.Json;
 
-namespace PetFamily.Infrastructure.Authentication;
+namespace PetFamily.Accounts.Infrastructure;
 
 // add-migration -context AuthorizationDbContext InitAuthorization
 // update-database -context AuthorizationDbContext

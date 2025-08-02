@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Extensions;
 using PetFamily.Contracts.DTOs;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.DTOs.Validators;
 

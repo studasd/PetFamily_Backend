@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetFamily.Application.DTOs.Validators;
 using PetFamily.Application.Extensions;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 

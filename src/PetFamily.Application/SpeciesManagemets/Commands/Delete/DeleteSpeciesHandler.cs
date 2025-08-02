@@ -2,10 +2,10 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Errores;
 using PetFamily.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Application.SpeciesManagemets.Commands.Delete;

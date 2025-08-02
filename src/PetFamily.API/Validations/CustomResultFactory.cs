@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using PetFamily.API.Responses;
-using PetFamily.Domain.Shared.Errores;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
-
-namespace PetFamily.API.Validations;
+﻿namespace PetFamily.API.Validations;
 
 //public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
 //{

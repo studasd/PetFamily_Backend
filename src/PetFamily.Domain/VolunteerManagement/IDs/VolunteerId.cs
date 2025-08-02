@@ -1,7 +1,16 @@
-﻿namespace PetFamily.Domain.VolunteerManagement.IDs;
+﻿using CSharpFunctionalExtensions;
 
-public record VolunteerId(Guid Value) : IComparable<VolunteerId>
+namespace PetFamily.Domain.VolunteerManagement.IDs;
+
+public class VolunteerId : ComparableValueObject
 {
+	private VolunteerId(Guid value)
+	{
+		Value = value;
+	}
+
+	public Guid Value {  get; }
+
 	public static VolunteerId NewVolunteerId()	=> new(Guid.NewGuid());
 	public static VolunteerId Empty()			=> new(Guid.Empty);
 	public static VolunteerId Create(Guid guid) => new(guid);
@@ -13,11 +22,8 @@ public record VolunteerId(Guid Value) : IComparable<VolunteerId>
 		return volunteerId.Value;
 	}
 
-	public int CompareTo(VolunteerId? vol)
+	protected override IEnumerable<IComparable> GetComparableEqualityComponents()
 	{
-		if (vol is null) 
-			throw new ArgumentException("VolunteerId is not null");
-
-		return Value.CompareTo(vol.Value);
+		yield return Value;
 	}
 }

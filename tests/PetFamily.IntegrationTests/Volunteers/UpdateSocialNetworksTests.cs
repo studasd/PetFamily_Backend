@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Contracts.DTOs;
@@ -10,6 +9,7 @@ using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using AutoFixture;
 using Xunit;
+using PetFamily.Core.Abstractions;
 
 namespace PetFamily.IntegrationTests.Volunteers;
 

@@ -1,5 +1,5 @@
 ﻿using PetFamily.API.Responses;
-using PetFamily.Domain.Shared.Errores;
+using PetFamily.Core.Errores;
 
 namespace PetFamily.API.Middlewares;
 

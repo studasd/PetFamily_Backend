@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
 using PetFamily.Application.Database;
 using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Infrastructure.DbContexts;
@@ -9,13 +8,14 @@ using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.ValueObjects;
-using PetFamily.Domain.Shared.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Contracts.DTOs;
 using AutoFixture;
 using Xunit;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.ValueObjects;
 
-namespace PetFamily.IntegrationTests.PetsManagement;
+namespace PetFamily.IntegrationTests.Pets;
 
 public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
