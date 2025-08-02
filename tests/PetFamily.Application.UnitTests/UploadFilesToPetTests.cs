@@ -4,21 +4,21 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetFamily.Application.Database;
-using PetFamily.Application.FileProvider;
-using PetFamily.Application.Messaging;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement;
 using PetFamily.Contracts.DTOs;
+using PetFamily.Core;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Volunteers.Domain.ValueObjects;
 using System.Data;
 using System.Threading.Tasks;
+using PetFamily.Core.FileProvider;
+using PetFamily.Core.Messaging;
+using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Application.UnitTests;
 

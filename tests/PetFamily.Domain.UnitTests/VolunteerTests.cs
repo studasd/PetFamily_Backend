@@ -2,9 +2,9 @@
 using PetFamily.Core.ValueObjects;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.Contracts.Enums;
 
 namespace PetFamily.Domain.UnitTests;
 

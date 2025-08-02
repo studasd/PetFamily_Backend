@@ -6,12 +6,12 @@ using PetFamily.Application.PetsManagement.Commands.Add;
 using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Volunteers.Domain.ValueObjects;
 using AutoFixture;
-using PetFamily.Domain.SpeciesManagement.Entities;
 using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.ValueObjects;
+using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.IntegrationTests;
 

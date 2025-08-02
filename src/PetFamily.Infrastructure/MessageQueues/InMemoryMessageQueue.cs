@@ -1,5 +1,4 @@
-﻿using PetFamily.Application.FileProvider;
-using PetFamily.Application.Messaging;
+﻿using PetFamily.Core.Messaging;
 using System.Threading.Channels;
 
 namespace PetFamily.Infrastructure.MessageQueues;

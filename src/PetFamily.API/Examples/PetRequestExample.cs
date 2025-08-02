@@ -1,6 +1,6 @@
 ﻿using PetFamily.Contracts.DTOs;
+using PetFamily.Contracts.Enums;
 using PetFamily.Contracts.RequestPets;
-using PetFamily.Domain.VolunteerManagement.Enums;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.API.Examples;

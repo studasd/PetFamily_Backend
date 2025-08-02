@@ -35,6 +35,7 @@
     <ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
     <ProjectReference Include="..\PetFamily.Infrastructure.Authentication\PetFamily.Accounts.Infrastructure.csproj" />
     <ProjectReference Include="..\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj" />
+    <ProjectReference Include="..\PetFamily.Volunteers.Infrastructure\PetFamily.Volunteers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

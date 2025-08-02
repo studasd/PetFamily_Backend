@@ -1,0 +1,5 @@
+﻿using PetFamily.Core.Abstractions;
+
+namespace PetFamily.Volunteers.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
+
+public record GetVolunteerByIdQuery(Guid volunteerId, int Page, int PageSize) : IQuery;

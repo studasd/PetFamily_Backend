@@ -5,7 +5,7 @@ using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Volunteers.Domain.ValueObjects;
 using AutoFixture;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.ValueObjects;

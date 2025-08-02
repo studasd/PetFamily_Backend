@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using PetFamily.Contracts.DTOs;
-using PetFamily.Domain.VolunteerManagement.Enums;
+﻿using PetFamily.Contracts.DTOs;
+using PetFamily.Contracts.Enums;
 
 namespace PetFamily.Contracts.RequestPets;
 

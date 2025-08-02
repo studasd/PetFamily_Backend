@@ -7,7 +7,6 @@ using PetFamily.API;
 using PetFamily.API.Authorization;
 using PetFamily.API.Controllers;
 using PetFamily.API.Extensions;
-using PetFamily.Application.AccountManagement.Commands.Login;
 
 namespace PetFamily.Accounts.Controllers;
 public class AccountController : ApplicationController

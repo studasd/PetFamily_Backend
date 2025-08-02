@@ -8,14 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Volunteers.Domain.ValueObjects;
 using Xunit;
 using PetFamily.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.ValueObjects;
+using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.IntegrationTests.Pets;
 

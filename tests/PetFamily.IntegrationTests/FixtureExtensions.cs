@@ -5,7 +5,7 @@ using PetFamily.Application.PetsManagement.Commands.UpdatePrimePhoto;
 using PetFamily.Application.PetsManagement.Commands.UpdateStatus;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Contracts.DTOs;
-using PetFamily.Domain.VolunteerManagement.Enums;
+using PetFamily.Contracts.Enums;
 
 namespace PetFamily.IntegrationTests;
 

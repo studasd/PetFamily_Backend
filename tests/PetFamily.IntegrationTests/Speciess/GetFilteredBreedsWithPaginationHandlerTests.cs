@@ -10,7 +10,9 @@ using PetFamily.Application.SpeciesManagemets.Queries.GetBreedsPagination;
 using PetFamily.Infrastructure.DbContexts;
 using Xunit;
 using AutoFixture;
-using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Core.SpeciesManagemets.Queries.GetBreedsPagination;
+using PetFamily.Volunteers.Application.SpeciesManagemets.Queries.GetBreedsPagination;
+using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.IntegrationTests.Speciess;
 

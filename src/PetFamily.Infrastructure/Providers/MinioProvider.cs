@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
-using PetFamily.Application.FileProvider;
 using PetFamily.Core.Errores;
+using PetFamily.Core.FileProvider;
 
 namespace PetFamily.Infrastructure.Providers;
 

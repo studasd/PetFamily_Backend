@@ -1,4 +1,4 @@
-﻿using PetFamily.Domain.VolunteerManagement.Enums;
+﻿using PetFamily.Contracts.Enums;
 
 namespace PetFamily.Contracts.RequestPets;
 
