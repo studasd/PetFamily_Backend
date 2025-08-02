@@ -14,7 +14,7 @@ public class DbTestInitializer
 
 	public static async Task InitializeAsync(WriteDbContext db)
 	{
-		//if (await db.Volunteers.AnyAsync() == true)
+		if (await db.Volunteers.AnyAsync() == true)
 			return;
 
 		var breedCats = new Breed[] 

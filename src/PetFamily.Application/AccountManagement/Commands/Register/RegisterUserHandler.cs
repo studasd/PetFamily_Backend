@@ -45,6 +45,8 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 			return Result.Success<ErrorList>();
 		}
 
+		await userManager.AddToRoleAsync(user, "Partisipant");
+
 		var errors = result.Errors.Select(e => Error.Failure(e.Code, e.Description)).ToList();
 
 		return new ErrorList(errors);

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Authorization.DataModels;
+using System.Text.Json;
 
 namespace PetFamily.Infrastructure.Authentication;
 
@@ -30,8 +31,42 @@ public class AuthorizationDbContext (IConfiguration configuration) : IdentityDbC
 		modelBuilder.Entity<User>()
 			.ToTable("users");
 
+		modelBuilder.Entity<User>()
+			.Property(u => u.SocialNetworks)
+			.HasConversion(
+			u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
+			json => JsonSerializer.Deserialize<List<SocialNetwork>>(json, JsonSerializerOptions.Default)!);
+
 		modelBuilder.Entity<Role>()
 			.ToTable("roles");
+
+		modelBuilder.Entity<Permission>()
+			.ToTable("permissions");
+
+		modelBuilder.Entity<Permission>()
+			.HasIndex(p => p.Code)
+			.IsUnique();
+
+		modelBuilder.Entity<Permission>()
+			.Property(p => p.Description)
+			.HasMaxLength(300);
+
+
+		modelBuilder.Entity<RolePermission>()
+			.ToTable("role_permissions");
+
+		modelBuilder.Entity<RolePermission>()
+			.HasOne(x => x.Role)
+			.WithMany(r => r.RolePermissions)
+			.HasForeignKey(r => r.RoleId);
+
+		modelBuilder.Entity<RolePermission>()
+			.HasOne(x => x.Permission)
+			.WithMany()
+			.HasForeignKey(r => r.PermissionId);
+
+		modelBuilder.Entity<RolePermission>()
+			.HasKey(x => new { x.RoleId, x.PermissionId });
 
 		modelBuilder.Entity<IdentityUserClaim<Guid>>()
 			.ToTable("user_claims");
@@ -47,6 +82,8 @@ public class AuthorizationDbContext (IConfiguration configuration) : IdentityDbC
 
 		modelBuilder.Entity<IdentityUserRole<Guid>>()
 			.ToTable("user_roles");
+
+
 	}
 
 	ILoggerFactory CreateLoggerFactory() =>

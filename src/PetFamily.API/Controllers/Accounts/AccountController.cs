@@ -6,11 +6,12 @@ using PetFamily.Application.AccountManagement.Commands.Login;
 using PetFamily.Application.AccountManagement.Commands.Register;
 using PetFamily.Contracts.RequestAccounts;
 using PetFamily.Infrastructure.Authentication;
+using System.Diagnostics.Contracts;
 
 namespace PetFamily.API.Controllers.Accounts;
 public class AccountController : ApplicationController
 {
-	[Permission("pet.create")]
+	[Permission(Permissions.Pet.Create)]
 	[HttpPost("admin")]
 	public IActionResult TestAdmin()
 	{
