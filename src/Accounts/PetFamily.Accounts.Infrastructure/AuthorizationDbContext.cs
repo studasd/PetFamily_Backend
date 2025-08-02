@@ -18,7 +18,7 @@ public class AuthorizationDbContext (IConfiguration configuration) : IdentityDbC
 	{
 		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
 
-		optionsBuilder.UseSnakeCaseNamingConvention();
+		//optionsBuilder.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.EnableSensitiveDataLogging();
 
