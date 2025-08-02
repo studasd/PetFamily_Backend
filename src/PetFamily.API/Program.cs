@@ -1,13 +1,21 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validations;
 using PetFamily.Application;
 using PetFamily.Contracts;
 using PetFamily.Infrastructure;
+using PetFamily.Infrastructure.Authentication;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +38,32 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSerilog();
 builder.Services.AddSwaggerGen(c =>
 {
+	c.SwaggerDoc("v1", new OpenApiInfo
+	{
+		Title = "My API",
+		Version = "v1"
+	});
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Please insert JWT with Bearer into field",
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey
+	});
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{ 
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
 	c.ExampleFilters();
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); // Регистрация примеров
@@ -37,12 +71,9 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration)
+	.AddInfrastructureAuthorization(builder.Configuration)
 	.AddContracts();
 
-//builder.Services.AddFluentValidationAutoValidation(config =>
-//{
-//	config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-//});
 
 
 var app = builder.Build();
@@ -59,6 +90,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -68,6 +100,5 @@ app.MapControllers();
 
 
 app.Run();
-
 
 public partial class Program;

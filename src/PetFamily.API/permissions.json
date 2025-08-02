@@ -1,0 +1,32 @@
+﻿{
+  "Permissions": {
+    "Pet": [
+      "pet.create",
+      "pet.read",
+      "pet.update",
+      "pet.delete",
+      "pet.move"
+    ],
+    "Volunteer": [
+      "volunteer.create",
+      "volunteer.read",
+      "volunteer.update",
+      "volunteer.delete",
+      "volunteer.move"
+    ]
+  },
+  "Roles": {
+    "Admin": [
+      "pet.create",
+      "pet.read",
+      "pet.update",
+      "pet.delete",
+      "pet.move",
+      "volunteer.create",
+      "volunteer.read",
+      "volunteer.update",
+      "volunteer.delete",
+      "volunteer.move"
+    ]
+  }
+}
