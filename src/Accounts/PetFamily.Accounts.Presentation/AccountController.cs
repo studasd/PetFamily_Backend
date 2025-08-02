@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.Accounts.Application.Commands.Login;
 using PetFamily.Accounts.Application.Commands.Register;
-using PetFamily.Accounts.Controllers.Requests;
+using PetFamily.Accounts.Contracts.Requests;
 using PetFamily.Core;
 using PetFamily.Core.Authorization;
 using PetFamily.Core.Extensions;
 
-namespace PetFamily.Accounts.Controllers;
+namespace PetFamily.Accounts.Presentation;
+
 public class AccountController : ApplicationController
 {
 	[Permission(Permissions.Pet.Create)]

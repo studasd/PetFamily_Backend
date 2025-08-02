@@ -1,3 +1,3 @@
-﻿namespace PetFamily.Accounts.Controllers.Requests;
+﻿namespace PetFamily.Accounts.Contracts.Requests;
 
 public record LoginUserRequest (string Email, string Password);
