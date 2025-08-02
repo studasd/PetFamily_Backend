@@ -1,24 +1,14 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PetFamily.Accounts.Infrastructure;
-using PetFamily.API.Authorization;
 using PetFamily.API.Examples;
 using PetFamily.API.Middlewares;
-using PetFamily.API.Validations;
-using PetFamily.Contracts;
 using PetFamily.Core;
-using PetFamily.Infrastructure;
+using PetFamily.Core.Authorization;
 using PetFamily.Volunteers.Infrastructure;
 using Serilog;
 using Serilog.Events;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,7 +64,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration)
-	.AddInfrastructureAuthorization(builder.Configuration)
+	.AddAccountsInfrastructure(builder.Configuration)
 	.AddContracts();
 
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();

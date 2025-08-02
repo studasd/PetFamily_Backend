@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Examples;
-using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
+using PetFamily.Core.Extensions;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.Delete;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.DeletePhotos;

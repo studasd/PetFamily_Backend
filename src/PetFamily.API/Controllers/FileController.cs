@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Minio;
-using PetFamily.API.Extensions;
+using PetFamily.Core.Extensions;
 using PetFamily.Core.FileProvider;
 
 namespace PetFamily.API.Controllers;

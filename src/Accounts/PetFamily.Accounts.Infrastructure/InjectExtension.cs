@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,7 @@ namespace PetFamily.Accounts.Infrastructure;
 
 public static class InjectExtension
 {
-	public static IServiceCollection AddInfrastructureAuthorization(this IServiceCollection services,
+	public static IServiceCollection AddAccountsInfrastructure(this IServiceCollection services,
 		IConfiguration configuration)
 	{
 		services.AddTransient<ITokenProvider, JwtTokenProvider>();

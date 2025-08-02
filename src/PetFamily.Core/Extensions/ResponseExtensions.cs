@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.API.Responses;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PetFamily.Core;
 using PetFamily.Core.Errores;
 
-namespace PetFamily.API.Extensions;
+namespace PetFamily.Core.Extensions;
 
 public static class ResponseExtensions
 {

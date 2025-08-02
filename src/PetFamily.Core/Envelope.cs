@@ -1,6 +1,6 @@
 ﻿using PetFamily.Core.Errores;
 
-namespace PetFamily.API.Responses;
+namespace PetFamily.Core;
 
 public record ResponseError(string? ErrorCode, string? ErrorMessage, string? InvalidField);
 

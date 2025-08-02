@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PetFamily.Accounts.Application.Commands.Login;
 using PetFamily.Accounts.Application.Commands.Register;
 using PetFamily.Accounts.Controllers.Requests;
-using PetFamily.API;
-using PetFamily.API.Authorization;
-using PetFamily.API.Controllers;
-using PetFamily.API.Extensions;
+using PetFamily.Core;
+using PetFamily.Core.Authorization;
+using PetFamily.Core.Extensions;
 
 namespace PetFamily.Accounts.Controllers;
 public class AccountController : ApplicationController

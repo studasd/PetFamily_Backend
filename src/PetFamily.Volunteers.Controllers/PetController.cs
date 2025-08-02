@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.API.Controllers;
-using PetFamily.API.Extensions;
 using PetFamily.Contracts.RequestPets;
+using PetFamily.Core;
+using PetFamily.Core.Extensions;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetById;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetsWithPagination;
 

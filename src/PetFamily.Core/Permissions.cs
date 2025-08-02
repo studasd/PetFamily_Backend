@@ -1,4 +1,4 @@
-﻿namespace PetFamily.API;
+﻿namespace PetFamily.Core;
 
 public static class Permissions
 {

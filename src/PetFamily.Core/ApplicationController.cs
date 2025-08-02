@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using PetFamily.API.Responses;
 
-namespace PetFamily.API.Controllers;
+namespace PetFamily.Core;
 
 [ApiController]
 [Route("[controller]")]

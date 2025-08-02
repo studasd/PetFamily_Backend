@@ -30,12 +30,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Accounts\PetFamily.Accounts.Infrastructure\PetFamily.Accounts.Infrastructure.csproj" />
     <ProjectReference Include="..\PetFamily.Application\PetFamily.Application.csproj" />
     <ProjectReference Include="..\PetFamily.Core\PetFamily.Core.csproj" />
     <ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
-    <ProjectReference Include="..\PetFamily.Infrastructure.Authentication\PetFamily.Accounts.Infrastructure.csproj" />
     <ProjectReference Include="..\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj" />
     <ProjectReference Include="..\PetFamily.Volunteers.Infrastructure\PetFamily.Volunteers.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Responses\" />
   </ItemGroup>
 
 </Project>

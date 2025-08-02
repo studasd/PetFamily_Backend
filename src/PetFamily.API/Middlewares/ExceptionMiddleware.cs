@@ -1,4 +1,4 @@
-﻿using PetFamily.API.Responses;
+﻿using PetFamily.Core;
 using PetFamily.Core.Errores;
 
 namespace PetFamily.API.Middlewares;

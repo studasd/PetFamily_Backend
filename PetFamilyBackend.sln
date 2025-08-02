@@ -23,13 +23,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Application.UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.IntegrationTests", "tests\PetFamily.IntegrationTests\PetFamily.IntegrationTests.csproj", "{6D2DF906-42E7-499C-8A47-4F7E8DA36967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Infrastructure", "src\PetFamily.Infrastructure.Authentication\PetFamily.Accounts.Infrastructure.csproj", "{3612B5A2-9D0D-54E0-85C9-153563282252}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Infrastructure", "src\Accounts\PetFamily.Accounts.Infrastructure\PetFamily.Accounts.Infrastructure.csproj", "{3612B5A2-9D0D-54E0-85C9-153563282252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Application", "src\PetFamily.Accounts.Application\PetFamily.Accounts.Application.csproj", "{D417EAB1-B005-48DE-95C4-5BB4DDE2BAFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Application", "src\Accounts\PetFamily.Accounts.Application\PetFamily.Accounts.Application.csproj", "{D417EAB1-B005-48DE-95C4-5BB4DDE2BAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Controllers", "src\PetFamily.Accounts.Controllers\PetFamily.Accounts.Controllers.csproj", "{D479E296-E006-4DA9-8DB2-C60CDF557D31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Controllers", "src\Accounts\PetFamily.Accounts.Controllers\PetFamily.Accounts.Controllers.csproj", "{D479E296-E006-4DA9-8DB2-C60CDF557D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Domain", "src\PetFamily.Accounts.Domain\PetFamily.Accounts.Domain.csproj", "{AA51A8F8-CE68-4097-9627-A4C605C9A2DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Accounts.Domain", "src\Accounts\PetFamily.Accounts.Domain\PetFamily.Accounts.Domain.csproj", "{AA51A8F8-CE68-4097-9627-A4C605C9A2DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Core", "src\PetFamily.Core\PetFamily.Core.csproj", "{43C0A153-3A00-F39E-2CD7-8128E001955C}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Volunteers.Infrastructure", "src\PetFamily.Volunteers.Infrastructure\PetFamily.Volunteers.Infrastructure.csproj", "{629F0D40-8E78-42FA-89E1-3499CB927F5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Volunteers.Application", "src\PetFamily.Volunteers.Application\PetFamily.Volunteers.Application.csproj", "{F9F4F5DD-FCC2-499D-9787-6B073CEA90E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{CDE1E2FE-9DC5-4CA1-AD4E-0728B3CAEFAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{93B64294-F19D-6E16-5860-E96ABC38FADF} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
 		{7057300E-EE1D-8B94-1617-F5FBA46240E3} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
 		{6D2DF906-42E7-499C-8A47-4F7E8DA36967} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
+		{3612B5A2-9D0D-54E0-85C9-153563282252} = {CDE1E2FE-9DC5-4CA1-AD4E-0728B3CAEFAB}
+		{D417EAB1-B005-48DE-95C4-5BB4DDE2BAFA} = {CDE1E2FE-9DC5-4CA1-AD4E-0728B3CAEFAB}
+		{D479E296-E006-4DA9-8DB2-C60CDF557D31} = {CDE1E2FE-9DC5-4CA1-AD4E-0728B3CAEFAB}
+		{AA51A8F8-CE68-4097-9627-A4C605C9A2DF} = {CDE1E2FE-9DC5-4CA1-AD4E-0728B3CAEFAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5CEAF2AF-4272-42F9-BAD4-BB51AAF7CEB1}
