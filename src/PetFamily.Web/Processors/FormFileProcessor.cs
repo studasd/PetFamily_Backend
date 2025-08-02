@@ -1,7 +1,6 @@
-﻿
-using PetFamily.Contracts.DTOs;
+﻿using PetFamily.Contracts.DTOs;
 
-namespace PetFamily.API.Processors;
+namespace PetFamily.Web.Processors;
 
 public class FormFileProcessor : IAsyncDisposable
 {

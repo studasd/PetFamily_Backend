@@ -3,7 +3,7 @@ using Minio;
 using PetFamily.Core.Extensions;
 using PetFamily.Core.FileProvider;
 
-namespace PetFamily.API.Controllers;
+namespace PetFamily.Web.Controllers;
 
 [ApiController]
 [Route("[controller]")]

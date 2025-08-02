@@ -3,7 +3,7 @@ using PetFamily.Contracts.Enums;
 using PetFamily.Contracts.RequestPets;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace PetFamily.API.Examples;
+namespace PetFamily.Web.Examples;
 
 public class PetRequestExample : IExamplesProvider<AddPetRequest>
 {

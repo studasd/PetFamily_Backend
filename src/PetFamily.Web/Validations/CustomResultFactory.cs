@@ -1,4 +1,4 @@
-﻿namespace PetFamily.API.Validations;
+﻿namespace PetFamily.Web.Validations;
 
 //public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
 //{

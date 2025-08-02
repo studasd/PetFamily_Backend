@@ -1,7 +1,7 @@
 ﻿using PetFamily.Core;
 using PetFamily.Core.Errores;
 
-namespace PetFamily.API.Middlewares;
+namespace PetFamily.Web.Middlewares;
 
 public class ExceptionMiddleware
 {

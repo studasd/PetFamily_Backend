@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using PetFamily.Accounts.Infrastructure;
-using PetFamily.API.Examples;
-using PetFamily.API.Middlewares;
 using PetFamily.Core;
 using PetFamily.Core.Authorization;
 using PetFamily.Volunteers.Infrastructure;
+using PetFamily.Web.Examples;
+using PetFamily.Web.Middlewares;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;

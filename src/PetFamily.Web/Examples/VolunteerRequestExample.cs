@@ -2,7 +2,7 @@
 using PetFamily.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace PetFamily.API.Examples;
+namespace PetFamily.Web.Examples;
 
 public class VolunteerRequestExample : IExamplesProvider<CreateVolunteerRequest>
 {

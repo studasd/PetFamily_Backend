@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.API.Examples;
 using PetFamily.API.Processors;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
@@ -18,6 +17,7 @@ using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.Info;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
+using PetFamily.Web.Examples;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.Volunteers.Controllers;

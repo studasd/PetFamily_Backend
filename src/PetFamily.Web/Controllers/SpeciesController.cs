@@ -6,7 +6,7 @@ using PetFamily.Volunteers.Application.SpeciesManagemets.Commands.Delete;
 using PetFamily.Volunteers.Application.SpeciesManagemets.Queries.GetBreedsPagination;
 using PetFamily.Volunteers.Application.SpeciesManagemets.Queries.GetSpeciesPagination;
 
-namespace PetFamily.API.Controllers;
+namespace PetFamily.Web.Controllers;
 
 [ApiController]
 [Route("species")]
