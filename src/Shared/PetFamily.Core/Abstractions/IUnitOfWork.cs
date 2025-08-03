@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace PetFamily.Core;
+namespace PetFamily.Core.Abstractions;
 
 public interface IUnitOfWork
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
-using PetFamily.Core;
+using PetFamily.Core.Abstractions;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.Messaging;
 using PetFamily.Infrastructure;
@@ -37,7 +37,7 @@ public static class InjectExtension
 		services.AddScoped<IReadDbContext, ReadDbContext>(_ => 
 			new ReadDbContext(config.GetConnectionString(Constants.DATABASE)));
 		//services.AddScoped<IUnitOfWork, UnitOfWork>();
-		services.AddSingleton<ISqlConnectFactory, SqlConnectFactory>();
+		services.AddSingleton<ISqlConnectionFactory, SqlConnectFactory>();
 
 		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 

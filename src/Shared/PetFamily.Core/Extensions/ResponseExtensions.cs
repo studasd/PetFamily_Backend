@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PetFamily.Core;
+using PetFamily.Core.Models;
 using PetFamily.SharedKernel;
 
 namespace PetFamily.Core.Extensions;

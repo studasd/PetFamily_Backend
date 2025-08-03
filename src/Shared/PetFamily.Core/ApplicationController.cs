@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetFamily.Core.Models;
 
 namespace PetFamily.Core;
 

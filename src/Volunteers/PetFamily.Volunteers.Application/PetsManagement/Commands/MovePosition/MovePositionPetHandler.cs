@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetFamily.Core;
 using PetFamily.Core.Abstractions;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.ValueObjects;

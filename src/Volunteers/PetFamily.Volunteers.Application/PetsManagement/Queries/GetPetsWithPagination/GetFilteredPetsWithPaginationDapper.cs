@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using PetFamily.Core;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.DTOs;
 using PetFamily.Core.Models;
@@ -9,9 +8,9 @@ namespace PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetsWithPag
 
 public class GetFilteredPetsWithPaginationDapper : IQueryHandler<PageList<PetDto>, GetFilteredPetsWithPaginationQuery>
 {
-	private readonly ISqlConnectFactory sqlConnectFactory;
+	private readonly ISqlConnectionFactory sqlConnectFactory;
 
-	public GetFilteredPetsWithPaginationDapper(ISqlConnectFactory sqlConnectFactory)
+	public GetFilteredPetsWithPaginationDapper(ISqlConnectionFactory sqlConnectFactory)
 	{
 		this.sqlConnectFactory = sqlConnectFactory;
 	}
