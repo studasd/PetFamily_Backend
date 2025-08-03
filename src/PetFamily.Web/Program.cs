@@ -2,16 +2,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using PetFamily.Accounts.Infrastructure;
+using PetFamily.Accounts.Presentation;
 using PetFamily.Core;
 using PetFamily.Framework.Authorization;
 using PetFamily.Volunteers.Infrastructure;
 using PetFamily.Volunteers.Infrastructure.DbContexts;
-using PetFamily.Web.Examples;
+using PetFamily.Volunteers.Presentation;
 using PetFamily.Web.Middlewares;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text.Json.Serialization;
+using PetFamily.Accounts.Application;
+using PetFamily.Volunteers.Application;
+using PetFamily.Volunteers.Presentation.Examples;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +35,10 @@ builder.Services.AddControllers()
 	});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSerilog();
+
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo
@@ -65,12 +73,18 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 
 
 // Add services to the container.
-builder.Services.AddInfrastructure(builder.Configuration)
+builder.Services
+	.AddAccountsApplication()
 	.AddAccountsInfrastructure(builder.Configuration)
+
+	.AddVolunteerApplication()
+	.AddVolunteerInfrastructure(builder.Configuration)
 	.AddContracts();
 
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddControllers();
+	//.AddApplicationPart(typeof(AccountController).Assembly)
+	//.AddApplicationPart(typeof(VolunteerController).Assembly)
+
 
 var app = builder.Build();
 

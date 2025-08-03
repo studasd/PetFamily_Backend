@@ -23,7 +23,7 @@ namespace PetFamily.Volunteers.Infrastructure;
 
 public static class InjectExtension
 {
-	public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration config)
+	public static IServiceCollection AddVolunteerInfrastructure (this IServiceCollection services, IConfiguration config)
 	{
 		services.AddMinio(config);
 
@@ -35,7 +35,7 @@ public static class InjectExtension
 			new WriteDbContext(config.GetConnectionString(Constants.DATABASE)));
 		services.AddScoped<IReadDbContext, ReadDbContext>(_ => 
 			new ReadDbContext(config.GetConnectionString(Constants.DATABASE)));
-		//services.AddScoped<IUnitOfWork, UnitOfWork>();
+		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddSingleton<ISqlConnectionFactory, SqlConnectFactory>();
 
 		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;

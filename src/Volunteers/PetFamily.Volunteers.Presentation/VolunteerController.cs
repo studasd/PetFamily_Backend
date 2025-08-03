@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.API.Processors;
 using PetFamily.Contracts.RequestPets;
 using PetFamily.Contracts.RequestVolonteers;
-using PetFamily.Core.Extensions;
+using PetFamily.Framework;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.Delete;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.DeletePhotos;
@@ -17,7 +16,8 @@ using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.BankingDetailes;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.Info;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
-using PetFamily.Web.Examples;
+using PetFamily.Volunteers.Presentation.Examples;
+using PetFamily.Volunteers.Presentation.Processors;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.Volunteers.Presentation;
