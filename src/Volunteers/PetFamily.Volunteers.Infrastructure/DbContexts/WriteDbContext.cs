@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Volunteers.Domain.Entities;
-using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.Volunteers.Infrastructure.DbContexts;
 
@@ -11,8 +10,6 @@ public class WriteDbContext(string connectionString) : DbContext
 {
 
 	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-
-	public DbSet<Species> Species => Set<Species>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

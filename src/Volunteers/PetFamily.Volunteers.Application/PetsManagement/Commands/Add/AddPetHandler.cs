@@ -6,10 +6,10 @@ using PetFamily.Core.Abstractions;
 using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.ValueObjects;
-using PetFamily.Volunteers.Application.SpeciesManagemets;
+using PetFamily.Specieses.Contracts;
+using PetFamily.Specieses.Contracts.Requests;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 using PetFamily.Volunteers.Domain.Entities;
-using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 using PetFamily.Volunteers.Domain.ValueObjects;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
@@ -17,20 +17,20 @@ namespace PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
 public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetService
 {
 	private readonly IVolunteerRepository volunteerRepository;
-	private readonly ISpeciesRepository speciesRepository;
+	private readonly ISpeciesContract speciesContract;
 	private readonly IValidator<AddPetCommand> validator;
 	private readonly IReadDbContext db;
 	private readonly ILogger<AddPetHandler> logger;
 
 	public AddPetHandler(
-		IVolunteerRepository volunteerRepository, 
-		ISpeciesRepository speciesRepository,
+		IVolunteerRepository volunteerRepository,
+		ISpeciesContract speciesContract,
 		IValidator<AddPetCommand> validator,
 		IReadDbContext readDbContext,
 		ILogger<AddPetHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
-		this.speciesRepository = speciesRepository;
+		this.speciesContract = speciesContract;
 		this.validator = validator;
 		db = readDbContext;
 		this.logger = logger;
@@ -49,20 +49,12 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetSe
 		var phone = Phone.Create(command.Phone).Value;
 		var address = Address.Create(addressDto.Country, addressDto.City, addressDto.Street, addressDto.HouseNumber, addressDto.Apartment, addressDto.HouseLiter).Value;
 
-		var isSpeciesExist = await db.Species
-				.AnyAsync(b => b.Id == command.SpeciesId, token);
-		if (!isSpeciesExist)
-			return Errors.General.NotFound(command.SpeciesId).ToErrorList();
+		var request = new CheckSpeciesBreedExistRequest(command.SpeciesId, command.BreedId);
+		var checkSpeciesBreedExistResult = await speciesContract.CheckSpeciesBreedExistAsync(request, token);
+		if (checkSpeciesBreedExistResult.IsFailure)
+			return checkSpeciesBreedExistResult.Error;
 
-		var isBreedExist = await db.Breeds
-				.AnyAsync(b => b.Id == command.BreedId, token);
-		if (!isBreedExist)
-			return Errors.General.NotFound(command.BreedId).ToErrorList();
-
-
-		var petTypeResult = PetType.Create(BreedId.Create(command.BreedId), SpeciesId.Create(command.SpeciesId));
-		if (petTypeResult.IsFailure)
-			return petTypeResult.Error.ToErrorList();
+		var petType = new PetType(command.BreedId, command.SpeciesId);
 
 		var pet = Pet.Create(
 			command.Name,
@@ -73,7 +65,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand> // CreatePetSe
 			phone,
 			command.HelpStatus,
 			address,
-			petTypeResult.Value).Value;
+			petType).Value;
 
 		volunteer.Value.AddPet(pet);
 

@@ -16,6 +16,8 @@ using System.Text.Json.Serialization;
 using PetFamily.Accounts.Application;
 using PetFamily.Volunteers.Application;
 using PetFamily.Volunteers.Presentation.Examples;
+using PetFamily.Specieses.Infrastructure;
+using PetFamily.Specieses.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,6 +81,10 @@ builder.Services
 
 	.AddVolunteerApplication()
 	.AddVolunteerInfrastructure(builder.Configuration)
+
+	.AddSpeciesApplication()
+	.AddSpeciesInfrastructure(builder.Configuration)
+
 	.AddContracts();
 
 builder.Services.AddControllers();
@@ -99,8 +105,8 @@ if (app.Environment.IsDevelopment())
 	//await app.ApplyMigrationAsync();
 	await using var scope = app.Services.CreateAsyncScope();
 	var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-	await db.Database.MigrateAsync();
-	await DbTestInitializer.InitializeAsync(db);
+	//await db.Database.MigrateAsync();
+	//await PetFamily.Volunteers.Infrastructure.DbTestInitializer.InitializeAsync(db);
 }
 
 app.UseSerilogRequestLogging();

@@ -6,10 +6,11 @@ using PetFamily.Core.Abstractions;
 using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Contracts;
+using PetFamily.Specieses.Contracts.Requests;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 using PetFamily.Volunteers.Domain.Entities;
 using PetFamily.Volunteers.Domain.IDs;
-using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 using PetFamily.Volunteers.Domain.ValueObjects;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateInfo;
@@ -19,17 +20,20 @@ public class UpdatePetInfoHandler : ICommandHandler<Guid, UpdatePetInfoCommand>
 	private readonly IVolunteerRepository volunteerRepository;
 	private readonly IValidator<UpdatePetInfoCommand> validator;
 	private readonly IReadDbContext db;
+	private readonly ISpeciesContract speciesContract;
 	private readonly ILogger<UpdatePetInfoHandler> logger;
 
 	public UpdatePetInfoHandler(
 		IVolunteerRepository volunteerRepository,
 		IValidator<UpdatePetInfoCommand> validator,
 		IReadDbContext readDbContext,
+		ISpeciesContract speciesContract,
 		ILogger<UpdatePetInfoHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;
 		this.validator = validator;
 		db = readDbContext;
+		this.speciesContract = speciesContract;
 		this.logger = logger;
 	}
 
@@ -39,15 +43,10 @@ public class UpdatePetInfoHandler : ICommandHandler<Guid, UpdatePetInfoCommand>
 		if (validateResult.IsValid == false)
 			return validateResult.ToErrorList();
 
-		var isSpeciesExist = await db.Species
-				.AnyAsync(b => b.Id == command.SpeciesId, token);
-		if (!isSpeciesExist)
-			return Errors.General.NotFound(command.SpeciesId).ToErrorList();
-
-		var isBreedExist = await db.Breeds
-				.AnyAsync(b => b.Id == command.BreedId, token);
-		if (!isBreedExist)
-			return Errors.General.NotFound(command.BreedId).ToErrorList();
+		var request = new CheckSpeciesBreedExistRequest(command.SpeciesId, command.BreedId);
+		var isSpeciesBreedExistResult = speciesContract.CheckSpeciesBreedExistAsync(request, token);
+		if (isSpeciesBreedExistResult.IsFaulted)
+			return isSpeciesBreedExistResult.Result.Error;
 
 		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
 		if (volunteerResult.IsFailure)
@@ -57,9 +56,7 @@ public class UpdatePetInfoHandler : ICommandHandler<Guid, UpdatePetInfoCommand>
 		if (petResult.IsFailure)
 			return petResult.Error.ToErrorList();
 
-		var petId = PetId.Create(command.PetId);
-		var speciesId = SpeciesId.Create(command.SpeciesId);
-		var petType = PetType.Create(command.SpeciesId, command.BreedId).Value;
+		var petType = new PetType(command.SpeciesId, command.BreedId);
 
 		var addressDto = command.Address;
 		var address = Address.Create(
@@ -90,7 +87,7 @@ public class UpdatePetInfoHandler : ICommandHandler<Guid, UpdatePetInfoCommand>
 			petType
 		);
 
-		var updateResult = volunteerResult.Value.UpdatePetInfo(petId, petInfo);
+		var updateResult = volunteerResult.Value.UpdatePetInfo(command.PetId, petInfo);
 		if (updateResult.IsFailure)
 			return updateResult.Error.ToErrorList();
 

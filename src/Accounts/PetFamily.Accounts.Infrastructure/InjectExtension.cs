@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PetFamily.Accounts.Application;
+using PetFamily.Accounts.Contracts;
 using PetFamily.Accounts.Domain;
+using PetFamily.Accounts.Presentation;
 using PetFamily.Core.Options;
 using System.Text;
 
@@ -16,6 +18,8 @@ public static class InjectExtension
 		IConfiguration configuration)
 	{
 		services.AddTransient<ITokenProvider, JwtTokenProvider>();
+
+		services.AddScoped<IAccountsContract, AccountsContract>();
 
 		services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
 

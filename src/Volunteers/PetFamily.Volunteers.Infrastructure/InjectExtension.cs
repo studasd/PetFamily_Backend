@@ -11,13 +11,14 @@ using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application;
-using PetFamily.Volunteers.Application.SpeciesManagemets;
 using PetFamily.Volunteers.Application.VolunteerManagement;
+using PetFamily.Volunteers.Contracts;
 using PetFamily.Volunteers.Infrastructure;
 using PetFamily.Volunteers.Infrastructure.BackgroundServices;
 using PetFamily.Volunteers.Infrastructure.DbContexts;
 using PetFamily.Volunteers.Infrastructure.Repositories;
 using PetFamily.Volunteers.Infrastructure.Services;
+using PetFamily.Volunteers.Presentation;
 
 namespace PetFamily.Volunteers.Infrastructure;
 
@@ -41,8 +42,9 @@ public static class InjectExtension
 		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 		services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-		services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 		services.AddScoped<IFileProvider, MinioProvider>();
+
+		services.AddScoped<IVolunteersContract, VolunteersContract>();
 
 		services.AddScoped<DeleteExpiredVolunteerService>();
 
