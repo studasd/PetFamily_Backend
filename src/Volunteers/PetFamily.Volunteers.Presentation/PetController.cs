@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.Contracts.RequestPets;
-using PetFamily.Core;
-using PetFamily.Core.Extensions;
 using PetFamily.Framework;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetById;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetsWithPagination;
+using PetFamily.Volunteers.Contracts.RequestPets;
 
 namespace PetFamily.Volunteers.Presentation;
 

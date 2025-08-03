@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Application.VolunteerManagement;
-using PetFamily.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.DTOs;
 using PetFamily.Core;
 using PetFamily.Domain.Shared.Errores;
 using PetFamily.Domain.Shared.ValueObjects;
@@ -17,7 +17,7 @@ using System.Data;
 using System.Threading.Tasks;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.Messaging;
-using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Application.UnitTests;

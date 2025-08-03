@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFamily.Core;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.FileProvider;
+using PetFamily.Core.MessageQueues;
 using PetFamily.Core.Messaging;
-using PetFamily.Infrastructure;
-using PetFamily.Infrastructure.MessageQueues;
-using PetFamily.Infrastructure.Options;
-using PetFamily.Infrastructure.Providers;
+using PetFamily.Core.Options;
+using PetFamily.Core.Providers;
 using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application;
 using PetFamily.Volunteers.Application.VolunteerManagement;

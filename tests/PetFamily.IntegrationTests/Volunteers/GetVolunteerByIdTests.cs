@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
 using PetFamily.Application.VolunteerManagement.UseCases.Create;
-using PetFamily.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.DTOs;
 using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using AutoFixture;

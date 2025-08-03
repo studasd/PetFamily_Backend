@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFamily.Contracts.RequestBreeds;
 using PetFamily.Framework;
 using PetFamily.Specieses.Application.Commands.Delete;
 using PetFamily.Specieses.Application.Queries.GetBreedsPagination;
 using PetFamily.Specieses.Application.Queries.GetSpeciesPagination;
+using PetFamily.Specieses.Contracts.RequestBreeds;
 
 namespace PetFamily.Specieses.Presentation;
 

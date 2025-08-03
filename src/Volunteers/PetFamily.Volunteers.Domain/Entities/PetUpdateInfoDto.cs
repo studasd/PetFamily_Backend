@@ -1,4 +1,4 @@
-﻿using PetFamily.Contracts.Enums;
+﻿using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Domain.ValueObjects;
 

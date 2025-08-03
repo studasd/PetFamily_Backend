@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PetFamily.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.DTOs;
 using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;
 

@@ -4,7 +4,7 @@ using PetFamily.Domain.SpeciesManagement.IDs;
 using PetFamily.Domain.VolunteerManagement.Entities;
 using PetFamily.Domain.VolunteerManagement.IDs;
 using PetFamily.Volunteers.Domain.ValueObjects;
-using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Contracts.Enums;
 
 namespace PetFamily.Domain.UnitTests;
 

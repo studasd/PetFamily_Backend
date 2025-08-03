@@ -1,6 +1,6 @@
-﻿using PetFamily.Contracts.DTOs;
-using PetFamily.Contracts.Enums;
-using PetFamily.Core.Abstractions;
+﻿using PetFamily.Core.Abstractions;
+using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.Enums;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateInfo;
 

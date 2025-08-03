@@ -1,5 +1,5 @@
-﻿using PetFamily.Contracts.DTOs;
-using PetFamily.Contracts.Enums;
+﻿using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.Core.Abstractions;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.Add;

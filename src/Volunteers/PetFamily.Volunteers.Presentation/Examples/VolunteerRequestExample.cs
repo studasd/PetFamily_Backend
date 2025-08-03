@@ -1,5 +1,5 @@
-﻿using PetFamily.Contracts.DTOs;
-using PetFamily.Contracts.RequestVolonteers;
+﻿using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.RequestVolonteers;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace PetFamily.Volunteers.Presentation.Examples;

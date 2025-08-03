@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PetFamily.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.DTOs;
 
 namespace PetFamily.Volunteers.Presentation.Processors;
 

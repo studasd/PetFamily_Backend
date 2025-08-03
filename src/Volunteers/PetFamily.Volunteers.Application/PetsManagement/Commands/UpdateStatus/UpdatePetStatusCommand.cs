@@ -1,4 +1,4 @@
-﻿using PetFamily.Contracts.Enums;
+﻿using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.Core.Abstractions;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateStatus;

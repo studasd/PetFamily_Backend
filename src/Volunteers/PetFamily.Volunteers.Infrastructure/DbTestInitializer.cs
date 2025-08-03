@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetFamily.Contracts.Enums;
-using PetFamily.SharedKernel.ValueObjects;
-using PetFamily.Volunteers.Domain.Entities;
-using PetFamily.Volunteers.Domain.ValueObjects;
 using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.Volunteers.Infrastructure;

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;

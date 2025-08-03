@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Infrastructure", "src\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj", "{136FDF84-00E2-4E47-80EF-301FF270553A}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Contracts", "src\PetFamily.Contracts\PetFamily.Contracts.csproj", "{EAB7D6BD-4BB8-457C-9277-9E420255E443}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Tests", "_Tests", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain.UnitTests", "tests\PetFamily.Domain.UnitTests\PetFamily.Domain.UnitTests.csproj", "{93B64294-F19D-6E16-5860-E96ABC38FADF}"
 EndProject
@@ -69,18 +65,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{136FDF84-00E2-4E47-80EF-301FF270553A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{136FDF84-00E2-4E47-80EF-301FF270553A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{136FDF84-00E2-4E47-80EF-301FF270553A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{136FDF84-00E2-4E47-80EF-301FF270553A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAB7D6BD-4BB8-457C-9277-9E420255E443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAB7D6BD-4BB8-457C-9277-9E420255E443}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAB7D6BD-4BB8-457C-9277-9E420255E443}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAB7D6BD-4BB8-457C-9277-9E420255E443}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B64294-F19D-6E16-5860-E96ABC38FADF}.Release|Any CPU.ActiveCfg = Release|Any CPU

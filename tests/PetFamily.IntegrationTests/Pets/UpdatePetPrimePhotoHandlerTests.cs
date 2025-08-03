@@ -15,7 +15,7 @@ using AutoFixture;
 using PetFamily.IntegrationTests;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.ValueObjects;
-using PetFamily.Contracts.Enums;
+using PetFamily.Volunteers.Contracts.Enums;
 using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 
 namespace PetFamily.IntegrationTests.Pets;
