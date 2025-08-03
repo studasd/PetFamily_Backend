@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetFamily.Core.Models;
 using PetFamily.SharedKernel;
 
-namespace PetFamily.Core.Extensions;
+namespace PetFamily.Framework;
 
 public static class ResponseExtensions
 {
