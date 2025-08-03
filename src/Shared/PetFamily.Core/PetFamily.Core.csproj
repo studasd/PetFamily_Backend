@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Volunteers\PetFamily.Volunteers.Contracts\PetFamily.Volunteers.Contracts\PetFamily.Volunteers.Contracts.csproj" />
+    <ProjectReference Include="..\..\Volunteers\PetFamily.Volunteers.Contracts\PetFamily.Volunteers.Contracts.csproj" />
     <ProjectReference Include="..\PetFamily.SharedKernel\PetFamily.SharedKernel.csproj" />
   </ItemGroup>
 

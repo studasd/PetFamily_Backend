@@ -1,19 +1,18 @@
+using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Database;
-using PetFamily.Application.PetsManagement.Commands.Add;
-using PetFamily.Infrastructure.DbContexts;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Volunteers.Domain.ValueObjects;
-using PetFamily.Volunteers.Contracts.DTOs;
-using AutoFixture;
-using Xunit;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Volunteers.Application;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
+using PetFamily.Volunteers.Contracts.DTOs;
 using PetFamily.Volunteers.Contracts.Enums;
-using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests.Pets;
 
@@ -138,7 +137,7 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
         var breed = Breed.Create("TestBreed").Value;
         var species = Species.Create("TestSpecies", new[] { breed }).Value;
 
-        _db.Species.Add(species);
+        //_db.Species.Add(species);
         await _db.SaveChangesAsync();
 
         return (species.Id, breed.Id);

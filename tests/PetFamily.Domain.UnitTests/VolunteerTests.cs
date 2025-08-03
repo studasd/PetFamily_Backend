@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
-using PetFamily.Core.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.IDs;
 using PetFamily.Volunteers.Contracts.Enums;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
 
 namespace PetFamily.Domain.UnitTests;
 
@@ -270,7 +270,7 @@ public class VolunteerTests
 					apartment: 22,
 					houseLiter: "houseLiter"
 					).Value,
-				petType: PetType.Create(breedId: BreedId.NewBreedId(), speciesId: SpeciesId.NewSpeciesId()).Value
+				petType: new PetType(breedId: BreedId.NewBreedId(), speciesId: SpeciesId.NewSpeciesId())
 			);
 
 		return pet;

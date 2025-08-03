@@ -1,15 +1,13 @@
+using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.VolunteerManagement.UseCases.Create;
-using PetFamily.Application.VolunteerManagement.UseCases.Updates.Info;
-using PetFamily.Volunteers.Contracts.DTOs;
-using PetFamily.Infrastructure.DbContexts;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using AutoFixture;
-using Xunit;
 using PetFamily.Core.Abstractions;
+using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Create;
+using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.Info;
+using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests.Volunteers;
 

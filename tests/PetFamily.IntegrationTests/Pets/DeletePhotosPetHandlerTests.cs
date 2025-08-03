@@ -1,21 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.PetsManagement.Commands.DeletePhotos;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Volunteers.Domain.ValueObjects;
-using Xunit;
-using PetFamily.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Volunteers.Contracts.Enums;
-using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests.Pets;
 
@@ -97,7 +91,7 @@ public class DeletePhotosPetHandlerTests : IClassFixture<IntegrationTestsWebFact
         var breed = Breed.Create("TestBreed").Value;
         var species = Species.Create("TestSpecies", new[] { breed }).Value;
 
-        await db.Species.AddAsync(species);
+        //await db.Species.AddAsync(species);
         await db.SaveChangesAsync();
 
         return (species.Id, breed.Id);
@@ -117,7 +111,7 @@ public class DeletePhotosPetHandlerTests : IClassFixture<IntegrationTestsWebFact
             Phone.Create("79001234567").Value,
             PetHelpStatuses.NeedsHelp,
             Address.Create("TestCountry", "TestCity", "TestStreet", 1, 10, "A").Value,
-            PetType.Create(breedId, speciesId).Value
+            new PetType(breedId, speciesId)
 		).Value;
 
         pet.AddPhotos([file1]);
