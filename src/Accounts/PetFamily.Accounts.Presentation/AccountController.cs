@@ -4,8 +4,8 @@ using PetFamily.Accounts.Application.Commands.Login;
 using PetFamily.Accounts.Application.Commands.Register;
 using PetFamily.Accounts.Contracts.Requests;
 using PetFamily.Core;
-using PetFamily.Core.Authorization;
-using PetFamily.Core.Extensions;
+using PetFamily.Framework;
+using PetFamily.Framework.Authorization;
 
 namespace PetFamily.Accounts.Presentation;
 

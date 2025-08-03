@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace PetFamily.Web.Authorization;
+namespace PetFamily.Framework.Authorization;
 
 public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttribute>
 {

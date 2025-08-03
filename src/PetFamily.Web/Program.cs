@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using PetFamily.Accounts.Infrastructure;
 using PetFamily.Core;
+using PetFamily.Framework.Authorization;
 using PetFamily.Volunteers.Infrastructure;
-using PetFamily.Web.Authorization;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 using PetFamily.Web.Examples;
 using PetFamily.Web.Middlewares;
 using Serilog;
@@ -79,7 +81,12 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 
-	await app.ApplyMigrationAsync();
+	
+	//await app.ApplyMigrationAsync();
+	await using var scope = app.Services.CreateAsyncScope();
+	var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+	await db.Database.MigrateAsync();
+	await DbTestInitializer.InitializeAsync(db);
 }
 
 app.UseSerilogRequestLogging();

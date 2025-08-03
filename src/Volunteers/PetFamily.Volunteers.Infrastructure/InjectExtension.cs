@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
@@ -54,18 +53,18 @@ public static class InjectExtension
 	}
 
 
-	public static async Task<WebApplication> ApplyMigrationAsync(this WebApplication app)
-	{
-		await using var scope = app.Services.CreateAsyncScope();
+	//public static async Task<WebApplication> ApplyMigrationAsync(this WebApplication app)
+	//{
+	//	await using var scope = app.Services.CreateAsyncScope();
 
-		var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+	//	var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
 
-		await db.Database.MigrateAsync();
+	//	await db.Database.MigrateAsync();
 
-		await DbTestInitializer.InitializeAsync(db);
+	//	await DbTestInitializer.InitializeAsync(db);
 
-		return app;
-	}
+	//	return app;
+	//}
 
 
 	private static IServiceCollection AddMinio(this IServiceCollection services, IConfiguration config)

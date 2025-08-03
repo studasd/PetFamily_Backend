@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PetFamily.Infrastructure;
 using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Infrastructure.Services;
 
