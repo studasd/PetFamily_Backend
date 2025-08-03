@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 using PetFamily.Core.Extensions;
 
 namespace PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Delete;

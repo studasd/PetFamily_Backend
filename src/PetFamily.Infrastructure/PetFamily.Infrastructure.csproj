@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PetFamily.Contracts\PetFamily.Contracts.csproj" />
-    <ProjectReference Include="..\PetFamily.Core\PetFamily.Core.csproj" />
+    <ProjectReference Include="..\Shared\PetFamily.Core\PetFamily.Core.csproj" />
   </ItemGroup>
 
 </Project>

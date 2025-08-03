@@ -3,8 +3,8 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 
 namespace PetFamily.Volunteers.Application.SpeciesManagemets.Commands.Delete;

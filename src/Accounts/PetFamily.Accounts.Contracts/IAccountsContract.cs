@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Accounts.Contracts.Requests;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Accounts.Contracts;
 

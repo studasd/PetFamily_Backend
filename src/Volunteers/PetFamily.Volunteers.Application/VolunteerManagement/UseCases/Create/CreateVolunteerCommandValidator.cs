@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Domain.ValueObjects;
 
 namespace PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Create;

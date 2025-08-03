@@ -5,7 +5,7 @@ using PetFamily.Core.Extensions;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetById;
 using PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetsWithPagination;
 
-namespace PetFamily.Volunteers.Controllers;
+namespace PetFamily.Volunteers.Presentation;
 
 [ApiController]
 [Route("pet")]

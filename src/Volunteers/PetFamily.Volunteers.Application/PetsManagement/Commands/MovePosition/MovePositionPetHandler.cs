@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using PetFamily.Core;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.DeletePhotos;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 

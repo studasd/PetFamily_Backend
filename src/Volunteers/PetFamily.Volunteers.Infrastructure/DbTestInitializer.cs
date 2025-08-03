@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Contracts.Enums;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Domain.Entities;
 using PetFamily.Volunteers.Domain.SpeciesManagement.Entities;
 using PetFamily.Volunteers.Domain.ValueObjects;

@@ -2,9 +2,9 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 
 namespace PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 

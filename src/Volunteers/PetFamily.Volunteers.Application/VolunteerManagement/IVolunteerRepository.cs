@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Domain.Entities;
 using PetFamily.Volunteers.Domain.IDs;
 using PetFamily.Volunteers.Domain.ValueObjects;

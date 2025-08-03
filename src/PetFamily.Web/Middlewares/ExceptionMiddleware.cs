@@ -1,5 +1,5 @@
 ﻿using PetFamily.Core;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Web.Middlewares;
 

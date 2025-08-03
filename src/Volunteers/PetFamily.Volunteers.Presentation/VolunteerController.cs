@@ -14,13 +14,13 @@ using PetFamily.Volunteers.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Volunteers.Application.VolunteerManagement.Queries.GetVolunteerWithPagination;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Delete;
-using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.BankingDetails;
+using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.BankingDetailes;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.Info;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Web.Examples;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace PetFamily.Volunteers.Controllers;
+namespace PetFamily.Volunteers.Presentation;
 
 [ApiController]
 [Route("volunteer")]

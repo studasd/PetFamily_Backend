@@ -10,6 +10,7 @@ using PetFamily.Infrastructure;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application;
 using PetFamily.Volunteers.Application.SpeciesManagemets;
 using PetFamily.Volunteers.Application.VolunteerManagement;

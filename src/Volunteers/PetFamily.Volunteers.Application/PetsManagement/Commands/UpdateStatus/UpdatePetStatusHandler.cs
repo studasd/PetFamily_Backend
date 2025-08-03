@@ -3,8 +3,8 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Contracts.Enums;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 using PetFamily.Volunteers.Domain.IDs;
 

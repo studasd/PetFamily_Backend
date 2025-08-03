@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Core.Abstractions;
 using PetFamily.Core.DTOs;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Queries.GetPetById;
 

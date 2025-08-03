@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using PetFamily.Accounts.Application;
 using PetFamily.Accounts.Domain;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Accounts.Application.Commands.Login;
 

@@ -2,10 +2,10 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.Messaging;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.UploadPhotos;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateInfo;
 

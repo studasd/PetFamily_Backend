@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Infrastructure;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.Volunteers.Infrastructure.Services;

@@ -2,7 +2,7 @@
 using PetFamily.Accounts.Application.Commands.Register;
 using PetFamily.Accounts.Contracts;
 using PetFamily.Accounts.Contracts.Requests;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Accounts.Presentation;
 

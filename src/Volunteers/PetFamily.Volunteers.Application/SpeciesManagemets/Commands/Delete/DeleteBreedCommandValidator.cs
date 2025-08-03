@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 using PetFamily.Core.Extensions;
 
 namespace PetFamily.Volunteers.Application.SpeciesManagemets.Commands.Delete;

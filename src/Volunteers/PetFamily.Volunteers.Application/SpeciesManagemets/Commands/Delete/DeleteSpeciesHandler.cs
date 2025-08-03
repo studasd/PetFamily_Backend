@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 using PetFamily.Core.Extensions;
 using PetFamily.Volunteers.Domain.SpeciesManagement.IDs;
 

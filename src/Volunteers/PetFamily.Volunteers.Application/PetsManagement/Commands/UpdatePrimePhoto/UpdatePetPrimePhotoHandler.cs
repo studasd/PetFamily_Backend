@@ -2,8 +2,8 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdatePrimePhoto;
@@ -23,7 +23,6 @@ public class UpdatePetPrimePhotoHandler : ICommandHandler<Guid, UpdatePetPrimePh
 		this.validator = validator;
 		this.logger = logger;
 	}
-
 	public async Task<Result<Guid, ErrorList>> HandleAsync(UpdatePetPrimePhotoCommand command, CancellationToken token)
 	{
 		var validateResult = await validator.ValidateAsync(command, token);

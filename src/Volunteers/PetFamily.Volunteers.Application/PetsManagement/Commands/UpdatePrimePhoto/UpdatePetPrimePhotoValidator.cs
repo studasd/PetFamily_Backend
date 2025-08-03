@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UpdatePrimePhoto;
 

@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetFamily.Core.Errores;
+using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 using PetFamily.Volunteers.Domain.Entities;
 using PetFamily.Volunteers.Domain.IDs;

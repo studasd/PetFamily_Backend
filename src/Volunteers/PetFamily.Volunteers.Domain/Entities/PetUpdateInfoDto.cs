@@ -1,5 +1,5 @@
 ﻿using PetFamily.Contracts.Enums;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Domain.ValueObjects;
 
 namespace PetFamily.Volunteers.Domain.Entities;

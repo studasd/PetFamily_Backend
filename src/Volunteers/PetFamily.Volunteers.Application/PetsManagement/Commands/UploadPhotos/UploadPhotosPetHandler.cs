@@ -3,11 +3,11 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core;
 using PetFamily.Core.Abstractions;
-using PetFamily.Core.Errores;
 using PetFamily.Core.Extensions;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.Messaging;
-using PetFamily.Core.ValueObjects;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Application.VolunteerManagement;
 
 namespace PetFamily.Volunteers.Application.PetsManagement.Commands.UploadPhotos;
