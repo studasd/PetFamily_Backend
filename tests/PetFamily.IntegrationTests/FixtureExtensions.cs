@@ -1,11 +1,11 @@
 ﻿using AutoFixture;
-using PetFamily.Application.PetsManagement.Commands.Add;
-using PetFamily.Application.PetsManagement.Commands.UpdateInfo;
-using PetFamily.Application.PetsManagement.Commands.UpdatePrimePhoto;
-using PetFamily.Application.PetsManagement.Commands.UpdateStatus;
-using PetFamily.Application.VolunteerManagement.UseCases.Create;
-using PetFamily.Contracts.DTOs;
-using PetFamily.Domain.VolunteerManagement.Enums;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateInfo;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.UpdatePrimePhoto;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.UpdateStatus;
+using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Create;
+using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.Enums;
 
 namespace PetFamily.IntegrationTests;
 

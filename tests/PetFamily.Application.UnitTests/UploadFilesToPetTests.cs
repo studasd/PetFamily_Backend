@@ -4,21 +4,20 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetFamily.Application.Database;
-using PetFamily.Application.FileProvider;
-using PetFamily.Application.Messaging;
-using PetFamily.Application.PetsManagement.Commands.UploadPhotos;
-using PetFamily.Application.VolunteerManagement;
-using PetFamily.Contracts.DTOs;
-using PetFamily.Domain.Shared.Errores;
-using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.Enums;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.FileProvider;
+using PetFamily.Core.Messaging;
+using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.IDs;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.UploadPhotos;
+using PetFamily.Volunteers.Application.VolunteerManagement;
+using PetFamily.Volunteers.Contracts.DTOs;
+using PetFamily.Volunteers.Contracts.Enums;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace PetFamily.Application.UnitTests;
 
@@ -48,7 +47,7 @@ public class UploadFilesToPetTests
 				houseNumber: 5,
 				apartment: 45
 			).Value,
-			petType: PetType.Create(BreedId.NewBreedId(), SpeciesId.NewSpeciesId()).Value
+			petType: new PetType(BreedId.NewBreedId(), SpeciesId.NewSpeciesId())
 		);
 
 	private static Volunteer GenerateVolunteer() => new Volunteer(

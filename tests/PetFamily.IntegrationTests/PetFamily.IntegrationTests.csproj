@@ -21,8 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PetFamily.API\PetFamily.API.csproj" />
-    <ProjectReference Include="..\..\src\PetFamily.Domain\PetFamily.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Specieses\PetFamily.Specieses.Application\PetFamily.Specieses.Application.csproj" />
+    <ProjectReference Include="..\..\src\Specieses\PetFamily.Specieses.Domain\PetFamily.Specieses.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Specieses\PetFamily.Specieses.Infrastructure\PetFamily.Specieses.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Volunteers\PetFamily.Volunteers.Application\PetFamily.Volunteers.Application.csproj" />
+    <ProjectReference Include="..\..\src\Volunteers\PetFamily.Volunteers.Contracts\PetFamily.Volunteers.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Volunteers\PetFamily.Volunteers.Infrastructure\PetFamily.Volunteers.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

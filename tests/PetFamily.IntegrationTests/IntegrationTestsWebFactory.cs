@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using PetFamily.Application.Database;
-using PetFamily.Infrastructure.DbContexts;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using PetFamily.Volunteers.Application;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 using Testcontainers.PostgreSql;
 
 namespace PetFamily.IntegrationTests;

@@ -1,17 +1,15 @@
+using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
-using PetFamily.Application.Database;
-using PetFamily.Application.PetsManagement.Commands.Add;
-using PetFamily.Infrastructure.DbContexts;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
-using PetFamily.Domain.Shared.ValueObjects;
-using AutoFixture;
-using PetFamily.Domain.SpeciesManagement.Entities;
-using PetFamily.Domain.SpeciesManagement.IDs;
+using PetFamily.Core.Abstractions;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.Add;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests;
 
@@ -89,7 +87,7 @@ public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLife
 			breedDogs
 			).Value;
 
-		await _db.Species.AddAsync(species);
+		//await _db.Species.AddAsync(species);
 
 		await _db.SaveChangesAsync();
 

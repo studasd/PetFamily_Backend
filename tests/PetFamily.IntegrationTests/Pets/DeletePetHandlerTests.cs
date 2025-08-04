@@ -1,21 +1,16 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Abstractions;
-using PetFamily.Application.Database;
-using PetFamily.Application.PetsManagement.Commands.Delete;
-using PetFamily.Infrastructure.DbContexts;
-using PetFamily.Domain.VolunteerManagement.Entities;
-using PetFamily.Domain.VolunteerManagement.IDs;
-using PetFamily.Domain.VolunteerManagement.ValueObjects;
-using PetFamily.Domain.Shared.ValueObjects;
-using PetFamily.Domain.SpeciesManagement.Entities;
-using Xunit;
-using PetFamily.Domain.VolunteerManagement.Enums;
-using PetFamily.Contracts.DTOs;
+using PetFamily.Core.Abstractions;
+using PetFamily.SharedKernel.ValueObjects;
+using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Volunteers.Application;
+using PetFamily.Volunteers.Application.PetsManagement.Commands.Delete;
+using PetFamily.Volunteers.Contracts.Enums;
+using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Volunteers.Domain.IDs;
+using PetFamily.Volunteers.Domain.ValueObjects;
+using PetFamily.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests.Pets;
 
@@ -76,7 +71,7 @@ public class DeletePetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, 
         var breed = Breed.Create("TestBreed").Value;
         var species = Species.Create("TestSpecies", new[] { breed }).Value;
 
-        await db.Species.AddAsync(species);
+        //await db.Species.AddAsync(species);
         await db.SaveChangesAsync();
 
         return (species.Id, breed.Id);
@@ -103,7 +98,7 @@ public class DeletePetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, 
                 10,
                 "A"
             ).Value,
-            PetType.Create(breedId,speciesId).Value
+            new PetType(breedId,speciesId)
             ).Value;
 
 		volunteer!.AddPet(pet);

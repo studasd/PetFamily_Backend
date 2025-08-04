@@ -1,13 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Database;
-using PetFamily.Application.SpeciesManagemets.Queries.GetSpeciesPagination;
-using PetFamily.Infrastructure.DbContexts;
-using Xunit;
-using AutoFixture;
-using PetFamily.Domain.SpeciesManagement.Entities;
+using PetFamily.Specieses.Application;
+using PetFamily.Specieses.Application.Queries.GetSpeciesPagination;
+using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Specieses.Infrastructure.DbContexts;
 
 namespace PetFamily.IntegrationTests.Speciess;
 
