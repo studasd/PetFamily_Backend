@@ -13,7 +13,7 @@ namespace PetFamily.IntegrationTests.Volunteers;
 public class DeleteVolunteerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
 	private readonly IServiceScope scope;
-	private readonly WriteDbContext db;
+	private readonly VolunteerWriteDbContext db;
 	private readonly ICommandHandler<Guid, DeleteVolunteerCommand> sut;
 	private readonly ICommandHandler<Guid, CreateVolunteerCommand> createSut;
 	private readonly Fixture fixture;
@@ -21,7 +21,7 @@ public class DeleteVolunteerTests : IClassFixture<IntegrationTestsWebFactory>, I
 	public DeleteVolunteerTests(IntegrationTestsWebFactory factory)
 	{
 		scope = factory.Services.CreateScope();
-		db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 		sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeleteVolunteerCommand>>();
 		createSut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
 		fixture = new Fixture();

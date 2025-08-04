@@ -8,9 +8,9 @@ using PetFamily.Specieses.Infrastructure.DbContexts;
 
 namespace PetFamily.Specieses.Infrastructure.Repositories;
 
-public class SpeciesRepository(WriteDbContext context) : ISpeciesRepository
+public class SpeciesRepository(SpeciesWriteDbContext context) : ISpeciesRepository
 {
-	private readonly WriteDbContext db = context;
+	private readonly SpeciesWriteDbContext db = context;
 
 
 	public async Task<Guid> AddAsync(Species species, CancellationToken token)

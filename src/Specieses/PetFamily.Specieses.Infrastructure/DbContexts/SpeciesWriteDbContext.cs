@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetFamily.Volunteers.Domain.Entities;
+using PetFamily.Specieses.Domain.Entities;
 
-namespace PetFamily.Volunteers.Infrastructure.DbContexts;
+namespace PetFamily.Specieses.Infrastructure.DbContexts;
 
-// add-migration -context WriteDbContext Init
-// update-database -context WriteDbContext
-public class WriteDbContext(string connectionString) : DbContext
+// add-migration -context SpeciesWriteDbContext Species_Init
+// update-database -context SpeciesWriteDbContext
+public class SpeciesWriteDbContext(string connectionString) : DbContext
 {
-
-	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
+	public DbSet<Species> Species => Set<Species>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,7 +29,7 @@ public class WriteDbContext(string connectionString) : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(WriteDbContext).Assembly, 
+			typeof(SpeciesWriteDbContext).Assembly, 
 			t => t.FullName?.Contains("Configurations.Write") ?? false);
 	}
 

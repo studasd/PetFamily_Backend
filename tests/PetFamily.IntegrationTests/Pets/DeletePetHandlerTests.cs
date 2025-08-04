@@ -17,14 +17,14 @@ namespace PetFamily.IntegrationTests.Pets;
 public class DeletePetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope scope;
-    private readonly WriteDbContext db;
+    private readonly VolunteerWriteDbContext db;
     private readonly IReadDbContext readDb;
     private readonly ICommandHandler<Guid, DeletePetCommand> sut;
 
     public DeletePetHandlerTests(IntegrationTestsWebFactory factory)
     {
         scope = factory.Services.CreateScope();
-        db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         readDb = scope.ServiceProvider.GetRequiredService<IReadDbContext>();
         sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeletePetCommand>>();
     }

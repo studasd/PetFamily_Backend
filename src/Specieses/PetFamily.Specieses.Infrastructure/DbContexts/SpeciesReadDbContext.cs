@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.DTOs;
-using PetFamily.Volunteers.Application;
+using PetFamily.Specieses.Application;
 
-namespace PetFamily.Volunteers.Infrastructure.DbContexts;
-public class ReadDbContext(string connectionString) : DbContext, IReadDbContext
+namespace PetFamily.Specieses.Infrastructure.DbContexts;
+public class SpeciesReadDbContext(string connectionString) : DbContext, IReadDbContext
 {
-	public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
-
-	public IQueryable<PetDto> Pets => Set<PetDto>();
-	
-
 	public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
 	public IQueryable<BreedDto> Breeds => Set<BreedDto>();
@@ -19,10 +14,7 @@ public class ReadDbContext(string connectionString) : DbContext, IReadDbContext
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		//optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
-		optionsBuilder.UseNpgsql(connectionString)
-			.UseSnakeCaseNamingConvention();
-
-		optionsBuilder.UseSnakeCaseNamingConvention();
+		optionsBuilder.UseNpgsql(connectionString);
 
 		optionsBuilder.EnableSensitiveDataLogging();
 
@@ -34,7 +26,7 @@ public class ReadDbContext(string connectionString) : DbContext, IReadDbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(ReadDbContext).Assembly,
+			typeof(SpeciesReadDbContext).Assembly,
 			t => t.FullName?.Contains("Configurations.Read") ?? false);
 	}
 

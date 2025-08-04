@@ -11,7 +11,7 @@ namespace PetFamily.IntegrationTests.Speciess;
 public class GetFilteredBreedsWithPaginationHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
 	private readonly IServiceScope scope;
-	private readonly WriteDbContext db;
+	private readonly SpeciesWriteDbContext db;
 	private readonly IReadDbContext readDb;
 	private readonly GetFilteredBreedsWithPaginationHandler sut;
 	private readonly Fixture fixture;
@@ -19,7 +19,7 @@ public class GetFilteredBreedsWithPaginationHandlerTests : IClassFixture<Integra
 	public GetFilteredBreedsWithPaginationHandlerTests(IntegrationTestsWebFactory factory)
 	{
 		scope = factory.Services.CreateScope();
-		db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		db = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
 		readDb = scope.ServiceProvider.GetRequiredService<IReadDbContext>();
 		sut = scope.ServiceProvider.GetRequiredService<GetFilteredBreedsWithPaginationHandler>();
 		fixture = new Fixture();

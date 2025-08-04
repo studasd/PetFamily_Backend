@@ -14,7 +14,7 @@ namespace PetFamily.IntegrationTests.Volunteers;
 public class UpdateSocialNetworksTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
 	private readonly IServiceScope scope;
-	private readonly WriteDbContext db;
+	private readonly VolunteerWriteDbContext db;
 	private readonly ICommandHandler<Guid, UpdateSocialNetworksCommand> sut;
 	private readonly ICommandHandler<Guid, CreateVolunteerCommand> createSut;
 	private readonly Fixture fixture;
@@ -22,7 +22,7 @@ public class UpdateSocialNetworksTests : IClassFixture<IntegrationTestsWebFactor
 	public UpdateSocialNetworksTests(IntegrationTestsWebFactory factory)
 	{
 		scope = factory.Services.CreateScope();
-		db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 		sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, UpdateSocialNetworksCommand>>();
 		createSut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
 		fixture = new Fixture();

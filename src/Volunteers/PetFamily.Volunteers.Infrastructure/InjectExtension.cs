@@ -32,10 +32,10 @@ public static class InjectExtension
 		services.AddHostedService<DeleteExpiredVolunteerBackgroundService>();
 		services.AddHostedService<FilesCleanerBackgroundService>();
 
-		services.AddScoped<WriteDbContext>(_ => 
-			new WriteDbContext(config.GetConnectionString(Constants.DATABASE)));
-		services.AddScoped<IReadDbContext, ReadDbContext>(_ => 
-			new ReadDbContext(config.GetConnectionString(Constants.DATABASE)));
+		services.AddScoped<VolunteerWriteDbContext>(_ => 
+			new VolunteerWriteDbContext(config.GetConnectionString(Constants.DATABASE)));
+		services.AddScoped<IReadDbContext, VolunteerReadDbContext>(_ => 
+			new VolunteerReadDbContext(config.GetConnectionString(Constants.DATABASE)));
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 		services.AddSingleton<ISqlConnectionFactory, SqlConnectFactory>();
 

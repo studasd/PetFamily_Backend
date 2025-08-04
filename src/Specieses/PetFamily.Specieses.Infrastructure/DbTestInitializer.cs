@@ -7,7 +7,7 @@ namespace PetFamily.Specieses.Infrastructure;
 public class DbTestInitializer
 {
 
-	public static async Task InitializeAsync(WriteDbContext db)
+	public static async Task InitializeAsync(SpeciesWriteDbContext db)
 	{
 		if (await db.Species.AnyAsync() == true)
 			return;

@@ -1,20 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetFamily.Specieses.Domain.Entities;
+using PetFamily.Volunteers.Domain.Entities;
 
-namespace PetFamily.Specieses.Infrastructure.DbContexts;
+namespace PetFamily.Volunteers.Infrastructure.DbContexts;
 
-// add-migration -context WriteDbContext Init
-// update-database -context WriteDbContext
-public class WriteDbContext(string connectionString) : DbContext
+// add-migration -context VolunteerWriteDbContext Volunteer_Init
+// update-database -context VolunteerWriteDbContext
+public class VolunteerWriteDbContext(string connectionString) : DbContext
 {
-	public DbSet<Species> Species => Set<Species>();
+
+	public DbSet<Volunteer> Volunteers => Set<Volunteer>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		//optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
-		optionsBuilder.UseNpgsql(connectionString);
+		optionsBuilder.UseNpgsql(connectionString)
+			.UseSnakeCaseNamingConvention();
+
+		optionsBuilder.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.EnableSensitiveDataLogging();
 
@@ -26,7 +30,7 @@ public class WriteDbContext(string connectionString) : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(
-			typeof(WriteDbContext).Assembly, 
+			typeof(VolunteerWriteDbContext).Assembly, 
 			t => t.FullName?.Contains("Configurations.Write") ?? false);
 	}
 

@@ -16,13 +16,13 @@ namespace PetFamily.IntegrationTests.Pets;
 public class MovePositionPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope scope;
-    private readonly WriteDbContext db;
+    private readonly VolunteerWriteDbContext db;
     private readonly ICommandHandler<Guid, MovePositionPetCommand> sut;
 
     public MovePositionPetHandlerTests(IntegrationTestsWebFactory factory)
     {
         scope = factory.Services.CreateScope();
-        db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, MovePositionPetCommand>>();
     }
 

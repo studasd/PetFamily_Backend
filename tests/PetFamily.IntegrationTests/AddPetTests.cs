@@ -16,14 +16,14 @@ namespace PetFamily.IntegrationTests;
 public class AddPetTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
 	private readonly IServiceScope _scope;
-	private readonly WriteDbContext _db;
+	private readonly VolunteerWriteDbContext _db;
 	private readonly ICommandHandler<Guid, AddPetCommand> _sut;
 	private readonly Fixture _fixture;
 
 	public AddPetTests(IntegrationTestsWebFactory factory)
 	{
 		_scope = factory.Services.CreateScope();
-		_db = _scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		_db = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 		_sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, AddPetCommand>>();
 		_fixture = new Fixture();
 	}
