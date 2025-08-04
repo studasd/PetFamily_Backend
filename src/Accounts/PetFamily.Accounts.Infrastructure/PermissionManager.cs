@@ -12,7 +12,7 @@ public class PermissionManager
 		this.accountContext = accountContext;
 	}
 
-	public async Task AddIfExist(IEnumerable<string> permissions)
+	public async Task AddRangeIfExistAsync(IEnumerable<string> permissions)
 	{
 		foreach (var permissionCode in permissions)
 		{
@@ -27,4 +27,7 @@ public class PermissionManager
 
 		await accountContext.SaveChangesAsync();
 	}
+
+	public async Task<Permission?> FindByCodeAsync(string code) =>
+		await accountContext.Permissions.FirstOrDefaultAsync(p => p.Code == code);
 }

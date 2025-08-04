@@ -31,17 +31,33 @@ public class AccountsSeeder
 
 		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
 		var permissionManager = scope.ServiceProvider.GetRequiredService<PermissionManager>();
+		var rolePermissionManager = scope.ServiceProvider.GetRequiredService<RolePermissionManager>();
 
 		var seedData = JsonSerializer.Deserialize<RolePermissionConfig>(json, JsonSerializerOptions.Default)
 			?? throw new ApplicationException("Failed to deserialize role permission config");
 
-		await SeedPermissions(permissionManager, seedData);
+		await SeedPermissionsAsync(permissionManager, seedData);
 
-		await SeedRoles(roleManager, seedData);
+		await SeedRolesAsync(roleManager, seedData);
+
+		await SeedRolePermissionsAsync(roleManager, rolePermissionManager, seedData);
 	}
 
+	private async Task SeedRolePermissionsAsync(RoleManager<Role> roleManager, RolePermissionManager rolePermissionManager, RolePermissionConfig seedData)
+	{
+		foreach (var roleName in seedData.Roles.Keys)
+		{
+			var role = await roleManager.FindByNameAsync(roleName);
 
-	private async Task SeedRoles(RoleManager<Role> roleManager, RolePermissionConfig seedData)
+			var rolePermissions = seedData.Roles[roleName];
+
+			await rolePermissionManager.AddRangeIfExistAsync(role!.Id, rolePermissions);
+		}
+
+		logger.LogInformation("Role permissions added to database");
+	}
+
+	private async Task SeedRolesAsync(RoleManager<Role> roleManager, RolePermissionConfig seedData)
 	{
 		foreach (var roleName in seedData.Roles.Keys)
 		{
@@ -57,18 +73,12 @@ public class AccountsSeeder
 	}
 
 
-	private async Task SeedPermissions(PermissionManager permissionManager, RolePermissionConfig seedData)
+	private async Task SeedPermissionsAsync(PermissionManager permissionManager, RolePermissionConfig seedData)
 	{
 		var permissionsToAdd = seedData.Permissions.SelectMany(pg => pg.Value);
 
-		await permissionManager.AddIfExist(permissionsToAdd);
+		await permissionManager.AddRangeIfExistAsync(permissionsToAdd);
 
 		logger.LogInformation("Permissions added to database");
 	}
-}
-
-public class RolePermissionConfig
-{
-	public Dictionary<string, string[]> Permissions { get; set; } = [];
-	public Dictionary<string, string[]> Roles { get; set; } = [];
 }

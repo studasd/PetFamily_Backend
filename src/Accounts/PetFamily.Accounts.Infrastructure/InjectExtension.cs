@@ -33,6 +33,7 @@ public static class InjectExtension
 
 		services.AddSingleton<AccountsSeeder>();
 		services.AddScoped<PermissionManager>();
+		services.AddScoped<RolePermissionManager>();
 
 
 		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()
