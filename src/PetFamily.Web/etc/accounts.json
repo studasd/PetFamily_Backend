@@ -1,10 +1,11 @@
 {
   "Roles": {
     "Admin": [
-      "pet.create",
-      "pet.update",
-      "pet.delete",
-      "pet.read"
+      "volunteer.create",
+      "volunteer.update",
+      "volunteer.delete",
+      "volunteer.read",
+      "volunteer.pet.read"
     ],
     "User": [
       "volunteer.read",
