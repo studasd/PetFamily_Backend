@@ -37,7 +37,25 @@ public class AccountsSeeder
 
 		await SeedPermissions(permissionManager, seedData);
 
+		await SeedRoles(roleManager, seedData);
 	}
+
+
+	private async Task SeedRoles(RoleManager<Role> roleManager, RolePermissionConfig seedData)
+	{
+		foreach (var roleName in seedData.Roles.Keys)
+		{
+			var existingRole = await roleManager.FindByNameAsync(roleName);
+
+			if (existingRole is null)
+			{
+				await roleManager.CreateAsync(new Role { Name = roleName });
+			}
+		}
+
+		logger.LogInformation("Roles added to database");
+	}
+
 
 	private async Task SeedPermissions(PermissionManager permissionManager, RolePermissionConfig seedData)
 	{
@@ -47,7 +65,6 @@ public class AccountsSeeder
 
 		logger.LogInformation("Permissions added to database");
 	}
-
 }
 
 public class RolePermissionConfig
