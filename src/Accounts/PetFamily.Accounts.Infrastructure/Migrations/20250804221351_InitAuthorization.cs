@@ -4,8 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PetFamily.Accounts.Infrastructure.Migrations;
-
+namespace PetFamily.Accounts.Infrastructure.Migrations
+{
     /// <inheritdoc />
     public partial class InitAuthorization : Migration
     {
@@ -17,8 +17,7 @@ namespace PetFamily.Accounts.Infrastructure.Migrations;
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    code = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false)
+                    code = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,3 +274,4 @@ namespace PetFamily.Accounts.Infrastructure.Migrations;
                 name: "users");
         }
     }
+}

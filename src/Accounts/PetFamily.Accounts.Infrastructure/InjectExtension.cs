@@ -26,10 +26,13 @@ public static class InjectExtension
 		services.AddOptions<JwtOptions>();
 
 		services.AddIdentity<User, Role>(options => options.User.RequireUniqueEmail = true )
-			.AddEntityFrameworkStores<AuthorizationDbContext>()
+			.AddEntityFrameworkStores<AccountsDbContext>()
 			.AddDefaultTokenProviders();
 
-		services.AddScoped<AuthorizationDbContext>();
+		services.AddScoped<AccountsDbContext>();
+
+		services.AddSingleton<AccountsSeeder>();
+		services.AddScoped<PermissionManager>();
 
 
 		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()

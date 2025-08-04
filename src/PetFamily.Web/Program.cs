@@ -94,6 +94,10 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+await accountsSeeder.SeedAsync();
+
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -104,7 +108,7 @@ if (app.Environment.IsDevelopment())
 	
 	//await app.ApplyMigrationAsync();
 	await using var scope = app.Services.CreateAsyncScope();
-	var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+	var db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 	//await db.Database.MigrateAsync();
 	//await PetFamily.Volunteers.Infrastructure.DbTestInitializer.InitializeAsync(db);
 }

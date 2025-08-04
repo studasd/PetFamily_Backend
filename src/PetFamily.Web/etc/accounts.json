@@ -1,0 +1,25 @@
+{
+  "Roles": {
+    "Admin": [
+      "pet.create",
+      "pet.update",
+      "pet.delete",
+      "pet.read"
+    ],
+    "User": [
+      "volunteer.read",
+      "volunteer.pet.read"
+    ]
+  },
+  "Permissions": {
+    "Volunteer": [
+      "volunteer.create",
+      "volunteer.update",
+      "volunteer.delete",
+      "volunteer.read"
+    ],
+    "Pet": [
+      "volunteer.pet.read"
+    ]
+  }
+}

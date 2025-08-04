@@ -9,16 +9,21 @@ using System.Text.Json;
 
 namespace PetFamily.Accounts.Infrastructure;
 
-// add-migration -context AuthorizationDbContext InitAuthorization
-// update-database -context AuthorizationDbContext
-public class AuthorizationDbContext (IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
+// add-migration -context AccountsDbContext Accounts_Init
+// update-database -context AccountsDbContext
+public class AccountsDbContext (IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
 {
+
+	public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+	public DbSet<Permission> Permissions => Set<Permission>();
+
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
+		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+			.UseSnakeCaseNamingConvention();
 
-		//optionsBuilder.UseSnakeCaseNamingConvention();
+		optionsBuilder.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.EnableSensitiveDataLogging();
 
@@ -47,11 +52,6 @@ public class AuthorizationDbContext (IConfiguration configuration) : IdentityDbC
 		modelBuilder.Entity<Permission>()
 			.HasIndex(p => p.Code)
 			.IsUnique();
-
-		modelBuilder.Entity<Permission>()
-			.Property(p => p.Description)
-			.HasMaxLength(300);
-
 
 		modelBuilder.Entity<RolePermission>()
 			.ToTable("role_permissions");
