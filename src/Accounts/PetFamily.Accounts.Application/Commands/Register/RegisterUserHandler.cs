@@ -31,11 +31,7 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 			return Errors.General.AlreadyExist("Email").ToErrorList();
 		}
 
-		var user = new User
-		{
-			Email = command.Email,
-			UserName = command.UserName
-		};
+		var user = User.CreateUser(command.UserName, command.Email);
 
 		var result = await userManager.CreateAsync(user, command.Password);
 

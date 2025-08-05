@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Accounts.Domain;
 
-namespace PetFamily.Accounts.Infrastructure;
+namespace PetFamily.Accounts.Infrastructure.IdentityManagers;
 
 public class RolePermissionManager
 {
@@ -18,6 +18,8 @@ public class RolePermissionManager
 		{
 			var permission = await accountContext.Permissions
 				.FirstOrDefaultAsync(p => p.Code == permissionCode);
+			if (permission == null)
+				throw new ApplicationException($"Permission code {permissionCode} is not found");
 
 			var rolePermissionExists = await accountContext.RolePermissions
 				.AnyAsync(rp => rp.RoleId == roleId && rp.PermissionId == permission!.Id);

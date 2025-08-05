@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Accounts.Domain;
 
-namespace PetFamily.Accounts.Infrastructure;
+namespace PetFamily.Accounts.Infrastructure.IdentityManagers;
 
 public class PermissionManager
 {
@@ -26,6 +26,19 @@ public class PermissionManager
 		}
 
 		await accountContext.SaveChangesAsync();
+	}
+
+	public async Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId)
+	{
+		var permissions = await accountContext.Users
+			.Include(u => u.Roles)
+			.Where(up => up.Id == userId)
+			.SelectMany(up => up.Roles)
+			.SelectMany(r => r.RolePermissions)
+			.Select(rp => rp.Permission.Code)
+			.ToListAsync();
+
+		return permissions.ToHashSet();
 	}
 
 	public async Task<Permission?> FindByCodeAsync(string code) =>

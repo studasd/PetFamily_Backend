@@ -7,5 +7,7 @@ namespace PetFamily.Accounts.Contracts;
 public interface IAccountsContract
 {
 	Task<UnitResult<ErrorList>> RegisterUserAsync(RegisterUserRequest request, CancellationToken token);
+
+	Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId);
 }
 

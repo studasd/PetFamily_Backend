@@ -18,6 +18,9 @@ using PetFamily.Volunteers.Application;
 using PetFamily.Volunteers.Presentation.Examples;
 using PetFamily.Specieses.Infrastructure;
 using PetFamily.Specieses.Application;
+using PetFamily.Accounts.Infrastructure.Seeding;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +81,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 builder.Services
 	.AddAccountsApplication()
 	.AddAccountsInfrastructure(builder.Configuration)
+	.AddAccountsPresentation()
 
 	.AddVolunteerApplication()
 	.AddVolunteerInfrastructure(builder.Configuration)

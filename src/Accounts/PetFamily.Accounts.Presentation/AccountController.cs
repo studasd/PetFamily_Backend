@@ -10,7 +10,7 @@ namespace PetFamily.Accounts.Presentation;
 
 public class AccountController : ApplicationController
 {
-	[Permission(Permissions.Accounts.CreatePet)]
+	[Permission(Permissions.Volunteer.VolunteerRead)]
 	[HttpPost("admin")]
 	public IActionResult TestAdmin()
 	{

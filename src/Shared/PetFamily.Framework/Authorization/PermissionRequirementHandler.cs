@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using PetFamily.Accounts.Contracts;
+using PetFamily.Core.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace PetFamily.Framework.Authorization;
 
@@ -18,13 +21,25 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
 		PermissionAttribute permission
 	)
 	{
-		var userPermission = context.User.Claims.FirstOrDefault(x => x.Type == "Permission");
-		if (userPermission == null)
-			return;
+		using var scope = serviceScopeFactory.CreateScope();
+		var accountContract = scope.ServiceProvider.GetRequiredService<IAccountsContract>();
 
-		if (userPermission.Value == permission.Code)
+		var userIdstring = context.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Id)?.Value;
+
+		if (!Guid.TryParse(userIdstring, out var userId) && String.IsNullOrWhiteSpace(userIdstring))
+		{
+			context.Fail();
+			return;
+		}
+
+		var permissions = await accountContract.GetUserPermissionCodesAsync(userId);
+
+		if (permissions.Contains(permission.Code))
 		{
 			context.Succeed(permission);
+			return;
 		}
+
+		context.Fail();
 	}
 }
