@@ -18,6 +18,14 @@ public class User : IdentityUser<Guid>
 	public IReadOnlyList<Role> Roles => roles;
 	List<Role> roles = [];
 
+
+	public AdminAccount? AdminAccount { get; private set; }
+
+	public VolunteerAccount? VolunteerAccount { get; private set; }
+
+	public ParticipantAccount? ParticipantAccount { get; private set; }
+
+
 	public static User CreateAdmin(string userName, string email, Role role)
 	{
 		var user = new User

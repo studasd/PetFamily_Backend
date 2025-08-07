@@ -13,6 +13,7 @@ public class AdminAccount
 	{
 		Id = Guid.NewGuid();
 		User = user;
+		UserId = user.Id;
 		FullName = fullName;
 	}
 

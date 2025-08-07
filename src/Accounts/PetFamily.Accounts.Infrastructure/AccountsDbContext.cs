@@ -15,10 +15,16 @@ namespace PetFamily.Accounts.Infrastructure;
 public class AccountsDbContext (IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
 {
 
-	public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 	public DbSet<Permission> Permissions => Set<Permission>();
 
+	public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+
+
 	public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+
+	public DbSet<VolunteerAccount> VolunteerAccount => Set<VolunteerAccount>();
+
+	public DbSet<ParticipantAccount> ParticipantAccount => Set<ParticipantAccount>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,57 +43,10 @@ public class AccountsDbContext (IConfiguration configuration) : IdentityDbContex
 	{
 		base.OnModelCreating(modelBuilder);
 
-		modelBuilder.Entity<User>()
-			.ToTable("users");
-
-		modelBuilder.Entity<User>()
-			.HasMany(u => u.Roles)
-			.WithMany()
-			.UsingEntity<IdentityUserRole<Guid>>();
-
-		modelBuilder.Entity<AdminAccount>()
-			.HasOne(a => a.User)
-			.WithOne()
-			.HasForeignKey<AdminAccount>(a => a.UserId);
-
-		modelBuilder.Entity<AdminAccount>()
-			.ComplexProperty(a => a.FullName, fb =>
-			{
-				fb.Property(f => f.FirstName).HasColumnName("first_name");
-				fb.Property(f => f.LastName).HasColumnName("last_name");
-			});
-
-		modelBuilder.Entity<User>()
-			.Property(u => u.SocialNetworks)
-			.HasConversion(
-			u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
-			json => JsonSerializer.Deserialize<List<SocialNetwork>>(json, JsonSerializerOptions.Default)!);
-
+		
 		modelBuilder.Entity<Role>()
 			.ToTable("roles");
-
-		modelBuilder.Entity<Permission>()
-			.ToTable("permissions");
-
-		modelBuilder.Entity<Permission>()
-			.HasIndex(p => p.Code)
-			.IsUnique();
-
-		modelBuilder.Entity<RolePermission>()
-			.ToTable("role_permissions");
-
-		modelBuilder.Entity<RolePermission>()
-			.HasOne(x => x.Role)
-			.WithMany(r => r.RolePermissions)
-			.HasForeignKey(r => r.RoleId);
-
-		modelBuilder.Entity<RolePermission>()
-			.HasOne(x => x.Permission)
-			.WithMany()
-			.HasForeignKey(r => r.PermissionId);
-
-		modelBuilder.Entity<RolePermission>()
-			.HasKey(x => new { x.RoleId, x.PermissionId });
+		
 
 		modelBuilder.Entity<IdentityUserClaim<Guid>>()
 			.ToTable("user_claims");
@@ -105,7 +64,11 @@ public class AccountsDbContext (IConfiguration configuration) : IdentityDbContex
 			.ToTable("user_roles");
 
 
+		modelBuilder.ApplyConfigurationsFromAssembly(
+			typeof(AccountsDbContext).Assembly,
+			t => t.FullName?.Contains("Configurations") ?? false);
 	}
+
 
 	ILoggerFactory CreateLoggerFactory() =>
 		LoggerFactory.Create(b => b.AddConsole());

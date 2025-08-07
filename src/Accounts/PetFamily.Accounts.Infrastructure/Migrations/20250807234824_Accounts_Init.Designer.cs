@@ -13,7 +13,7 @@ using PetFamily.Accounts.Infrastructure;
 namespace PetFamily.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250807220622_Accounts_Init")]
+    [Migration("20250807234824_Accounts_Init")]
     partial class Accounts_Init
     {
         /// <inheritdoc />
@@ -192,6 +192,31 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                     b.ToTable("admin_accounts", (string)null);
                 });
 
+            modelBuilder.Entity("PetFamily.Accounts.Domain.ParticipantAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid?>("FavoritePetId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("favorite_pet_id");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_participant_accounts");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_participant_accounts_user_id");
+
+                    b.ToTable("participant_accounts", (string)null);
+                });
+
             modelBuilder.Entity("PetFamily.Accounts.Domain.Permission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -236,12 +261,19 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("normalized_name");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_roles");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_roles_user_id");
 
                     b.ToTable("roles", (string)null);
                 });
@@ -324,11 +356,6 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("security_stamp");
 
-                    b.Property<string>("SocialNetworks")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("social_networks");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean")
                         .HasColumnName("two_factor_enabled");
@@ -351,6 +378,39 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("PetFamily.Accounts.Domain.VolunteerAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Certificates")
+                        .HasColumnType("text")
+                        .HasColumnName("certificates");
+
+                    b.Property<int>("Experience")
+                        .HasColumnType("integer")
+                        .HasColumnName("experience");
+
+                    b.Property<string>("Requisite")
+                        .HasColumnType("text")
+                        .HasColumnName("requisites");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_volunteer_accounts");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_volunteer_accounts_user_id");
+
+                    b.ToTable("volunteer_accounts", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PetFamily.Accounts.Domain.Role", null)
@@ -368,7 +428,7 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_claims_users_user_id");
+                        .HasConstraintName("fk_user_claims_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -378,7 +438,7 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_logins_users_user_id");
+                        .HasConstraintName("fk_user_logins_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -395,7 +455,7 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_roles_users_user_id");
+                        .HasConstraintName("fk_user_roles_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -405,19 +465,36 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_tokens_users_user_id");
+                        .HasConstraintName("fk_user_tokens_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("PetFamily.Accounts.Domain.AdminAccount", b =>
                 {
                     b.HasOne("PetFamily.Accounts.Domain.User", "User")
-                        .WithOne()
+                        .WithOne("AdminAccount")
                         .HasForeignKey("PetFamily.Accounts.Domain.AdminAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_admin_accounts_users_user_id");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PetFamily.Accounts.Domain.ParticipantAccount", b =>
+                {
+                    b.HasOne("PetFamily.Accounts.Domain.User", null)
+                        .WithOne("ParticipantAccount")
+                        .HasForeignKey("PetFamily.Accounts.Domain.ParticipantAccount", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_participant_accounts_asp_net_users_user_id");
+                });
+
+            modelBuilder.Entity("PetFamily.Accounts.Domain.Role", b =>
+                {
+                    b.HasOne("PetFamily.Accounts.Domain.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_roles_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("PetFamily.Accounts.Domain.RolePermission", b =>
@@ -441,9 +518,63 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("PetFamily.Accounts.Domain.User", b =>
+                {
+                    b.OwnsMany("PetFamily.SharedKernel.ValueObjects.SocialNetwork", "SocialNetworks", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Link")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("UserId", "Id")
+                                .HasName("pk_users");
+
+                            b1.ToTable("users");
+
+                            b1.ToJson("social_networks");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId")
+                                .HasConstraintName("fk_users_users_user_id");
+                        });
+
+                    b.Navigation("SocialNetworks");
+                });
+
+            modelBuilder.Entity("PetFamily.Accounts.Domain.VolunteerAccount", b =>
+                {
+                    b.HasOne("PetFamily.Accounts.Domain.User", null)
+                        .WithOne("VolunteerAccount")
+                        .HasForeignKey("PetFamily.Accounts.Domain.VolunteerAccount", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_volunteer_accounts_users_user_id");
+                });
+
             modelBuilder.Entity("PetFamily.Accounts.Domain.Role", b =>
                 {
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("PetFamily.Accounts.Domain.User", b =>
+                {
+                    b.Navigation("AdminAccount");
+
+                    b.Navigation("ParticipantAccount");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("VolunteerAccount");
                 });
 #pragma warning restore 612, 618
         }

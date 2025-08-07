@@ -67,7 +67,7 @@ public class AccountsSeederService
 
 		var adminUser = User.CreateAdmin(adminOptions.UserName, adminOptions.Email, adminRole);
 		await userManager.CreateAsync(adminUser, adminOptions.Password);
-
+		
 		var fullName = FullName.Create(adminOptions.UserName, adminOptions.UserName);
 		var adminAccount = new AdminAccount(adminUser, fullName);
 		await adminAccountManager.CreateAdminAccountAsync(adminAccount);
