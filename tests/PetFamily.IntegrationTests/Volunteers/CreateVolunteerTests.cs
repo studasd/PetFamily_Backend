@@ -51,23 +51,23 @@ public class CreateVolunteerTests : IClassFixture<IntegrationTestsWebFactory>, I
 		volunteer.Phone.PhoneNumber.Should().Be(command.Phone);
 	}
 
-	[Fact]
-	public async Task Create_volunteer_with_social_networks_should_succeed()
-	{
-		// arrange
-		var command = fixture.CreateCreateVolunteerCommandWithSocialNetworks();
+	//[Fact]
+	//public async Task Create_volunteer_with_social_networks_should_succeed()
+	//{
+	//	// arrange
+	//	var command = fixture.CreateCreateVolunteerCommandWithSocialNetworks();
 
-		// act
-		var result = await sut.HandleAsync(command, CancellationToken.None);
+	//	// act
+	//	var result = await sut.HandleAsync(command, CancellationToken.None);
 
-		// assert
-		result.IsSuccess.Should().BeTrue();
-		result.Value.Should().NotBeEmpty();
+	//	// assert
+	//	result.IsSuccess.Should().BeTrue();
+	//	result.Value.Should().NotBeEmpty();
 
-		var volunteer = await db.Volunteers.FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(result.Value));
-		volunteer.Should().NotBeNull();
-		volunteer!.SocialNetworks.Should().HaveCount(command.SocialNetworks.Count());
-	}
+	//	var volunteer = await db.Volunteers.FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(result.Value));
+	//	volunteer.Should().NotBeNull();
+	//	volunteer!.SocialNetworks.Should().HaveCount(command.SocialNetworks.Count());
+	//}
 
 	[Fact]
 	public async Task Create_volunteer_with_banking_details_should_succeed()

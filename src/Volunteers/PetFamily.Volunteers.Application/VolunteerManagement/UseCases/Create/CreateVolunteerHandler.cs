@@ -44,12 +44,6 @@ public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerComma
 
 		var volunteer = Volunteer.Create(volunteerName, command.Email, command.Description, command.ExperienceYears, phone).Value;
 
-		if (command.SocialNetworks.Count() > 0)
-		{
-			var socNetworksResult = command.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
-			volunteer.AddSocialNetworks(socNetworksResult);
-		}
-
 		if (command.BankingDetails.Count() > 0)
 		{
 			var bankDetailsResult = command.BankingDetails.Select(s => BankingDetails.Create(s.Name, s.Description).Value);

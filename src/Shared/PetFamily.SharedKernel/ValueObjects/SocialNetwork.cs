@@ -2,8 +2,19 @@
 
 namespace PetFamily.SharedKernel.ValueObjects;
 
-public record SocialNetwork(string Name, string Link)
+public class SocialNetwork
 {
+	private SocialNetwork() { }
+
+	private SocialNetwork(string name, string link)
+	{
+		Name = name;
+		Link = link;
+	}
+
+	public string Name { get; set; }
+	public string Link { get; set; }
+
 	public static Result<SocialNetwork, Error> Create(string name, string link)
 	{
 		if (string.IsNullOrWhiteSpace(name))

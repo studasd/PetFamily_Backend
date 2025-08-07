@@ -6,20 +6,20 @@ using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.ValueObjects;
 
-namespace PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
+namespace PetFamily.Accounts.Application.AccountManagement.UseCases.Updates.SocialNetworks;
 
 public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNetworksCommand>
 {
-	private readonly IVolunteerRepository volunteerRepository;
+	private readonly IAccountRepository accountRepository;
 	private readonly IValidator<UpdateSocialNetworksCommand> validator;
 	private readonly ILogger<UpdateSocialNetworksHandler> logger;
 
 	public UpdateSocialNetworksHandler(
-		IVolunteerRepository volunteerRepository, 
+		IAccountRepository accountRepository, 
 		IValidator<UpdateSocialNetworksCommand> validator,
 		ILogger<UpdateSocialNetworksHandler> logger)
 	{
-		this.volunteerRepository = volunteerRepository;
+		this.accountRepository = accountRepository;
 		this.validator = validator;
 		this.logger = logger;
 	}
@@ -30,19 +30,19 @@ public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNet
 		if (validateResult.IsValid == false)
 			return validateResult.ToErrorList();
 
-		var volunteerResult = await volunteerRepository.GetByIdAsync(command.VolunteerId, token);
+		var accountResult = await accountRepository.GetByIdAsync(command.UserId, token);
 
-		if (volunteerResult.IsFailure)
-			return volunteerResult.Error.ToErrorList();
+		if (accountResult.IsFailure)
+			return accountResult.Error.ToErrorList();
 
 		var socNetworksResult = command.SocialNetworks.Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
 
-		volunteerResult.Value.UpdateSocialNetworks(socNetworksResult);
+		accountResult.Value.UpdateSocialNetworks(socNetworksResult);
 
-		await volunteerRepository.SaveAsync(token);
+		await accountRepository.SaveAsync(token);
 
-		logger.LogInformation("Updated volunteer social networks {socials} with id {volunteerId}", socNetworksResult, volunteerResult.Value.Id);
+		logger.LogInformation("Updated account social networks {socials} with id {accountId}", socNetworksResult, accountResult.Value.Id);
 
-		return volunteerResult.Value.Id.Value;
+		return accountResult.Value.Id;
 	}
 }

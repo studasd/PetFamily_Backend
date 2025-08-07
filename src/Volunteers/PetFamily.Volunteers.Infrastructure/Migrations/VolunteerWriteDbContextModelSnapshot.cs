@@ -347,40 +347,7 @@ namespace PetFamily.Volunteers.Infrastructure.Migrations
                                 .HasConstraintName("fk_volunteers_volunteers_volunteer_id");
                         });
 
-                    b.OwnsMany("PetFamily.SharedKernel.ValueObjects.SocialNetwork", "SocialNetworks", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("Link")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
-
-                            b1.HasKey("VolunteerId", "Id")
-                                .HasName("pk_volunteers");
-
-                            b1.ToTable("volunteers");
-
-                            b1.ToJson("social_networks");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteers_volunteers_volunteer_id");
-                        });
-
                     b.Navigation("BankingDetails");
-
-                    b.Navigation("SocialNetworks");
                 });
 
             modelBuilder.Entity("PetFamily.Volunteers.Domain.Entities.Volunteer", b =>

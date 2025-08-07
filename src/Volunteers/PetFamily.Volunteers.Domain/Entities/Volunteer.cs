@@ -32,9 +32,6 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 	public IReadOnlyList<BankingDetails> BankingDetails => bankingDetails;
 	private readonly List<BankingDetails> bankingDetails = [];
 
-	public IReadOnlyList<SocialNetwork> SocialNetworks => socialNetworks;
-	private readonly List<SocialNetwork> socialNetworks = [];
-
 
 	public IReadOnlyList<Pet> Pets => pets;
 	private readonly List<Pet> pets = [];
@@ -61,12 +58,6 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		return volunteer;
 	}
 
-	public UnitResult<Error> AddSocialNetworks(IEnumerable<SocialNetwork> socNetworks)
-	{
-		socialNetworks.AddRange(socNetworks);
-
-		return Result.Success<Error>();
-	}
 
 	public UnitResult<Error> AddBankingDetails(IEnumerable<BankingDetails> bankDetails)
 	{
@@ -187,11 +178,6 @@ public class Volunteer : AbsSoftDeletableEntity<VolunteerId>
 		return petResult.Value.UpdatePrimePhoto(pathPhoto);
 	}
 
-	public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
-	{
-		this.socialNetworks.Clear();
-		this.socialNetworks.AddRange(socialNetworks);
-	}
 	
 	public void UpdateBankingDetails(IEnumerable<BankingDetails> bankingDetails)
 	{

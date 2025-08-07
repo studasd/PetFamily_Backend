@@ -16,8 +16,7 @@ public class VolunteerRequestExample : IExamplesProvider<CreateVolunteerRequest>
 			Description: guid.Substring(5, 15),
 			ExperienceYears: Random.Shared.Next(10),
 			Phone: $"{Random.Shared.NextInt64(79014445865, 79994445865)}", 
-			BankingDetails: null, 
-			SocialNetworks: null
+			BankingDetails: null
 		);
 	}
 }

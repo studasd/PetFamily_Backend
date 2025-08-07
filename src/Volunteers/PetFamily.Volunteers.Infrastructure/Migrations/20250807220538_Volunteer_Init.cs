@@ -25,8 +25,7 @@ namespace PetFamily.Volunteers.Infrastructure.Migrations
                     phone = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     is_soft_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     date_deletion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    banking_details = table.Column<string>(type: "jsonb", nullable: true),
-                    social_networks = table.Column<string>(type: "jsonb", nullable: true)
+                    banking_details = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {

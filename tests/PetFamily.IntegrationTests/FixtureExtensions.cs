@@ -34,29 +34,27 @@ public static class FixtureExtensions
 			.With(x => x.ExperienceYears, 5)
 			.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
 			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
-			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
 			.Create();
 	}
 
-	public static CreateVolunteerCommand CreateCreateVolunteerCommandWithSocialNetworks(this IFixture fixture)
-	{
-		var unique = Guid.NewGuid().ToString("N");
-		var socialNetworks = new List<SocialNetworkDTO>
-		{
-			new("Facebook", "https://facebook.com/johndoe"),
-			new("Instagram", "https://instagram.com/johndoe")
-		};
+	//public static CreateVolunteerCommand CreateCreateVolunteerCommandWithSocialNetworks(this IFixture fixture)
+	//{
+	//	var unique = Guid.NewGuid().ToString("N");
+	//	var socialNetworks = new List<SocialNetworkDTO>
+	//	{
+	//		new("Facebook", "https://facebook.com/johndoe"),
+	//		new("Instagram", "https://instagram.com/johndoe")
+	//	};
 
-		return fixture.Build<CreateVolunteerCommand>()
-			.With(x => x.Name, new NameDTO("Jane", "Smith", "Johnson"))
-			.With(x => x.Email, $"jane.smith.{unique}@example.com")
-			.With(x => x.Description, "Test volunteer with social networks")
-			.With(x => x.ExperienceYears, 3)
-			.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
-			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
-			.With(x => x.SocialNetworks, socialNetworks)
-			.Create();
-	}
+	//	return fixture.Build<CreateVolunteerCommand>()
+	//		.With(x => x.Name, new NameDTO("Jane", "Smith", "Johnson"))
+	//		.With(x => x.Email, $"jane.smith.{unique}@example.com")
+	//		.With(x => x.Description, "Test volunteer with social networks")
+	//		.With(x => x.ExperienceYears, 3)
+	//		.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
+	//		.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
+	//		.Create();
+	//}
 
 	public static CreateVolunteerCommand CreateCreateVolunteerCommandWithBankingDetails(this IFixture fixture)
 	{
@@ -74,7 +72,6 @@ public static class FixtureExtensions
 			.With(x => x.ExperienceYears, 7)
 			.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
 			.With(x => x.BankingDetails, bankingDetails)
-			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
 			.Create();
 	}
 
@@ -88,7 +85,6 @@ public static class FixtureExtensions
 			.With(x => x.ExperienceYears, 2)
 			.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
 			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
-			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
 			.Create();
 	}
 
@@ -102,7 +98,6 @@ public static class FixtureExtensions
 			.With(x => x.ExperienceYears, 1)
 			.With(x => x.Phone, Random.Shared.NextInt64(79010101020, 79910101020).ToString())
 			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
-			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
 			.Create();
 	}
 
@@ -116,7 +111,6 @@ public static class FixtureExtensions
 			.With(x => x.ExperienceYears, 1)
 			.With(x => x.Phone, "bad-phone")
 			.With(x => x.BankingDetails, new List<BankingDetailsDTO>())
-			.With(x => x.SocialNetworks, new List<SocialNetworkDTO>())
 			.Create();
 	}
 

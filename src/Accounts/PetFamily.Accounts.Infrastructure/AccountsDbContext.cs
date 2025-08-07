@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Accounts.Domain;
 using PetFamily.SharedKernel;
+using PetFamily.SharedKernel.ValueObjects;
 using System.Text.Json;
 
 namespace PetFamily.Accounts.Infrastructure;

@@ -4,9 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PetFamily.Accounts.Application;
+using PetFamily.Accounts.Application.AccountManagement;
 using PetFamily.Accounts.Domain;
 using PetFamily.Accounts.Infrastructure.IdentityManagers;
 using PetFamily.Accounts.Infrastructure.Options;
+using PetFamily.Accounts.Infrastructure.Repositories;
 using PetFamily.Accounts.Infrastructure.Seeding;
 using PetFamily.Core.Options;
 using System.Text;
@@ -36,6 +38,8 @@ public static class InjectExtension
 		services.AddScoped<PermissionManager>();
 		services.AddScoped<RolePermissionManager>();
 		services.AddScoped<AdminAccountManager>();
+
+		services.AddScoped<IAccountRepository, AccountRepository>();
 
 
 		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()

@@ -76,21 +76,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 					.HasColumnName("bank_description");
 			});
 
-		builder.OwnsMany(p => p.SocialNetworks,
-			pb =>
-			{
-				pb.ToJson("social_networks");
-
-				pb.Property(s => s.Name)
-				.IsRequired()
-				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-
-				pb.Property(s => s.Link)
-				.IsRequired()
-				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-
-			});
-
 		builder.HasMany(v => v.Pets)
 			.WithOne()
 			.HasForeignKey("volunteer_id")
