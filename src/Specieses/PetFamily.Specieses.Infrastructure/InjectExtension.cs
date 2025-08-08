@@ -19,9 +19,9 @@ public static class InjectExtension
 	public static IServiceCollection AddSpeciesInfrastructure(this IServiceCollection services, IConfiguration config)
 	{
 		services.AddScoped(_ => 
-			new WriteDbContext(config.GetConnectionString(Constants.DATABASE)));
-		services.AddScoped<IReadDbContext, ReadDbContext>(_ => 
-			new ReadDbContext(config.GetConnectionString(Constants.DATABASE)));
+			new SpeciesWriteDbContext(config.GetConnectionString(Constants.DATABASE)));
+		services.AddScoped<IReadDbContext, SpeciesReadDbContext>(_ => 
+			new SpeciesReadDbContext(config.GetConnectionString(Constants.DATABASE)));
 		//services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		services.AddScoped<ISpeciesContract, SpeciesContract>();

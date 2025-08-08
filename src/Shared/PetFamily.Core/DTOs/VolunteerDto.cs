@@ -27,15 +27,3 @@ public class VolunteerDto
 
 	public PetDto[] Pets { get; init; } = [];
 }
-
-public class BankingDetailsDTO
-{
-	public string? Name { get; init; }
-	public string? Description { get; init; }
-}
-
-public class SocialNetworkDTO
-{
-	public string Name { get; init; }
-	public string Link { get; init; }
-}

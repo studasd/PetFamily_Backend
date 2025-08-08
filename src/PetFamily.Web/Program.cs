@@ -18,6 +18,9 @@ using PetFamily.Volunteers.Application;
 using PetFamily.Volunteers.Presentation.Examples;
 using PetFamily.Specieses.Infrastructure;
 using PetFamily.Specieses.Application;
+using PetFamily.Accounts.Infrastructure.Seeding;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +81,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<VolunteerRequestExample>(); //
 builder.Services
 	.AddAccountsApplication()
 	.AddAccountsInfrastructure(builder.Configuration)
+	.AddAccountsPresentation()
 
 	.AddVolunteerApplication()
 	.AddVolunteerInfrastructure(builder.Configuration)
@@ -94,6 +98,10 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+await accountsSeeder.SeedAsync();
+
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -104,7 +112,7 @@ if (app.Environment.IsDevelopment())
 	
 	//await app.ApplyMigrationAsync();
 	await using var scope = app.Services.CreateAsyncScope();
-	var db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+	var db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 	//await db.Database.MigrateAsync();
 	//await PetFamily.Volunteers.Infrastructure.DbTestInitializer.InitializeAsync(db);
 }

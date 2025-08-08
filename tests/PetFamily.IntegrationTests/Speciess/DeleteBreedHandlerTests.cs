@@ -13,7 +13,7 @@ namespace PetFamily.IntegrationTests.Speciess;
 public class DeleteBreedHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope scope;
-    private readonly WriteDbContext db;
+    private readonly SpeciesWriteDbContext db;
     private readonly IReadDbContext readDb;
     private readonly ICommandHandler<Guid, DeleteBreedCommand> sut;
     private readonly Fixture fixture;
@@ -21,7 +21,7 @@ public class DeleteBreedHandlerTests : IClassFixture<IntegrationTestsWebFactory>
     public DeleteBreedHandlerTests(IntegrationTestsWebFactory factory)
     {
         scope = factory.Services.CreateScope();
-        db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        db = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
         readDb = scope.ServiceProvider.GetRequiredService<IReadDbContext>();
         sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeleteBreedCommand>>();
         fixture = new Fixture();

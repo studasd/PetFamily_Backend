@@ -6,7 +6,7 @@ namespace PetFamily.Volunteers.Infrastructure;
 public class DbTestInitializer
 {
 
-	public static async Task InitializeAsync(WriteDbContext db)
+	public static async Task InitializeAsync(VolunteerWriteDbContext db)
 	{
 		if (await db.Volunteers.AnyAsync() == true)
 			return;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Infrastructure;
 using PetFamily.SharedKernel;
 using PetFamily.Volunteers.Domain.Entities;
 using PetFamily.Volunteers.Domain.IDs;
@@ -75,21 +74,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 					.IsRequired(false)
 					.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT)
 					.HasColumnName("bank_description");
-			});
-
-		builder.OwnsMany(p => p.SocialNetworks,
-			pb =>
-			{
-				pb.ToJson("social_networks");
-
-				pb.Property(s => s.Name)
-				.IsRequired()
-				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-
-				pb.Property(s => s.Link)
-				.IsRequired()
-				.HasMaxLength(Constants.MAX_LOW_TEXT_LENGHT);
-
 			});
 
 		builder.HasMany(v => v.Pets)

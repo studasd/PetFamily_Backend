@@ -17,14 +17,14 @@ namespace PetFamily.IntegrationTests.Pets;
 public class UpdatePetInfoHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope scope;
-    private readonly WriteDbContext db;
+    private readonly VolunteerWriteDbContext db;
     private readonly ICommandHandler<Guid, UpdatePetInfoCommand> sut;
 	private readonly Fixture fixture;
 
 	public UpdatePetInfoHandlerTests(IntegrationTestsWebFactory factory)
     {
         scope = factory.Services.CreateScope();
-        db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, UpdatePetInfoCommand>>();
 		fixture = new Fixture();
 		fixture.Customize<DateOnly>(c => c.FromFactory(() => DateOnly.FromDateTime(DateTime.Now)));

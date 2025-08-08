@@ -13,7 +13,6 @@ using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Create;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Delete;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.BankingDetailes;
 using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.Info;
-using PetFamily.Volunteers.Application.VolunteerManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Volunteers.Contracts.RequestPets;
 using PetFamily.Volunteers.Contracts.RequestVolonteers;
 using PetFamily.Volunteers.Presentation.Examples;
@@ -41,8 +40,7 @@ public class VolunteerController : ControllerBase
 			Description: request.Description,
 			ExperienceYears: request.ExperienceYears,
 			Phone: request.Phone,
-			BankingDetails: request.BankingDetails ?? [],
-			SocialNetworks: request.SocialNetworks ?? []
+			BankingDetails: request.BankingDetails ?? []
 			);
 
 		var result = await handler.HandleAsync(command, token);
@@ -102,23 +100,6 @@ public class VolunteerController : ControllerBase
 		return Ok(result.Value);
 	}
 
-
-	[HttpPut("social-networks/{volunteerId:guid}")]
-	public async Task<IActionResult> UpdateSocials(
-		[FromRoute] Guid volunteerId,
-		[FromBody] UpdateSocialNetworksRequest request,
-		[FromServices] UpdateSocialNetworksHandler handler,
-		CancellationToken token)
-	{
-		var command = new UpdateSocialNetworksCommand(volunteerId, request.SocialNetworks);
-
-		var result = await handler.HandleAsync(command, token);
-
-		if (result.IsFailure)
-			return result.Error.ToResponse();
-
-		return Ok(result.Value);
-	}
 
 
 	[HttpPut("bankig-details/{volunteerId:guid}")]

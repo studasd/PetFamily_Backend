@@ -4,9 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PetFamily.Accounts.Application;
-using PetFamily.Accounts.Contracts;
+using PetFamily.Accounts.Application.AccountManagement;
 using PetFamily.Accounts.Domain;
-using PetFamily.Accounts.Presentation;
+using PetFamily.Accounts.Infrastructure.IdentityManagers;
+using PetFamily.Accounts.Infrastructure.Options;
+using PetFamily.Accounts.Infrastructure.Repositories;
+using PetFamily.Accounts.Infrastructure.Seeding;
 using PetFamily.Core.Options;
 using System.Text;
 
@@ -19,17 +22,24 @@ public static class InjectExtension
 	{
 		services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
-		services.AddScoped<IAccountsContract, AccountsContract>();
-
 		services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
+		services.Configure<AdminOptions>(configuration.GetSection(AdminOptions.ADMIN));
 
 		services.AddOptions<JwtOptions>();
 
 		services.AddIdentity<User, Role>(options => options.User.RequireUniqueEmail = true )
-			.AddEntityFrameworkStores<AuthorizationDbContext>()
+			.AddEntityFrameworkStores<AccountsDbContext>()
 			.AddDefaultTokenProviders();
 
-		services.AddScoped<AuthorizationDbContext>();
+		services.AddScoped<AccountsDbContext>();
+
+		services.AddSingleton<AccountsSeeder>();
+		services.AddScoped<AccountsSeederService>();
+		services.AddScoped<PermissionManager>();
+		services.AddScoped<RolePermissionManager>();
+		services.AddScoped<AdminAccountManager>();
+
+		services.AddScoped<IAccountRepository, AccountRepository>();
 
 
 		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()

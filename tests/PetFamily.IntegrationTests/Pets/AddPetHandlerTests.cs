@@ -19,7 +19,7 @@ namespace PetFamily.IntegrationTests.Pets;
 public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     private readonly IServiceScope _scope;
-    private readonly WriteDbContext _db;
+    private readonly VolunteerWriteDbContext _db;
     private readonly IReadDbContext _readDb;
     private readonly ICommandHandler<Guid, AddPetCommand> _sut;
     private readonly Fixture _fixture;
@@ -27,7 +27,7 @@ public class AddPetHandlerTests : IClassFixture<IntegrationTestsWebFactory>, IAs
     public AddPetHandlerTests(IntegrationTestsWebFactory factory)
     {
         _scope = factory.Services.CreateScope();
-        _db = _scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        _db = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         _readDb = _scope.ServiceProvider.GetRequiredService<IReadDbContext>();
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, AddPetCommand>>();
         _fixture = new Fixture();

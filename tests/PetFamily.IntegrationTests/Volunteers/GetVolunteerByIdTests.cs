@@ -13,7 +13,7 @@ namespace PetFamily.IntegrationTests.Volunteers;
 public class GetVolunteerByIdTests : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
 	private readonly IServiceScope scope;
-	private readonly WriteDbContext db;
+	private readonly VolunteerWriteDbContext db;
 	private readonly IQueryHandler<PageList<VolunteerDto>, GetVolunteerByIdQuery> sut;
 	private readonly ICommandHandler<Guid, CreateVolunteerCommand> createSut;
 	private readonly Fixture fixture;
@@ -21,7 +21,7 @@ public class GetVolunteerByIdTests : IClassFixture<IntegrationTestsWebFactory>, 
 	public GetVolunteerByIdTests(IntegrationTestsWebFactory factory)
 	{
 		scope = factory.Services.CreateScope();
-		db = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		db = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 		sut = scope.ServiceProvider.GetRequiredService<IQueryHandler<PageList<VolunteerDto>, GetVolunteerByIdQuery>>();
 		createSut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
 		fixture = new Fixture();

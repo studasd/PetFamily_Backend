@@ -30,12 +30,12 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
 	protected virtual void ConfigureDefaultServices(IServiceCollection services)
 	{
-		services.RemoveAll<WriteDbContext>();
-		services.RemoveAll<ReadDbContext>();
+		services.RemoveAll<VolunteerWriteDbContext>();
+		services.RemoveAll<VolunteerReadDbContext>();
 
-		services.AddScoped<WriteDbContext>(_ => new WriteDbContext(_dbContainer.GetConnectionString()));
+		services.AddScoped<VolunteerWriteDbContext>(_ => new VolunteerWriteDbContext(_dbContainer.GetConnectionString()));
 
-		services.AddScoped<IReadDbContext, ReadDbContext>(_ => new ReadDbContext(_dbContainer.GetConnectionString()));
+		services.AddScoped<IReadDbContext, VolunteerReadDbContext>(_ => new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
 	}
 
 
@@ -45,7 +45,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
 		await using var scope = Services.CreateAsyncScope();
 
-		var dbScope = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+		var dbScope = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 
 		await dbScope.Database.EnsureCreatedAsync();
 	}

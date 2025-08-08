@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetFamily.Accounts.Application.AccountManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Accounts.Application.Commands.Login;
 using PetFamily.Accounts.Application.Commands.Register;
 using PetFamily.Accounts.Contracts.Requests;
-using PetFamily.Core;
 using PetFamily.Framework;
 using PetFamily.Framework.Authorization;
 
@@ -11,7 +11,7 @@ namespace PetFamily.Accounts.Presentation;
 
 public class AccountController : ApplicationController
 {
-	[Permission(Permissions.Pet.Create)]
+	[Permission(Permissions.Volunteer.VolunteerRead)]
 	[HttpPost("admin")]
 	public IActionResult TestAdmin()
 	{
@@ -52,6 +52,24 @@ public class AccountController : ApplicationController
 		)
 	{
 		var command = new LoginUserCommand(request.Email, request.Password);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPut("social-networks/{userId:guid}")]
+	public async Task<IActionResult> UpdateSocials(
+		[FromRoute] Guid userId,
+		[FromBody] UpdateSocialNetworksRequest request,
+		[FromServices] UpdateSocialNetworksHandler handler,
+		CancellationToken token)
+	{
+		var command = new UpdateSocialNetworksCommand(userId, request.SocialNetworks);
 
 		var result = await handler.HandleAsync(command, token);
 
