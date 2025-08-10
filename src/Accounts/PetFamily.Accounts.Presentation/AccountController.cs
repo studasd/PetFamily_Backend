@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.Accounts.Application.AccountManagement.UseCases.Updates.SocialNetworks;
 using PetFamily.Accounts.Application.Commands.Login;
+using PetFamily.Accounts.Application.Commands.RefreshTokens;
 using PetFamily.Accounts.Application.Commands.Register;
 using PetFamily.Accounts.Contracts.Requests;
 using PetFamily.Framework;
@@ -52,6 +53,24 @@ public class AccountController : ApplicationController
 		)
 	{
 		var command = new LoginUserCommand(request.Email, request.Password);
+
+		var result = await handler.HandleAsync(command, token);
+
+		if (result.IsFailure)
+			return result.Error.ToResponse();
+
+		return Ok(result.Value);
+	}
+
+
+	[HttpPost("refresh")]
+	public async Task<IActionResult> RefreshToken(
+		[FromBody] RefreshTokenRequest request,
+		[FromServices] RefreshTokenHandler handler,
+		CancellationToken token
+		)
+	{
+		var command = new RefreshTokenCommand(request.AccessToken, request.RefreshToken);
 
 		var result = await handler.HandleAsync(command, token);
 

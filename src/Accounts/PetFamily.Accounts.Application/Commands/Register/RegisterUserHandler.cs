@@ -12,19 +12,19 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 {
 	private readonly UserManager<User> userManager;
 	private readonly RoleManager<Role> roleManager;
-	private readonly IParticipantAccountManager participantAccountManager;
+private readonly IAccountsManager accountsManager;
 	private readonly ILogger<RegisterUserHandler> logger;
 
 	public RegisterUserHandler(
 		UserManager<User> userManager,
 		RoleManager<Role> roleManager,
-		IParticipantAccountManager participantAccountManager,
+		IAccountsManager accountsManager,
 		ILogger<RegisterUserHandler> logger
 		)
 	{
 		this.userManager = userManager;
 		this.roleManager = roleManager;
-		this.participantAccountManager = participantAccountManager;
+		this.accountsManager = accountsManager;
 		this.logger = logger;
 	}
 
@@ -52,7 +52,7 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 		}
 
 		var participantAccount = new ParticipantAccount(userResult.Value);
-		await participantAccountManager.CreateParticipantAccountAsync(participantAccount, token);
+		await accountsManager.CreateParticipantAccountAsync(participantAccount, token);
 
 		logger.LogInformation("User created: {userName} a new account with password", command.UserName);
 

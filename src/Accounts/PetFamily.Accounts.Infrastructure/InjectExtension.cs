@@ -11,6 +11,8 @@ using PetFamily.Accounts.Infrastructure.Options;
 using PetFamily.Accounts.Infrastructure.Repositories;
 using PetFamily.Accounts.Infrastructure.Seeding;
 using PetFamily.Core.Options;
+using PetFamily.Framework;
+using PetFamily.SharedKernel;
 using System.Text;
 
 namespace PetFamily.Accounts.Infrastructure;
@@ -23,29 +25,28 @@ public static class InjectExtension
 		services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
 		services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
+		services.Configure<RefreshSessionOptions>(configuration.GetSection(RefreshSessionOptions.REFRESHSESSION));
 		services.Configure<AdminOptions>(configuration.GetSection(AdminOptions.ADMIN));
 
 		services.AddOptions<JwtOptions>();
+		services.AddOptions<RefreshSessionOptions>();
 
 		services.AddIdentity<User, Role>(options => options.User.RequireUniqueEmail = true )
 			.AddEntityFrameworkStores<AccountsDbContext>()
 			.AddDefaultTokenProviders();
 
-		services.AddScoped<AccountsDbContext>();
+		services.AddScoped<AccountsDbContext>(_ =>
+			new AccountsDbContext(configuration.GetConnectionString(Constants.DATABASE)));
+
 
 		services.AddSingleton<AccountsSeeder>();
 		services.AddScoped<AccountsSeederService>();
 		services.AddScoped<PermissionManager>();
 		services.AddScoped<RolePermissionManager>();
-		services.AddScoped<AdminAccountManager>();
-		services.AddScoped<IParticipantAccountManager, ParticipantAccountManager>();
-		services.AddScoped<IVolunteerAccountManager, VolunteerAccountManager>();
+		services.AddScoped<IAccountsManager, AccountsManager>();
+		services.AddScoped<IRefreshSessionManager, RefreshSessionManager>();
 
 		services.AddScoped<IAccountRepository, AccountRepository>();
-
-
-		var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()
-			?? throw new ApplicationException("Missing jwt configuration");
 
 
 		services
@@ -57,22 +58,15 @@ public static class InjectExtension
 			})
 			.AddJwtBearer(option =>
 			{
-				option.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidIssuer = jwtOptions.Issuer,
-					ValidAudience = jwtOptions.Audience,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ClockSkew = TimeSpan.Zero
-				};
+				var jwtOptions = configuration.GetSection(JwtOptions.JWT).Get<JwtOptions>()
+					?? throw new ApplicationException("Missing jwt configuration");
+
+				option.TokenValidationParameters = TokenValidationParametersFactory.CreateWithLifeTime(jwtOptions);
 			});
+
 
 		services.AddAuthorization();
 
 		return services;
 	}
-
 }

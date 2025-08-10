@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PetFamily.Accounts.Application.Abstractions;
 using PetFamily.Accounts.Domain;
 using PetFamily.Accounts.Infrastructure.IdentityManagers;
 using PetFamily.Accounts.Infrastructure.Options;
@@ -16,7 +17,7 @@ public class AccountsSeederService
 	private readonly RoleManager<Role> roleManager;
 	private readonly PermissionManager permissionManager;
 	private readonly RolePermissionManager rolePermissionManager;
-	private readonly AdminAccountManager adminAccountManager;
+	private readonly IAccountsManager adminAccountManager;
 	private readonly AdminOptions adminOptions;
 	private readonly ILogger<AccountsSeeder> logger;
 
@@ -26,7 +27,7 @@ public class AccountsSeederService
 		PermissionManager permissionManager,
 		RolePermissionManager rolePermissionManager,
 		IOptions<AdminOptions> options,
-		AdminAccountManager adminAccountManager,
+		IAccountsManager adminAccountManager,
 		ILogger<AccountsSeeder> logger)
 	{
 		this.userManager = userManager;

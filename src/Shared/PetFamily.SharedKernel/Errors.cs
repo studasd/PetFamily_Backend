@@ -2,6 +2,15 @@
 
 public static class Errors
 {
+	public static class Tokens
+	{
+		public static Error ExpiredToken() =>
+			Error.Validation("token_is_expired", "Your token is expired");
+
+		public static Error InvalidToken() =>
+			Error.Validation("token_is_invalid", "Your token is invalid");
+	}
+
 	public static class General
 	{
 		public static Error ValueIsInvalid(string name) => 
@@ -21,6 +30,9 @@ public static class Errors
 
 		public static Error AlreadyIsUsed(string name) =>
 			Error.Validation("record_already_used", $"'{name}' already used");
+
+		public static Error Failure() =>
+			Error.Failure("failure", "Failure");
 	}
 
 	public static class User
