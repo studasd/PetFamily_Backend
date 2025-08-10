@@ -99,7 +99,7 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
-await accountsSeeder.SeedAsync();
+await accountsSeeder.SeedAsync(CancellationToken.None);
 
 
 app.UseMiddleware<ExceptionMiddleware>();

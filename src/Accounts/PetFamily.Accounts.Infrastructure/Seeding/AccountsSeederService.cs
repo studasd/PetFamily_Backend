@@ -38,7 +38,7 @@ public class AccountsSeederService
 		this.logger = logger;
 	}
 
-	public async Task SeedAsync()
+	public async Task SeedAsync(CancellationToken token)
 	{
 		logger.LogInformation("Seeding accounts...");
 
@@ -47,16 +47,16 @@ public class AccountsSeederService
 		var seedData = JsonSerializer.Deserialize<RolePermissionOptions>(json, JsonSerializerOptions.Default)
 			?? throw new ApplicationException("Failed to deserialize role permission config");
 
-		await SeedPermissionsAsync(seedData);
+		await SeedPermissionsAsync(seedData, token);
 
-		await SeedRolesAsync(seedData);
+		await SeedRolesAsync(seedData, token);
 
-		await SeedRolePermissionsAsync(seedData);
+		await SeedRolePermissionsAsync(seedData, token);
 		
-		await SeedAdminAccount();
+		await SeedAdminAccount(token);
 	}
 
-	private async Task SeedAdminAccount()
+	private async Task SeedAdminAccount(CancellationToken token)
 	{
 		var isAdminAccountExist = await userManager.FindByEmailAsync(adminOptions.Email);
 		if (isAdminAccountExist is not null)
@@ -65,15 +65,15 @@ public class AccountsSeederService
 		var adminRole = await roleManager.FindByNameAsync(AdminAccount.ADMIN)
 					?? throw new ApplicationException("Admin role not found");
 
-		var adminUser = User.CreateAdmin(adminOptions.UserName, adminOptions.Email, adminRole);
+		var adminUser = User.CreateAdmin(adminOptions.UserName, adminOptions.Email, adminRole).Value;
 		await userManager.CreateAsync(adminUser, adminOptions.Password);
 		
 		var fullName = FullName.Create(adminOptions.UserName, adminOptions.UserName);
 		var adminAccount = new AdminAccount(adminUser, fullName);
-		await adminAccountManager.CreateAdminAccountAsync(adminAccount);
+		await adminAccountManager.CreateAdminAccountAsync(adminAccount, token);
 	}
 
-	private async Task SeedRolePermissionsAsync(RolePermissionOptions seedData)
+	private async Task SeedRolePermissionsAsync(RolePermissionOptions seedData, CancellationToken token)
 	{
 		foreach (var roleName in seedData.Roles.Keys)
 		{
@@ -81,13 +81,13 @@ public class AccountsSeederService
 
 			var rolePermissions = seedData.Roles[roleName];
 
-			await rolePermissionManager.AddRangeIfExistAsync(role!.Id, rolePermissions);
+			await rolePermissionManager.AddRangeIfExistAsync(role!.Id, rolePermissions, token);
 		}
 
 		logger.LogInformation("Role permissions added to database");
 	}
 
-	private async Task SeedRolesAsync(RolePermissionOptions seedData)
+	private async Task SeedRolesAsync(RolePermissionOptions seedData, CancellationToken token)
 	{
 		foreach (var roleName in seedData.Roles.Keys)
 		{
@@ -103,11 +103,11 @@ public class AccountsSeederService
 	}
 
 
-	private async Task SeedPermissionsAsync(RolePermissionOptions seedData)
+	private async Task SeedPermissionsAsync(RolePermissionOptions seedData, CancellationToken token)
 	{
 		var permissionsToAdd = seedData.Permissions.SelectMany(pg => pg.Value);
 
-		await permissionManager.AddRangeIfExistAsync(permissionsToAdd);
+		await permissionManager.AddRangeIfExistAsync(permissionsToAdd, token);
 
 		logger.LogInformation("Permissions added to database");
 	}

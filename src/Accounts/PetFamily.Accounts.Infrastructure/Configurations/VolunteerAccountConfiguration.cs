@@ -20,6 +20,12 @@ public class VolunteerAccountConfiguration : IEntityTypeConfiguration<VolunteerA
 			.IsRequired()
 			.HasColumnName("user_id");
 
+		builder
+			.HasOne(a => a.User)
+			.WithOne(u => u.VolunteerAccount)
+			.HasForeignKey<VolunteerAccount>(a => a.UserId)
+			.OnDelete(DeleteBehavior.Cascade);
+
 		builder.Property(x => x.Certificates)
 			.IsRequired(false)
 			.HasColumnName("certificates");

@@ -11,9 +11,9 @@ public class AdminAccountManager
 		this.accountContext = accountContext;
 	}
 
-	public async Task CreateAdminAccountAsync(AdminAccount adminAccount)
+	public async Task CreateAdminAccountAsync(AdminAccount adminAccount, CancellationToken token)
 	{
-		await accountContext.AdminAccounts.AddAsync(adminAccount);
-		await accountContext.SaveChangesAsync();
+		await accountContext.AdminAccounts.AddAsync(adminAccount, token);
+		await accountContext.SaveChangesAsync(token);
 	}
 }

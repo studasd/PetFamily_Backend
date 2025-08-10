@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PetFamily.Accounts.Application;
+using PetFamily.Accounts.Application.Abstractions;
 using PetFamily.Accounts.Domain;
 using PetFamily.Core.Models;
 using PetFamily.Core.Options;
