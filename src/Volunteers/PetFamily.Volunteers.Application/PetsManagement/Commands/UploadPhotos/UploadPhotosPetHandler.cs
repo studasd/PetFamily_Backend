@@ -1,7 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
+using PetFamily.Core.Enums;
 using PetFamily.Core.Extensions;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.Messaging;
@@ -24,7 +26,7 @@ public class UploadPhotosPetHandler : ICommandHandler<Guid, UploadPhotosPetComma
 	public UploadPhotosPetHandler(
 		IFileProvider fileProvider,
 		IVolunteerRepository volunteerRepository,
-		IUnitOfWork unitOfWork,
+		[FromKeyedServices(UnitOfWorkNames.Volunteer)] IUnitOfWork unitOfWork,
 		IValidator<UploadPhotosPetCommand> validator,
 		IMessageQueue<IEnumerable<FileInform>> messageQueue,
 		ILogger<UploadPhotosPetHandler> logger)

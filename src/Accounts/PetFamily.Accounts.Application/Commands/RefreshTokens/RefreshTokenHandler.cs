@@ -1,10 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetFamily.Accounts.Application.Abstractions;
 using PetFamily.Accounts.Contracts.Responses;
 using PetFamily.Accounts.Domain;
 using PetFamily.Core.Abstractions;
+using PetFamily.Core.Enums;
 using PetFamily.Core.Models;
 using PetFamily.SharedKernel;
 
@@ -22,7 +24,7 @@ public class RefreshTokenHandler : ICommandHandler<LoginResponse, RefreshTokenCo
 		UserManager<User> userManager,
 		ITokenProvider tokenProvider,
 		IRefreshSessionManager refreshSessionManager,
-		IUnitOfWork unitOfWork,
+		[FromKeyedServices(UnitOfWorkNames.Accounts)] IUnitOfWork unitOfWork,
 		ILogger<RefreshTokenHandler> logger
 		)
 	{

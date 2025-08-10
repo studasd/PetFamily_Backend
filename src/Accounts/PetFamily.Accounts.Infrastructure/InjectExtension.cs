@@ -10,6 +10,8 @@ using PetFamily.Accounts.Infrastructure.IdentityManagers;
 using PetFamily.Accounts.Infrastructure.Options;
 using PetFamily.Accounts.Infrastructure.Repositories;
 using PetFamily.Accounts.Infrastructure.Seeding;
+using PetFamily.Core.Abstractions;
+using PetFamily.Core.Enums;
 using PetFamily.Core.Options;
 using PetFamily.Framework;
 using PetFamily.SharedKernel;
@@ -38,6 +40,7 @@ public static class InjectExtension
 		services.AddScoped<AccountsDbContext>(_ =>
 			new AccountsDbContext(configuration.GetConnectionString(Constants.DATABASE)));
 
+		services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(UnitOfWorkNames.Accounts);
 
 		services.AddSingleton<AccountsSeeder>();
 		services.AddScoped<AccountsSeederService>();

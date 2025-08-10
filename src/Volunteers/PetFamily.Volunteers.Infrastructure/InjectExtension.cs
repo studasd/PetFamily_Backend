@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetFamily.Core;
 using PetFamily.Core.Abstractions;
+using PetFamily.Core.Enums;
 using PetFamily.Core.FileProvider;
 using PetFamily.Core.MessageQueues;
 using PetFamily.Core.Messaging;
@@ -36,7 +37,9 @@ public static class InjectExtension
 			new VolunteerWriteDbContext(config.GetConnectionString(Constants.DATABASE)));
 		services.AddScoped<IReadDbContext, VolunteerReadDbContext>(_ => 
 			new VolunteerReadDbContext(config.GetConnectionString(Constants.DATABASE)));
-		services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+		services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(UnitOfWorkNames.Volunteer);
+
 		services.AddSingleton<ISqlConnectionFactory, SqlConnectFactory>();
 
 		Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
