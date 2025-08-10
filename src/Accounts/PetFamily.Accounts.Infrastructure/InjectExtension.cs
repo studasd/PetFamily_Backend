@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using PetFamily.Accounts.Application;
+using PetFamily.Accounts.Application.Abstractions;
 using PetFamily.Accounts.Application.AccountManagement;
 using PetFamily.Accounts.Domain;
 using PetFamily.Accounts.Infrastructure.IdentityManagers;
@@ -38,6 +38,8 @@ public static class InjectExtension
 		services.AddScoped<PermissionManager>();
 		services.AddScoped<RolePermissionManager>();
 		services.AddScoped<AdminAccountManager>();
+		services.AddScoped<IParticipantAccountManager, ParticipantAccountManager>();
+		services.AddScoped<IVolunteerAccountManager, VolunteerAccountManager>();
 
 		services.AddScoped<IAccountRepository, AccountRepository>();
 

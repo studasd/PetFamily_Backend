@@ -21,7 +21,7 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
 		PermissionAttribute permission
 	)
 	{
-		using var scope = serviceScopeFactory.CreateScope();
+		using var scope = serviceScopeFactory.CreateAsyncScope();
 		var accountContract = scope.ServiceProvider.GetRequiredService<IAccountsContract>();
 
 		var userIdstring = context.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Id)?.Value;
@@ -32,7 +32,7 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
 			return;
 		}
 
-		var permissions = await accountContract.GetUserPermissionCodesAsync(userId);
+		var permissions = await accountContract.GetUserPermissionCodesAsync(userId, CancellationToken.None);
 
 		if (permissions.Contains(permission.Code))
 		{

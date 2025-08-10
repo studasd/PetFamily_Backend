@@ -8,6 +8,6 @@ public interface IAccountsContract
 {
 	Task<UnitResult<ErrorList>> RegisterUserAsync(RegisterUserRequest request, CancellationToken token);
 
-	Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId);
+	Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId, CancellationToken token);
 }
 

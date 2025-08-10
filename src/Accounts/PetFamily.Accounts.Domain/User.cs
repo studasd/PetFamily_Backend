@@ -7,9 +7,12 @@ namespace PetFamily.Accounts.Domain;
 
 public class User : IdentityUser<Guid>
 {
-	private User()
+	private User() { }
+	private User(string userName, string email, Role role) 
 	{
-		
+		UserName = userName;
+		Email = email;
+		roles = [role];
 	}
 
 	public IReadOnlyList<SocialNetwork> SocialNetworks => socialNetworks;
@@ -26,28 +29,33 @@ public class User : IdentityUser<Guid>
 	public ParticipantAccount? ParticipantAccount { get; private set; }
 
 
-	public static User CreateAdmin(string userName, string email, Role role)
+	public static Result<User, Error> CreateAdmin(string userName, string email, Role role)
 	{
-		var user = new User
+		if (role.NormalizedName != AdminAccount.ADMIN)
+			return Errors.General.ValueIsInvalid("Role");
+
+		return new User(userName, email, role)
 		{
-			UserName = userName,
-			Email = email,
-			EmailConfirmed = true,
-			roles = [role]
+			EmailConfirmed = true
 		};
-		
-		return user;
 	}
 
-	public static User CreateUser(string userName, string email)
-	{
-		var user = new User
-		{
-			UserName = userName,
-			Email = email,
-		};
 
-		return user;
+	public static Result<User, Error> CreateParticipant(string userName, string email, Role role)
+	{
+		if (role.Name != ParticipantAccount.PARTICIPANT)
+			return Errors.General.ValueIsInvalid("Role");
+
+		return new User(userName, email, role);
+	}
+
+
+	public static Result<User, Error> CreateVolunteer(string userName, string email, Role role)
+	{
+		if (role.Name != VolunteerAccount.VOLUNTEER)
+			return Errors.General.ValueIsInvalid("Role");
+
+		return new User(userName, email, role);
 	}
 
 

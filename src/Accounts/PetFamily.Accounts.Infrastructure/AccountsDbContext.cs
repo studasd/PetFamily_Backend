@@ -22,9 +22,9 @@ public class AccountsDbContext (IConfiguration configuration) : IdentityDbContex
 
 	public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
 
-	public DbSet<VolunteerAccount> VolunteerAccount => Set<VolunteerAccount>();
+	public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
 
-	public DbSet<ParticipantAccount> ParticipantAccount => Set<ParticipantAccount>();
+	public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

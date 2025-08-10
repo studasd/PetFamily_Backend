@@ -21,9 +21,9 @@ public class AccountsContract : IAccountsContract
 	}
 
 
-	public async Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId)
+	public async Task<HashSet<string>> GetUserPermissionCodesAsync(Guid userId, CancellationToken token)
 	{
-		return await permissionManager.GetUserPermissionCodesAsync(userId);
+		return await permissionManager.GetUserPermissionCodesAsync(userId, token);
 	}
 
 	public async Task<UnitResult<ErrorList>> RegisterUserAsync(RegisterUserRequest request, CancellationToken token)

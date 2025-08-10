@@ -11,12 +11,12 @@ public class AccountsSeeder
 		this.serviceScopeFactory = serviceScopeFactory;
 	}
 
-	public async Task SeedAsync()
+	public async Task SeedAsync(CancellationToken token)
 	{
 		using var scope = serviceScopeFactory.CreateScope();
 
 		var service = scope.ServiceProvider.GetRequiredService<AccountsSeederService>();
 
-		await service.SeedAsync();
+		await service.SeedAsync(token);
 	}
 }

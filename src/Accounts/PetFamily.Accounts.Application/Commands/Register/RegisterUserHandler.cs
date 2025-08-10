@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using PetFamily.Accounts.Application.Abstractions;
 using PetFamily.Accounts.Domain;
 using PetFamily.Core.Abstractions;
 using PetFamily.SharedKernel;
@@ -10,14 +11,20 @@ namespace PetFamily.Accounts.Application.Commands.Register;
 public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 {
 	private readonly UserManager<User> userManager;
+	private readonly RoleManager<Role> roleManager;
+	private readonly IParticipantAccountManager participantAccountManager;
 	private readonly ILogger<RegisterUserHandler> logger;
 
 	public RegisterUserHandler(
 		UserManager<User> userManager,
+		RoleManager<Role> roleManager,
+		IParticipantAccountManager participantAccountManager,
 		ILogger<RegisterUserHandler> logger
 		)
 	{
 		this.userManager = userManager;
+		this.roleManager = roleManager;
+		this.participantAccountManager = participantAccountManager;
 		this.logger = logger;
 	}
 
@@ -25,26 +32,30 @@ public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
 	public async Task<UnitResult<ErrorList>> HandleAsync(RegisterUserCommand command, CancellationToken token)
 	{
 		var existedUser = await userManager.FindByEmailAsync(command.Email);
-
 		if(existedUser != null)
-		{
 			return Errors.General.AlreadyExist("Email").ToErrorList();
-		}
 
-		var user = User.CreateUser(command.UserName, command.Email);
+		var role = await roleManager.FindByNameAsync(ParticipantAccount.PARTICIPANT);
+		if (role == null)
+			return Errors.General.ValueIsInvalid("Role").ToErrorList();
 
-		var result = await userManager.CreateAsync(user, command.Password);
+		var userResult = User.CreateParticipant(command.UserName, command.Email, role);
+		if (userResult.IsFailure)
+			return userResult.Error.ToErrorList();
 
-		if (result.Succeeded == true)
+		var result = await userManager.CreateAsync(userResult.Value, command.Password);
+		if (result.Succeeded == false)
 		{
-			logger.LogInformation("User created: {userName} a new account with password", command.UserName);
-			return Result.Success<ErrorList>();
+			var resultErrors = result.Errors.Select(e => Error.Failure(e.Code, e.Description));
+			logger.LogInformation("Failed to create user from username: {Username}", command.UserName);
+			return new ErrorList(resultErrors);
 		}
 
-		await userManager.AddToRoleAsync(user, "Partisipant");
+		var participantAccount = new ParticipantAccount(userResult.Value);
+		await participantAccountManager.CreateParticipantAccountAsync(participantAccount, token);
 
-		var errors = result.Errors.Select(e => Error.Failure(e.Code, e.Description)).ToList();
+		logger.LogInformation("User created: {userName} a new account with password", command.UserName);
 
-		return new ErrorList(errors);
+		return Result.Success<ErrorList>();
 	}
 }

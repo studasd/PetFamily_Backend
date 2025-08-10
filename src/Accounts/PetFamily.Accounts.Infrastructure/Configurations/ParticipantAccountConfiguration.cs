@@ -19,6 +19,12 @@ public class ParticipantAccountConfiguration : IEntityTypeConfiguration<Particip
 			.IsRequired()
 			.HasColumnName("user_id");
 
+		builder
+			.HasOne(a => a.User)
+			.WithOne(u => u.ParticipantAccount)
+			.HasForeignKey<ParticipantAccount>(a => a.UserId)
+			.OnDelete(DeleteBehavior.Cascade);
+
 		builder.Property(p => p.FavoritePetId)
 			.IsRequired(false)
 			.HasColumnName("favorite_pet_id");
