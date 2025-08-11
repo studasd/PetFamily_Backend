@@ -24,17 +24,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 				pb.Property(s => s.Link)
 				.IsRequired();
 			});
-
-		builder.HasOne(x => x.ParticipantAccount)
-			.WithOne()
-			.HasForeignKey<ParticipantAccount>(x => x.UserId)
-			.IsRequired(false)
-			.OnDelete(DeleteBehavior.Cascade);
-
-		builder.HasOne(x => x.VolunteerAccount)
-			.WithOne()
-			.HasForeignKey<VolunteerAccount>(x => x.UserId)
-			.IsRequired(false)
-			.OnDelete(DeleteBehavior.Cascade);
 	}
 }

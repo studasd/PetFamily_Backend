@@ -76,7 +76,6 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id1 = table.Column<Guid>(type: "uuid", nullable: false),
                     favorite_pet_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -85,12 +84,6 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "fk_participant_accounts_users_user_id",
                         column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_participant_accounts_users_user_id1",
-                        column: x => x.user_id1,
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -300,11 +293,6 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                 table: "participant_accounts",
                 column: "user_id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_participant_accounts_user_id1",
-                table: "participant_accounts",
-                column: "user_id1");
 
             migrationBuilder.CreateIndex(
                 name: "ix_permissions_code",

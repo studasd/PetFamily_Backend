@@ -13,7 +13,7 @@ using PetFamily.Accounts.Infrastructure;
 namespace PetFamily.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20250811215207_Accounts_Init")]
+    [Migration("20250811224555_Accounts_Init")]
     partial class Accounts_Init
     {
         /// <inheritdoc />
@@ -207,19 +207,12 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid>("UserId1")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id1");
-
                     b.HasKey("Id")
                         .HasName("pk_participant_accounts");
 
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasDatabaseName("ix_participant_accounts_user_id");
-
-                    b.HasIndex("UserId1")
-                        .HasDatabaseName("ix_participant_accounts_user_id1");
 
                     b.ToTable("participant_accounts", (string)null);
                 });
@@ -525,18 +518,12 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("PetFamily.Accounts.Domain.ParticipantAccount", b =>
                 {
-                    b.HasOne("PetFamily.Accounts.Domain.User", null)
+                    b.HasOne("PetFamily.Accounts.Domain.User", "User")
                         .WithOne("ParticipantAccount")
                         .HasForeignKey("PetFamily.Accounts.Domain.ParticipantAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_participant_accounts_users_user_id");
-
-                    b.HasOne("PetFamily.Accounts.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_participant_accounts_users_user_id1");
+                        .HasConstraintName("fk_participant_accounts_users_user_id");
 
                     b.Navigation("User");
                 });
@@ -622,6 +609,7 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                         .WithOne("VolunteerAccount")
                         .HasForeignKey("PetFamily.Accounts.Domain.VolunteerAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_volunteer_accounts_users_user_id");
 
                     b.Navigation("User");

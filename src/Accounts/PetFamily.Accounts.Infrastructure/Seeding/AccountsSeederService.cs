@@ -8,6 +8,8 @@ using PetFamily.Accounts.Infrastructure.Options;
 using PetFamily.Framework;
 using PetFamily.SharedKernel.ValueObjects;
 using System.Text.Json;
+using CSharpFunctionalExtensions;
+using PetFamily.SharedKernel;
 
 namespace PetFamily.Accounts.Infrastructure.Seeding;
 
@@ -66,11 +68,18 @@ public class AccountsSeederService
 		var adminRole = await roleManager.FindByNameAsync(AdminAccount.ADMIN)
 					?? throw new ApplicationException("Admin role not found");
 
-		var adminUser = User.CreateAdmin(adminOptions.UserName, adminOptions.Email, adminRole).Value;
+		var adminUserResult = User.CreateAdmin(adminOptions.UserName, adminOptions.Email, adminRole);
+		if (adminUserResult.IsFailure)
+			throw new ApplicationException($"Failed to create admin user: {adminUserResult.Error}");
+		
+		var adminUser = adminUserResult.Value;
 		await userManager.CreateAsync(adminUser, adminOptions.Password);
 		
-		var fullName = FullName.Create(adminOptions.UserName, adminOptions.UserName);
-		var adminAccount = new AdminAccount(adminUser, fullName);
+		var fullNameResult = FullName.Create(adminOptions.UserName, adminOptions.UserName);
+		if (fullNameResult.IsFailure)
+			throw new ApplicationException($"Failed to create full name: {fullNameResult.Error}");
+		
+		var adminAccount = new AdminAccount(adminUser, fullNameResult.Value);
 		await adminAccountManager.CreateAdminAccountAsync(adminAccount, token);
 	}
 

@@ -31,7 +31,7 @@ public class User : IdentityUser<Guid>
 
 	public static Result<User, Error> CreateAdmin(string userName, string email, Role role)
 	{
-		if (role.NormalizedName != AdminAccount.ADMIN)
+		if (role.Name != AdminAccount.ADMIN)
 			return Errors.General.ValueIsInvalid("Role");
 
 		return new User(userName, email, role)

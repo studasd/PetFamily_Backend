@@ -1,4 +1,7 @@
-﻿namespace PetFamily.SharedKernel.ValueObjects;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.SharedKernel;
+
+namespace PetFamily.SharedKernel.ValueObjects;
 
 public record FullName
 {
@@ -12,13 +15,13 @@ public record FullName
 
 	public string LastName { get; }
 
-	public static FullName Create(string firstName, string lastName)
+	public static Result<FullName, Error> Create(string firstName, string lastName)
 	{
 		if (string.IsNullOrWhiteSpace(firstName))
-			Errors.General.ValueIsInvalid("FirstName");
+			return Errors.General.ValueIsInvalid("FirstName");
 
 		if (string.IsNullOrWhiteSpace(lastName))
-			Errors.General.ValueIsInvalid("LastName");
+			return Errors.General.ValueIsInvalid("LastName");
 
 		return new FullName(firstName, lastName);
 	}	
