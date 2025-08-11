@@ -52,7 +52,7 @@ public class RefreshTokenHandler : ICommandHandler<LoginResponse, RefreshTokenCo
 
 		var userIdstring = userClaims.Value
 			.FirstOrDefault(x => x.Type == CustomClaims.Id)?.Value;
-		if (Guid.TryParse(userIdstring, out var userId))
+		if (!Guid.TryParse(userIdstring, out var userId))
 			return Errors.General.Failure().ToErrorList();
 
 		if(oldRefreshSessionResult.Value.UserId != userId)
@@ -61,7 +61,7 @@ public class RefreshTokenHandler : ICommandHandler<LoginResponse, RefreshTokenCo
 
 		var userJtiString = userClaims.Value
 			.FirstOrDefault(x => x.Type == CustomClaims.Jti)?.Value;
-		if (Guid.TryParse(userJtiString, out var userJti))
+		if (!Guid.TryParse(userJtiString, out var userJti))
 			return Errors.General.Failure().ToErrorList();
 
 		if (oldRefreshSessionResult.Value.Jti != userJti)

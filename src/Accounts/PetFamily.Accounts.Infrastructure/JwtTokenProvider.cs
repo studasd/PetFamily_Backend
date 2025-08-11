@@ -17,10 +17,10 @@ namespace PetFamily.Accounts.Infrastructure;
 
 public class JwtTokenProvider : ITokenProvider
 {
-	private readonly JwtOptions jwtOptions;
-	private readonly RefreshSessionOptions refreshOptions;
-	private readonly PermissionManager permissionManager;
-	private readonly AccountsDbContext accountsDbContext;
+	private readonly JwtOptions _jwtOptions;
+	private readonly RefreshSessionOptions _refreshOptions;
+	private readonly PermissionManager _permissionManager;
+	private readonly AccountsDbContext _accountsDbContext;
 
 	public JwtTokenProvider(
 		IOptions<JwtOptions> optionsJwt, 
@@ -28,21 +28,21 @@ public class JwtTokenProvider : ITokenProvider
 		PermissionManager permissionManager,
 		AccountsDbContext accountsDbContext)
 	{
-		jwtOptions = optionsJwt.Value;
-		refreshOptions = optionsRefresh.Value;
-		this.permissionManager = permissionManager;
-		this.accountsDbContext = accountsDbContext;
+		_jwtOptions = optionsJwt.Value;
+		_refreshOptions = optionsRefresh.Value;
+		_permissionManager = permissionManager;
+		_accountsDbContext = accountsDbContext;
 	}
 
 
 	public async Task<JwtTokenResult> GenerateAccessTokenAsync(User user, CancellationToken token)
 	{
-		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key));
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
 		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 		var roleClaims = user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name!));
 
-		var permissions = await permissionManager.GetUserPermissionCodesAsync(user.Id, token);
+		var permissions = await _permissionManager.GetUserPermissionCodesAsync(user.Id, token);
 		var permissionClaims = permissions.Select(p => new Claim(CustomClaims.Permission, p));
 
 		var jti = Guid.NewGuid();
@@ -59,9 +59,9 @@ public class JwtTokenProvider : ITokenProvider
 			.ToArray();
 
 		var tokenJwt = new JwtSecurityToken(
-			issuer: jwtOptions.Issuer,
-			audience: jwtOptions.Audience,
-			expires: DateTime.UtcNow.AddMinutes(jwtOptions.ExpiredMinutesTime),
+			issuer: _jwtOptions.Issuer,
+			audience: _jwtOptions.Audience,
+			expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiredMinutesTime),
 			claims: claims,
 			signingCredentials: creds
 		);
@@ -82,13 +82,13 @@ public class JwtTokenProvider : ITokenProvider
 			User = user,
 			RefreshToken = Guid.NewGuid(),
 			Jti = jti,
-			ExpiresIn = DateTime.UtcNow.AddDays(refreshOptions.ExpiredDaysTime),
+			ExpiresIn = DateTime.UtcNow.AddDays(_refreshOptions.ExpiredDaysTime),
 			CreatedAt = DateTime.UtcNow
 		};
 
-		accountsDbContext.RefreshSessions.Add(refreshSession);
+		_accountsDbContext.RefreshSessions.Add(refreshSession);
 
-		await accountsDbContext.SaveChangesAsync(token);
+		await _accountsDbContext.SaveChangesAsync(token);
 
 		return refreshSession.RefreshToken;
 	}
@@ -98,7 +98,7 @@ public class JwtTokenProvider : ITokenProvider
 	{
 		var jwtHandler = new JwtSecurityTokenHandler();
 
-		var validationParameteres = TokenValidationParametersFactory.CreateWithoutLifeTime(jwtOptions);
+		var validationParameteres = TokenValidationParametersFactory.CreateWithoutLifeTime(_jwtOptions);
 
 		var validationResult = await jwtHandler.ValidateTokenAsync(jwtToken, validationParameteres);
 

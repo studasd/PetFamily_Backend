@@ -77,6 +77,8 @@ public class AccountController : ApplicationController
 		if (result.IsFailure)
 			return result.Error.ToResponse();
 
+		Response.Cookies.Append("RefreshToken", result.Value.RefreshToken.ToString());
+
 		return Ok(result.Value);
 	}
 
