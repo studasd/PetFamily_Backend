@@ -12,7 +12,7 @@ namespace PetFamily.Accounts.Infrastructure;
 
 // add-migration -context AccountsDbContext Accounts_Init
 // update-database -context AccountsDbContext
-public class AccountsDbContext (IConfiguration configuration) : IdentityDbContext<User, Role, Guid>
+public class AccountsDbContext (string connectionString) : IdentityDbContext<User, Role, Guid>
 {
 
 	public DbSet<Permission> Permissions => Set<Permission>();
@@ -25,11 +25,13 @@ public class AccountsDbContext (IConfiguration configuration) : IdentityDbContex
 	public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
 
 	public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
+	
+	public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
 
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE))
+		optionsBuilder.UseNpgsql(connectionString)
 			.UseSnakeCaseNamingConvention();
 
 		optionsBuilder.UseSnakeCaseNamingConvention();
@@ -47,6 +49,15 @@ public class AccountsDbContext (IConfiguration configuration) : IdentityDbContex
 		modelBuilder.Entity<Role>()
 			.ToTable("roles");
 		
+		
+		modelBuilder.Entity<RefreshSession>()
+			.ToTable("refresh_session");
+
+		modelBuilder.Entity<RefreshSession>()
+			.HasOne(r => r.User)
+			.WithMany()
+			.HasForeignKey(r => r.UserId);
+
 
 		modelBuilder.Entity<IdentityUserClaim<Guid>>()
 			.ToTable("user_claims");

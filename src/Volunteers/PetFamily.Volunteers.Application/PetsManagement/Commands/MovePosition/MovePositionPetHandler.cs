@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetFamily.Core.Abstractions;
+using PetFamily.Core.Enums;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.ValueObjects;
 using PetFamily.Volunteers.Application.PetsManagement.Commands.DeletePhotos;
@@ -17,7 +19,7 @@ public class MovePositionPetHandler : ICommandHandler<Guid, MovePositionPetComma
 
 	public MovePositionPetHandler(
 		IVolunteerRepository volunteerRepository,
-		IUnitOfWork unitOfWork,
+		[FromKeyedServices(UnitOfWorkNames.Volunteer)] IUnitOfWork unitOfWork,
 		ILogger<DeletePhotosPetHandler> logger)
 	{
 		this.volunteerRepository = volunteerRepository;

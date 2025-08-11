@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using PetFamily.Accounts.Application.Abstractions;
+using PetFamily.Accounts.Contracts.Responses;
 using PetFamily.Accounts.Domain;
 using PetFamily.Core.Abstractions;
 using PetFamily.SharedKernel;
 
 namespace PetFamily.Accounts.Application.Commands.Login;
 
-public class LoginUserHandler : ICommandHandler<string, LoginUserCommand>
+public class LoginUserHandler : ICommandHandler<LoginResponse, LoginUserCommand>
 {
 	private readonly UserManager<User> userManager;
 	private readonly ITokenProvider tokenProvider;
@@ -26,7 +27,7 @@ public class LoginUserHandler : ICommandHandler<string, LoginUserCommand>
 	}
 
 
-	public async Task<Result<string, ErrorList>> HandleAsync(LoginUserCommand command, CancellationToken token)
+	public async Task<Result<LoginResponse, ErrorList>> HandleAsync(LoginUserCommand command, CancellationToken token)
 	{
 		var user = await userManager.FindByEmailAsync(command.Email);
 
@@ -39,10 +40,11 @@ public class LoginUserHandler : ICommandHandler<string, LoginUserCommand>
 		if(passwordComfirmed == false)
 			return Errors.User.InvalidCredentials().ToErrorList();
 
-		var tokenJwt = tokenProvider.GenerateAccessToken(user);
+		var accessToken = await tokenProvider.GenerateAccessTokenAsync(user, token);
+		var refreshToken = await tokenProvider.GenerateRefreshTokenAsync(user, accessToken.Jti, token);
 
 		logger.LogInformation("Successfully logged in.");
 
-		return tokenJwt;
+		return new LoginResponse(accessToken.AccessToken, refreshToken);
 	}
 }
