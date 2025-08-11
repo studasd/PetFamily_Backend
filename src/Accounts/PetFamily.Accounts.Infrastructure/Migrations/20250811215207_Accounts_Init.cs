@@ -76,13 +76,42 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id1 = table.Column<Guid>(type: "uuid", nullable: false),
                     favorite_pet_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_participant_accounts", x => x.id);
                     table.ForeignKey(
-                        name: "fk_participant_accounts_asp_net_users_user_id",
+                        name: "fk_participant_accounts_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_participant_accounts_users_user_id1",
+                        column: x => x.user_id1,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "refresh_session",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    refresh_token = table.Column<Guid>(type: "uuid", nullable: false),
+                    jti = table.Column<Guid>(type: "uuid", nullable: false),
+                    expires_in = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_refresh_session", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_refresh_session_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -273,10 +302,20 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "ix_participant_accounts_user_id1",
+                table: "participant_accounts",
+                column: "user_id1");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_permissions_code",
                 table: "permissions",
                 column: "code",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_refresh_session_user_id",
+                table: "refresh_session",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_role_claims_role_id",
@@ -340,6 +379,9 @@ namespace PetFamily.Accounts.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "participant_accounts");
+
+            migrationBuilder.DropTable(
+                name: "refresh_session");
 
             migrationBuilder.DropTable(
                 name: "role_claims");
